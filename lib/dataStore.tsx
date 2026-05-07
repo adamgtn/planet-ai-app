@@ -285,13 +285,25 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
           });
 
           for (const res of lesson.resources) {
-            await pb.collection("resources").create({
-              lesson: newLesson.id,
-              name: res.name,
-              type: res.type,
-              size: res.size,
-              url: res.url,
-            });
+            // Kalau user upload file baru → kirim sebagai FormData
+            // (PocketBase butuh multipart untuk simpan File ke field 'file')
+            if (res._pendingFile) {
+              const fd = new FormData();
+              fd.append("lesson", newLesson.id);
+              fd.append("name", res.name || res._pendingFile.name);
+              fd.append("type", res.type);
+              fd.append("size", res.size);
+              fd.append("file", res._pendingFile);
+              await pb.collection("resources").create(fd);
+            } else {
+              await pb.collection("resources").create({
+                lesson: newLesson.id,
+                name: res.name,
+                type: res.type,
+                size: res.size,
+                url: res.url,
+              });
+            }
           }
         }
       }
@@ -529,11 +541,13 @@ export function useProductCurriculum(productSlug: string | undefined) {
 
         let resources: {
           id: string;
+          collectionId: string;
           lesson: string;
           name: string;
           type: string;
           size: string;
           url?: string;
+          file?: string;
         }[] = [];
         if (lessons.length > 0) {
           const lessonIdFilter = lessons
@@ -550,7 +564,16 @@ export function useProductCurriculum(productSlug: string | undefined) {
         const resourcesByLesson = new Map<string, Resource[]>();
         for (const r of resources) {
           const arr = resourcesByLesson.get(r.lesson) ?? [];
-          arr.push({ name: r.name, type: r.type, size: r.size, url: r.url });
+          // Kalau record punya file di PB Storage, build URL download-nya
+          const fileUrl = r.file
+            ? `${pb.baseUrl}/api/files/${r.collectionId}/${r.id}/${r.file}`
+            : undefined;
+          arr.push({
+            name: r.name,
+            type: r.type,
+            size: r.size,
+            url: r.url || fileUrl,
+          });
           resourcesByLesson.set(r.lesson, arr);
         }
 

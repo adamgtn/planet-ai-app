@@ -6,6 +6,12 @@ export type Resource = {
   type: string;
   /** URL unduhan / link eksternal (opsional). */
   url?: string;
+  /**
+   * File yang baru di-pilih user dari komputer; akan di-upload ke
+   * PocketBase Storage saat form produk disimpan. Setelah upload, dataStore
+   * akan men-clear field ini dan mengisi `url` dengan URL file di PB.
+   */
+  _pendingFile?: File;
 };
 
 export type Lesson = {
