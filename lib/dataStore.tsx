@@ -164,12 +164,18 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
 
       setProducts(productList);
 
-      // Users hanya bisa diambil oleh admin (sesuai rules PocketBase)
+      // Users hanya bisa diambil oleh admin (sesuai rules PocketBase).
+      // Filter role = "member" agar admin/super_admin tidak muncul di
+      // halaman Member (cegah salah edit yang demote role).
       if (isAdmin) {
         const [pbUsers, allPermissions] = await Promise.all([
           pb
             .collection("users")
-            .getFullList<PBUserRecord>({ sort: "-id", requestKey: null }),
+            .getFullList<PBUserRecord>({
+              filter: 'role = "member"',
+              sort: "-id",
+              requestKey: null,
+            }),
           pb
             .collection("permissions")
             .getFullList<PBPermission>({ requestKey: null }),
@@ -261,11 +267,13 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
   const upsertUser = useCallback(
     async (u: AdminUser, password?: string) => {
       const pb = getPB();
-      const payload: Record<string, unknown> = {
+      // Update payload — JANGAN include role agar role existing tidak
+      // ter-overwrite (super_admin yang ke-edit lewat halaman member tidak
+      // ke-demote).
+      const updatePayload: Record<string, unknown> = {
         name: u.name,
         email: u.email,
         status: u.status,
-        role: "member",
       };
 
       const existing = await pb
@@ -277,11 +285,12 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
 
       let userId = u.id;
       if (existing.length > 0) {
-        await pb.collection("users").update(u.id, payload);
+        await pb.collection("users").update(u.id, updatePayload);
       } else {
         const pwd = password || "change-me-12345";
         const created = await pb.collection("users").create({
-          ...payload,
+          ...updatePayload,
+          role: "member", // Hanya saat CREATE — form ini khusus member
           password: pwd,
           passwordConfirm: pwd,
           emailVisibility: true,
