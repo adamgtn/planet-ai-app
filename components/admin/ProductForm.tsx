@@ -92,8 +92,14 @@ export function ProductForm({ mode, initial }: Props) {
     0
   );
 
-  const submit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError("");
+    setSubmitting(true);
+
     const id = initial?.id ?? (slugify(title) || makeId("p"));
 
     const payload: Product = {
@@ -102,8 +108,7 @@ export function ProductForm({ mode, initial }: Props) {
       tagline,
       level,
       duration,
-      lessonCount:
-        Number(lessonCount) || totalLessonsLive || 0,
+      lessonCount: Number(lessonCount) || totalLessonsLive || 0,
       status,
       progress: Number(progress) || 0,
       cover,
@@ -113,9 +118,16 @@ export function ProductForm({ mode, initial }: Props) {
       modules,
     };
 
-    upsertProduct(payload);
-    setSuccess(true);
-    setTimeout(() => router.push("/admin/products"), 700);
+    try {
+      await upsertProduct(payload);
+      setSuccess(true);
+      setTimeout(() => router.push("/admin/products"), 700);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : "Gagal menyimpan produk."
+      );
+      setSubmitting(false);
+    }
   };
 
   const handleDelete = () => {
@@ -467,10 +479,23 @@ export function ProductForm({ mode, initial }: Props) {
 
           <section className="card-base space-y-3 p-6">
             <h2 className="text-lg font-bold text-ink">Aksi</h2>
-            <button type="submit" className="btn-primary w-full">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn-primary w-full"
+            >
               <Save size={16} />
-              {mode === "create" ? "Publikasikan Produk" : "Simpan Perubahan"}
+              {submitting
+                ? "Menyimpan..."
+                : mode === "create"
+                ? "Publikasikan Produk"
+                : "Simpan Perubahan"}
             </button>
+            {submitError && (
+              <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-600">
+                {submitError}
+              </p>
+            )}
             {success && (
               <p className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-50 py-2 text-sm text-emerald-700">
                 <CheckCircle2 size={14} /> Tersimpan & ter-sinkron ke member
