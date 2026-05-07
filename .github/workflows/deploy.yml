@@ -1,0 +1,46 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {} # boleh jalankan manual dari tab Actions
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: SSH deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script_stop: true
+          script: |
+            set -e
+            cd /opt/planet-ai-app
+
+            echo "→ git pull"
+            git pull origin main
+
+            echo "→ npm ci"
+            npm ci --no-audit --no-fund
+
+            echo "→ npm run build"
+            npm run build
+
+            echo "→ pm2 restart"
+            pm2 restart planet-ai-app --update-env
+
+            echo "→ verify health"
+            sleep 3
+            curl -fsSI http://localhost:3001 || (echo "App tidak respon!" && exit 1)
+
+            echo "✅ Deploy success"
