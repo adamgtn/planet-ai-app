@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "pb:setup": "node scripts/pocketbase-setup.mjs",
-    "pb:seed": "node scripts/pocketbase-seed.mjs"
+    "pb:seed": "node scripts/pocketbase-seed.mjs",
+    "pb:fix-users": "node scripts/pocketbase-fix-users.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.441.0",
