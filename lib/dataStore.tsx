@@ -235,7 +235,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
         status: "published",
       };
 
-      // Cari berdasarkan slug
+      // 1. Upsert main product
       const existing = await pb
         .collection("products")
         .getFullList<PBProduct>({
@@ -243,10 +243,57 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
           requestKey: null,
         });
 
+      let productPbId: string;
       if (existing.length > 0) {
-        await pb.collection("products").update(existing[0].id, payload);
+        productPbId = existing[0].id;
+        await pb.collection("products").update(productPbId, payload);
       } else {
-        await pb.collection("products").create(payload);
+        const created = await pb.collection("products").create(payload);
+        productPbId = created.id;
+      }
+
+      // 2. Sync curriculum: hapus semua module existing (cascade-delete
+      //    lessons + resources), lalu rebuild dari payload.
+      const oldModules = await pb
+        .collection("modules")
+        .getFullList<{ id: string }>({
+          filter: `product = "${productPbId}"`,
+          requestKey: null,
+        });
+      for (const m of oldModules) {
+        await pb.collection("modules").delete(m.id);
+      }
+
+      // 3. Recreate modul → lesson → resource sesuai urutan di form
+      for (let mIdx = 0; mIdx < p.modules.length; mIdx++) {
+        const mod = p.modules[mIdx];
+        const newModule = await pb.collection("modules").create({
+          product: productPbId,
+          title: mod.title,
+          order: mIdx + 1,
+        });
+
+        for (let lIdx = 0; lIdx < mod.lessons.length; lIdx++) {
+          const lesson = mod.lessons[lIdx];
+          const newLesson = await pb.collection("lessons").create({
+            module: newModule.id,
+            title: lesson.title,
+            duration: lesson.duration,
+            video_url: lesson.videoUrl,
+            description: lesson.description,
+            order: lIdx + 1,
+          });
+
+          for (const res of lesson.resources) {
+            await pb.collection("resources").create({
+              lesson: newLesson.id,
+              name: res.name,
+              type: res.type,
+              size: res.size,
+              url: res.url,
+            });
+          }
+        }
       }
 
       await fetchAll();
