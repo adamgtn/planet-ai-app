@@ -139,7 +139,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       const [pbProducts, pbPermissions] = await Promise.all([
         pb
           .collection("products")
-          .getFullList<PBProduct>({ sort: "created", requestKey: null }),
+          .getFullList<PBProduct>({ sort: "-id", requestKey: null }),
         pb
           .collection("permissions")
           .getFullList<PBPermission>({
@@ -169,7 +169,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
         const [pbUsers, allPermissions] = await Promise.all([
           pb
             .collection("users")
-            .getFullList<PBUserRecord>({ sort: "-created", requestKey: null }),
+            .getFullList<PBUserRecord>({ sort: "-id", requestKey: null }),
           pb
             .collection("permissions")
             .getFullList<PBPermission>({ requestKey: null }),
