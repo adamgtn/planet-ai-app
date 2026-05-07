@@ -153,6 +153,11 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       for (const p of pbPermissions) permByProductId.set(p.product, p);
 
       const productList: Product[] = pbProducts.map((rec) => {
+        // Admin & Super Admin bypass permission — semua produk tampil
+        // sebagai "purchased" sehingga bisa preview/review tanpa hambatan.
+        if (isAdmin) {
+          return pbToProduct(rec, "purchased", 100);
+        }
         const perm = permByProductId.get(rec.id);
         let status: Product["status"] = "locked";
         if (perm) {
