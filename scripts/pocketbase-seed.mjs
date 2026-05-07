@@ -178,7 +178,7 @@ async function findOrCreateUser(data) {
   try {
     const list = await pb.collection("users").getFullList({
       filter: `email = "${data.email}"`,
-      $autoCancel: false,
+      requestKey: null,
     });
     if (list.length > 0) {
       console.log(`  ↺ user ${data.email.padEnd(28)} sudah ada — skip`);
@@ -195,7 +195,7 @@ async function findOrCreateBySlug(collection, slug, data) {
   try {
     const list = await pb.collection(collection).getFullList({
       filter: `slug = "${slug}"`,
-      $autoCancel: false,
+      requestKey: null,
     });
     if (list.length > 0) return list[0];
   } catch {}
@@ -263,7 +263,7 @@ async function grantPermission(userId, productId) {
   try {
     const list = await pb.collection("permissions").getFullList({
       filter: `user = "${userId}" && product = "${productId}"`,
-      $autoCancel: false,
+      requestKey: null,
     });
     if (list.length > 0) return;
   } catch {}

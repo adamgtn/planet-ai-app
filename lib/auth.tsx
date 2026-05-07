@@ -31,14 +31,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Initial hydration — baca authStore PocketBase dari localStorage
   useEffect(() => {
     const pb = getPB();
-    if (pb.authStore.isValid && pb.authStore.model) {
-      setUser(pb.authStore.model as unknown as PBUser);
+    // Support both v0.22- (model) dan v0.23+ (record) API
+    const record =
+      (pb.authStore as unknown as { record?: PBUser; model?: PBUser })
+        .record ??
+      (pb.authStore as unknown as { record?: PBUser; model?: PBUser })
+        .model ??
+      null;
+    if (pb.authStore.isValid && record) {
+      setUser(record);
     }
     setLoading(false);
 
     // Subscribe ke perubahan auth state
     const unsub = pb.authStore.onChange(() => {
-      setUser(pb.authStore.model as unknown as PBUser | null);
+      const r =
+        (pb.authStore as unknown as { record?: PBUser; model?: PBUser })
+          .record ??
+        (pb.authStore as unknown as { record?: PBUser; model?: PBUser })
+          .model ??
+        null;
+      setUser(r);
     });
     return () => unsub();
   }, []);
