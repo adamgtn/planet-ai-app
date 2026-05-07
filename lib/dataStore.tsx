@@ -139,12 +139,12 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       const [pbProducts, pbPermissions] = await Promise.all([
         pb
           .collection("products")
-          .getFullList<PBProduct>({ sort: "created", $autoCancel: false }),
+          .getFullList<PBProduct>({ sort: "created", requestKey: null }),
         pb
           .collection("permissions")
           .getFullList<PBPermission>({
             filter: currentUser ? `user = "${currentUser.id}"` : "id = ''",
-            $autoCancel: false,
+            requestKey: null,
           }),
       ]);
 
@@ -169,10 +169,10 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
         const [pbUsers, allPermissions] = await Promise.all([
           pb
             .collection("users")
-            .getFullList<PBUserRecord>({ sort: "-created", $autoCancel: false }),
+            .getFullList<PBUserRecord>({ sort: "-created", requestKey: null }),
           pb
             .collection("permissions")
-            .getFullList<PBPermission>({ $autoCancel: false }),
+            .getFullList<PBPermission>({ requestKey: null }),
         ]);
 
         // Map slug per product id (untuk balikkan ke slug-based id di app)
@@ -229,7 +229,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
         .collection("products")
         .getFullList<PBProduct>({
           filter: `slug = "${p.id}"`,
-          $autoCancel: false,
+          requestKey: null,
         });
 
       if (existing.length > 0) {
@@ -248,7 +248,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       const pb = getPB();
       const list = await pb.collection("products").getFullList<PBProduct>({
         filter: `slug = "${idOrSlug}"`,
-        $autoCancel: false,
+        requestKey: null,
       });
       if (list[0]) await pb.collection("products").delete(list[0].id);
       await fetchAll();
@@ -272,7 +272,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
         .collection("users")
         .getFullList<PBUserRecord>({
           filter: `id = "${u.id}"`,
-          $autoCancel: false,
+          requestKey: null,
         });
 
       let userId = u.id;
@@ -349,7 +349,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
 async function syncPermissions(userId: string, productSlugs: string[]) {
   const pb = getPB();
   const products = await pb.collection("products").getFullList<PBProduct>({
-    $autoCancel: false,
+    requestKey: null,
   });
   const slugToId = new Map(products.map((p) => [p.slug, p.id]));
   const targetIds = productSlugs
@@ -360,7 +360,7 @@ async function syncPermissions(userId: string, productSlugs: string[]) {
     .collection("permissions")
     .getFullList<PBPermission>({
       filter: `user = "${userId}"`,
-      $autoCancel: false,
+      requestKey: null,
     });
 
   const existingIds = new Set(existing.map((p) => p.product));
@@ -426,7 +426,7 @@ export function useProductCurriculum(productSlug: string | undefined) {
           .collection("products")
           .getFullList<PBProduct>({
             filter: `slug = "${productSlug}"`,
-            $autoCancel: false,
+            requestKey: null,
           });
         const product = productMatches[0];
         if (!product) {
@@ -439,7 +439,7 @@ export function useProductCurriculum(productSlug: string | undefined) {
           .getFullList<{ id: string; title: string; order?: number }>({
             filter: `product = "${product.id}"`,
             sort: "order",
-            $autoCancel: false,
+            requestKey: null,
           });
 
         if (modules.length === 0) {
@@ -463,7 +463,7 @@ export function useProductCurriculum(productSlug: string | undefined) {
           }>({
             filter: moduleIdFilter,
             sort: "order",
-            $autoCancel: false,
+            requestKey: null,
           });
 
         let resources: {
@@ -482,7 +482,7 @@ export function useProductCurriculum(productSlug: string | undefined) {
             .collection("resources")
             .getFullList({
               filter: lessonIdFilter,
-              $autoCancel: false,
+              requestKey: null,
             });
         }
 
