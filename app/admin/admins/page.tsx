@@ -53,8 +53,8 @@ export default function AdminsListPage() {
           last_login_at?: string;
         }>({
           filter: 'role = "admin" || role = "super_admin"',
-          sort: "-created",
-          $autoCancel: false,
+          sort: "-id",
+          requestKey: null,
         });
         setAdminAccounts(
           rows.map((r) => ({
