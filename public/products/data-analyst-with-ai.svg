@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FB7185"/>
+      <stop offset="1" stop-color="#E05E00"/>
+    </linearGradient>
+    <radialGradient id="glow5" cx="0.85" cy="0.15" r="0.7">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.40"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1000" height="1000" fill="url(#bg5)"/>
+  <rect width="1000" height="1000" fill="url(#glow5)"/>
+  <g stroke="#fff" stroke-opacity="0.18" stroke-width="2">
+    <line x1="120" y1="200" x2="880" y2="200"/>
+    <line x1="120" y1="350" x2="880" y2="350"/>
+    <line x1="120" y1="500" x2="880" y2="500"/>
+    <line x1="120" y1="650" x2="880" y2="650"/>
+  </g>
+  <g fill="#fff" fill-opacity="0.92">
+    <rect x="180" y="540" width="80" height="160" rx="12"/>
+    <rect x="300" y="450" width="80" height="250" rx="12"/>
+    <rect x="420" y="380" width="80" height="320" rx="12"/>
+    <rect x="540" y="290" width="80" height="410" rx="12"/>
+    <rect x="660" y="220" width="80" height="480" rx="12"/>
+  </g>
+  <g stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" stroke-opacity="0.95">
+    <polyline points="220,520 340,430 460,360 580,270 700,200"/>
+  </g>
+  <g fill="#fff">
+    <circle cx="220" cy="520" r="12"/>
+    <circle cx="340" cy="430" r="12"/>
+    <circle cx="460" cy="360" r="12"/>
+    <circle cx="580" cy="270" r="12"/>
+    <circle cx="700" cy="200" r="12"/>
+  </g>
+  <g transform="translate(70 70)" font-family="Inter, sans-serif" fill="#fff">
+    <rect width="220" height="50" rx="14" fill-opacity="0.22"/>
+    <text x="22" y="33" font-size="20" font-weight="700">MENENGAH · 7 JAM</text>
+  </g>
+  <g transform="translate(500 870)" text-anchor="middle" font-family="Inter, Poppins, system-ui, sans-serif" fill="#fff">
+    <text font-size="56" font-weight="800" letter-spacing="-2">Data Analyst</text>
+    <text y="56" font-size="44" font-weight="700">with AI</text>
+  </g>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF8B33"/>
+      <stop offset="1" stop-color="#B84D00"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.8" cy="0.2" r="0.7">
+      <stop offset="0" stop-color="#FFE2C9" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#FFE2C9" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1000" height="1000" fill="url(#bg1)"/>
+  <rect width="1000" height="1000" fill="url(#glow1)"/>
+  <circle cx="180" cy="820" r="220" fill="#fff" fill-opacity="0.08"/>
+  <circle cx="900" cy="160" r="120" fill="#fff" fill-opacity="0.10"/>
+  <g transform="translate(500 470)" text-anchor="middle" font-family="Inter, Poppins, system-ui, sans-serif" fill="#fff">
+    <text font-size="280" font-weight="800" letter-spacing="-12">PE</text>
+    <text y="120" font-size="42" font-weight="700" fill-opacity="0.85">PROMPT ENGINEERING</text>
+    <text y="180" font-size="42" font-weight="700" fill-opacity="0.85">MASTERY</text>
+  </g>
+  <g transform="translate(70 70)" font-family="Inter, sans-serif" fill="#fff">
+    <rect width="170" height="50" rx="14" fill-opacity="0.18"/>
+    <text x="22" y="33" font-size="20" font-weight="700">PEMULA · 6 JAM</text>
+  </g>
+  <g transform="translate(70 870)" font-family="Inter, sans-serif" fill="#fff">
+    <text font-size="34" font-weight="800">Planet AI</text>
+    <text y="36" font-size="20" fill-opacity="0.8">Learning Center</text>
+  </g>
+</svg>
