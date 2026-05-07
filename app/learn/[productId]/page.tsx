@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -13,29 +13,59 @@ import {
   PlayCircle,
 } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
+import { AuthGate } from "@/components/AuthGate";
 import { toEmbedUrl } from "@/lib/mockData";
-import { useProduct } from "@/lib/dataStore";
+import { useProduct, useProductCurriculum } from "@/lib/dataStore";
 
 export default function LearnPage() {
+  return (
+    <AuthGate>
+      <LearnContent />
+    </AuthGate>
+  );
+}
+
+function LearnContent() {
   const params = useParams<{ productId: string }>();
   const product = useProduct(params.productId);
+  const { modules, loading } = useProductCurriculum(params.productId);
 
-  if (!product || product.status !== "purchased") {
+  if (!product) {
+    if (!loading) notFound();
+    return (
+      <div className="grid min-h-screen place-items-center bg-muted/40">
+        <p className="text-sm text-ink/60">Memuat kelas...</p>
+      </div>
+    );
+  }
+
+  if (product.status !== "purchased") {
     notFound();
   }
 
   const allLessons = useMemo(
-    () => product.modules.flatMap((m) => m.lessons.map((l) => ({ moduleId: m.id, ...l }))),
-    [product]
+    () =>
+      modules.flatMap((m) =>
+        m.lessons.map((l) => ({ moduleId: m.id, ...l }))
+      ),
+    [modules]
   );
 
-  const [activeLessonId, setActiveLessonId] = useState(allLessons[0]?.id);
+  const [activeLessonId, setActiveLessonId] = useState<string | undefined>();
   const [completed, setCompleted] = useState<Set<string>>(new Set());
 
-  const activeLesson = allLessons.find((l) => l.id === activeLessonId)!;
+  // Set lesson pertama sebagai active begitu kurikulum termuat
+  useEffect(() => {
+    if (!activeLessonId && allLessons.length > 0) {
+      setActiveLessonId(allLessons[0].id);
+    }
+  }, [activeLessonId, allLessons]);
+
+  const activeLesson = allLessons.find((l) => l.id === activeLessonId);
   const totalLessons = allLessons.length;
   const completedCount = completed.size;
-  const progressPct = Math.round((completedCount / totalLessons) * 100);
+  const progressPct =
+    totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
 
   const toggleComplete = (id: string) => {
     setCompleted((prev) => {
@@ -82,7 +112,7 @@ export default function LearnPage() {
           </div>
 
           <nav className="max-h-[60vh] overflow-y-auto p-3">
-            {product.modules.map((mod) => (
+            {modules.map((mod) => (
               <div key={mod.id} className="mb-3">
                 <p className="px-3 pb-2 pt-1 text-[11px] font-semibold uppercase tracking-wider text-ink/50">
                   {mod.title}
@@ -142,6 +172,16 @@ export default function LearnPage() {
 
         {/* Main Player */}
         <main className="space-y-6">
+          {!activeLesson ? (
+            <div className="card-base p-12 text-center">
+              <p className="text-sm text-ink/60">
+                {loading
+                  ? "Memuat kurikulum..."
+                  : "Kelas ini belum memiliki lesson. Hubungi admin untuk informasi."}
+              </p>
+            </div>
+          ) : (
+          <>
           <div className="card-base overflow-hidden">
             <div className="aspect-video w-full bg-black">
               {activeLesson.videoUrl ? (
@@ -246,6 +286,8 @@ export default function LearnPage() {
               ))}
             </div>
           </div>
+          </>
+          )}
         </main>
       </div>
     </div>

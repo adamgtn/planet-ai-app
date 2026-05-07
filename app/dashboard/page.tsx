@@ -5,8 +5,10 @@ import { Search, Sparkles } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
 import { ProductCard } from "@/components/ProductCard";
 import { ToolsSuiteBanner } from "@/components/ToolsSuiteBanner";
-import { currentUser, type ProductStatus } from "@/lib/mockData";
+import { AuthGate } from "@/components/AuthGate";
+import { type ProductStatus } from "@/lib/mockData";
 import { useDataStore } from "@/lib/dataStore";
+import { useAuth } from "@/lib/auth";
 
 type Filter = "all" | ProductStatus;
 
@@ -18,7 +20,16 @@ const FILTERS: { id: Filter; label: string }[] = [
 ];
 
 export default function DashboardPage() {
-  const { products } = useDataStore();
+  return (
+    <AuthGate>
+      <DashboardContent />
+    </AuthGate>
+  );
+}
+
+function DashboardContent() {
+  const { products, loading } = useDataStore();
+  const { user } = useAuth();
   const [filter, setFilter] = useState<Filter>("all");
   const [query, setQuery] = useState("");
 
@@ -62,7 +73,7 @@ export default function DashboardPage() {
                 <Sparkles size={14} /> Member Area
               </span>
               <h1 className="mt-3 text-3xl font-bold text-ink">
-                Halo, {currentUser.name.split(" ")[0]} 👋
+                Halo, {(user?.name ?? "Member").split(" ")[0]} 👋
               </h1>
               <p className="mt-1 max-w-xl text-sm text-ink/65">
                 Lanjutkan perjalanan belajar AI kamu. Akses semua kelas yang
@@ -127,13 +138,24 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        <section className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {filtered.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </section>
+        {loading && filtered.length === 0 ? (
+          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <div
+                key={i}
+                className="card-base aspect-[5/4] animate-pulse bg-muted/60"
+              />
+            ))}
+          </div>
+        ) : (
+          <section className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            {filtered.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </section>
+        )}
 
-        {filtered.length === 0 && (
+        {!loading && filtered.length === 0 && (
           <div className="mt-10 rounded-2xl border border-dashed border-muted bg-white p-10 text-center">
             <p className="text-sm text-ink/60">
               Tidak ada kelas yang cocok dengan pencarian.

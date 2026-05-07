@@ -15,8 +15,8 @@ import {
   Users,
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
-import { useAdminRole } from "@/lib/adminRole";
 import { ADMIN_PERMISSIONS } from "@/lib/adminData";
+import { useAuth } from "@/lib/auth";
 
 type NavItem = {
   href: string;
@@ -54,10 +54,24 @@ export function AdminShell({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { role, setRole, isSuperAdmin } = useAdminRole();
+  const { user, isSuperAdmin, isAdmin, logout } = useAuth();
+  const role = user?.role === "super_admin" ? "super_admin" : "admin";
   const meta = ADMIN_PERMISSIONS[role];
 
   const visibleNav = NAV.filter((i) => !i.superAdminOnly || isSuperAdmin);
+
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
+  };
+
+  // Block render kalau belum login atau bukan admin (akan redirect)
+  if (!isAdmin && user !== null) {
+    if (typeof window !== "undefined") {
+      router.push("/dashboard");
+    }
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-muted/40">
@@ -124,28 +138,6 @@ export function AdminShell({
           </div>
 
           <div className="border-t border-muted p-4">
-            {/* Demo role switcher */}
-            <div className="mb-3 rounded-xl border border-dashed border-muted bg-muted/40 p-3">
-              <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-ink/45">
-                Demo: switch role
-              </p>
-              <div className="flex gap-1 rounded-lg border border-muted bg-white p-1">
-                {(["super_admin", "admin"] as const).map((r) => (
-                  <button
-                    key={r}
-                    onClick={() => setRole(r)}
-                    className={`flex-1 rounded-md px-2 py-1.5 text-[11px] font-semibold transition ${
-                      role === r
-                        ? "bg-brand text-white"
-                        : "text-ink/55 hover:text-brand"
-                    }`}
-                  >
-                    {r === "super_admin" ? "Super" : "Admin"}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <div className="flex items-center gap-3 rounded-xl bg-muted/60 p-3">
               <div
                 className={`grid h-9 w-9 place-items-center rounded-full text-white ${
@@ -156,14 +148,12 @@ export function AdminShell({
               </div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold">
-                  {isSuperAdmin ? "Adam Hidayat" : "Rini Kartika"}
+                  {user?.name ?? "Admin"}
                 </p>
-                <p className="truncate text-[11px] text-ink/55">
-                  {meta.label}
-                </p>
+                <p className="truncate text-[11px] text-ink/55">{meta.label}</p>
               </div>
               <button
-                onClick={() => router.push("/login")}
+                onClick={handleLogout}
                 aria-label="Keluar"
                 className="grid h-8 w-8 place-items-center rounded-lg text-ink/50 transition hover:bg-white hover:text-brand"
               >

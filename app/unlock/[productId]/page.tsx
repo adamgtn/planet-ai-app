@@ -12,9 +12,18 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
+import { AuthGate } from "@/components/AuthGate";
 import { useProduct } from "@/lib/dataStore";
 
 export default function UnlockPage() {
+  return (
+    <AuthGate>
+      <UnlockContent />
+    </AuthGate>
+  );
+}
+
+function UnlockContent() {
   const params = useParams<{ productId: string }>();
   const product = useProduct(params.productId);
   if (!product) notFound();

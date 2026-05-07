@@ -15,15 +15,64 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { AccessDenied } from "@/components/admin/AccessDenied";
 import {
   ADMIN_PERMISSIONS,
-  adminAccounts,
   type AdminRole,
 } from "@/lib/adminData";
-import { useAdminRole } from "@/lib/adminRole";
+import { useAuth } from "@/lib/auth";
+import { getPB } from "@/lib/pocketbase";
+import { useEffect } from "react";
+
+type AdminRow = {
+  id: string;
+  name: string;
+  email: string;
+  role: "super_admin" | "admin";
+  active: boolean;
+  createdAt: string;
+  lastLoginAt: string;
+};
 
 export default function AdminsListPage() {
-  const { isSuperAdmin } = useAdminRole();
+  const { isSuperAdmin } = useAuth();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<"all" | AdminRole>("all");
+  const [adminAccounts, setAdminAccounts] = useState<AdminRow[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!isSuperAdmin) return;
+    const pb = getPB();
+    (async () => {
+      try {
+        const rows = await pb.collection("users").getFullList<{
+          id: string;
+          name: string;
+          email: string;
+          role: "super_admin" | "admin" | "member";
+          status: string;
+          created: string;
+          last_login_at?: string;
+        }>({
+          filter: 'role = "admin" || role = "super_admin"',
+          sort: "-created",
+          $autoCancel: false,
+        });
+        setAdminAccounts(
+          rows.map((r) => ({
+            id: r.id,
+            name: r.name,
+            email: r.email,
+            role: r.role as "super_admin" | "admin",
+            active: r.status === "active",
+            createdAt: r.created.slice(0, 10),
+            lastLoginAt:
+              r.last_login_at?.replace("T", " ").slice(0, 16) ?? "—",
+          }))
+        );
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [isSuperAdmin]);
 
   const list = useMemo(() => {
     return adminAccounts.filter((a) => {
@@ -35,7 +84,7 @@ export default function AdminsListPage() {
         a.email.toLowerCase().includes(q);
       return matchRole && matchQuery;
     });
-  }, [query, filter]);
+  }, [adminAccounts, query, filter]);
 
   if (!isSuperAdmin) {
     return (

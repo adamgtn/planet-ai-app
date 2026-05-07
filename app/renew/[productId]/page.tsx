@@ -4,9 +4,18 @@ import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import { ArrowLeft, MessageCircle, RefreshCw } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
+import { AuthGate } from "@/components/AuthGate";
 import { useProduct } from "@/lib/dataStore";
 
 export default function RenewPage() {
+  return (
+    <AuthGate>
+      <RenewContent />
+    </AuthGate>
+  );
+}
+
+function RenewContent() {
   const params = useParams<{ productId: string }>();
   const product = useProduct(params.productId);
   if (!product) notFound();

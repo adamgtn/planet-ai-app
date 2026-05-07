@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { DataStoreProvider } from "@/lib/dataStore";
+import { AuthProvider } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Planet AI — Learning Center",
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className="min-h-screen bg-white text-ink antialiased">
-        <DataStoreProvider>{children}</DataStoreProvider>
+        <AuthProvider>
+          <DataStoreProvider>{children}</DataStoreProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -3,19 +3,33 @@
 import { useState } from "react";
 import { CheckCircle2, KeyRound, Mail, ShieldCheck, User } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
-import { currentUser } from "@/lib/mockData";
+import { AuthGate } from "@/components/AuthGate";
+import { useAuth } from "@/lib/auth";
+import { getPB } from "@/lib/pocketbase";
 
 export default function ProfilePage() {
+  return (
+    <AuthGate>
+      <ProfileContent />
+    </AuthGate>
+  );
+}
+
+function ProfileContent() {
+  const { user } = useAuth();
   const [oldPwd, setOldPwd] = useState("");
   const [newPwd, setNewPwd] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const onChangePassword = (e: React.FormEvent) => {
+  const onChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess(false);
+
+    if (!user) return;
     if (newPwd.length < 8) {
       setError("Password baru minimal 8 karakter.");
       return;
@@ -24,11 +38,41 @@ export default function ProfilePage() {
       setError("Konfirmasi password tidak cocok.");
       return;
     }
-    setSuccess(true);
-    setOldPwd("");
-    setNewPwd("");
-    setConfirmPwd("");
+
+    setLoading(true);
+    try {
+      const pb = getPB();
+      await pb.collection("users").update(user.id, {
+        oldPassword: oldPwd,
+        password: newPwd,
+        passwordConfirm: confirmPwd,
+      });
+      setSuccess(true);
+      setOldPwd("");
+      setNewPwd("");
+      setConfirmPwd("");
+    } catch (err) {
+      const msg =
+        err instanceof Error ? err.message : "Gagal mengubah password.";
+      setError(msg.includes("Failed") ? "Password lama salah." : msg);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const role =
+    user?.role === "super_admin"
+      ? "Super Admin"
+      : user?.role === "admin"
+      ? "Admin"
+      : "Member";
+
+  const joined = user?.created
+    ? new Date(user.created).toLocaleDateString("id-ID", {
+        month: "long",
+        year: "numeric",
+      })
+    : "—";
 
   return (
     <div className="min-h-screen bg-muted/40">
@@ -43,7 +87,6 @@ export default function ProfilePage() {
         </header>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-[1fr_1.4fr]">
-          {/* Identity Card */}
           <section className="card-base p-6">
             <div className="flex items-center gap-4">
               <div className="grid h-16 w-16 place-items-center rounded-2xl bg-brand text-white shadow-card">
@@ -51,20 +94,20 @@ export default function ProfilePage() {
               </div>
               <div>
                 <h2 className="text-lg font-bold text-ink">
-                  {currentUser.name}
+                  {user?.name ?? "Member"}
                 </h2>
                 <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-semibold text-brand">
-                  <ShieldCheck size={12} /> {currentUser.role}
+                  <ShieldCheck size={12} /> {role}
                 </span>
               </div>
             </div>
 
             <dl className="mt-6 space-y-3 text-sm">
               <Row icon={<Mail size={16} />} label="Email">
-                {currentUser.email}
+                {user?.email ?? "—"}
               </Row>
               <Row icon={<User size={16} />} label="Member Sejak">
-                {currentUser.joinedAt}
+                {joined}
               </Row>
             </dl>
 
@@ -73,7 +116,6 @@ export default function ProfilePage() {
             </div>
           </section>
 
-          {/* Change Password */}
           <section className="card-base p-6">
             <div className="mb-5 flex items-center gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-xl bg-brand-50 text-brand">
@@ -121,8 +163,12 @@ export default function ProfilePage() {
                 </p>
               )}
 
-              <button type="submit" className="btn-primary w-full">
-                Simpan Perubahan
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-primary w-full"
+              >
+                {loading ? "Menyimpan..." : "Simpan Perubahan"}
               </button>
             </form>
           </section>

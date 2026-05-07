@@ -19,6 +19,7 @@ import {
   type AdminAccount,
   type AdminRole,
 } from "@/lib/adminData";
+import { getPB } from "@/lib/pocketbase";
 
 type Props = {
   mode: "create" | "edit";
@@ -34,10 +35,64 @@ export function AdminAccountForm({ mode, initial }: Props) {
   const [tempPassword, setTempPassword] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSuccess(true);
-    setTimeout(() => router.push("/admin/admins"), 900);
+    setError("");
+    setSubmitting(true);
+    try {
+      const pb = getPB();
+      const status = active ? "active" : "suspended";
+      if (mode === "create") {
+        if (!tempPassword || tempPassword.length < 10) {
+          throw new Error(
+            "Password sementara minimal 10 karakter — klik Generate."
+          );
+        }
+        await pb.collection("users").create({
+          name,
+          email,
+          role,
+          status,
+          password: tempPassword,
+          passwordConfirm: tempPassword,
+          emailVisibility: true,
+        });
+      } else if (initial) {
+        const payload: Record<string, unknown> = {
+          name,
+          email,
+          role,
+          status,
+        };
+        if (tempPassword) {
+          payload.password = tempPassword;
+          payload.passwordConfirm = tempPassword;
+        }
+        await pb.collection("users").update(initial.id, payload);
+      }
+      setSuccess(true);
+      setTimeout(() => router.push("/admin/admins"), 700);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Gagal menyimpan akun admin."
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!initial) return;
+    if (!window.confirm(`Hapus admin "${initial.name}"?`)) return;
+    try {
+      await getPB().collection("users").delete(initial.id);
+      router.push("/admin/admins");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Gagal menghapus admin.");
+    }
   };
 
   const generatePassword = () => {
@@ -233,10 +288,23 @@ export function AdminAccountForm({ mode, initial }: Props) {
           </section>
 
           <section className="card-base space-y-3 p-6">
-            <button type="submit" className="btn-primary w-full">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn-primary w-full"
+            >
               <Save size={16} />
-              {mode === "create" ? "Buat Akun Admin" : "Simpan Perubahan"}
+              {submitting
+                ? "Menyimpan..."
+                : mode === "create"
+                ? "Buat Akun Admin"
+                : "Simpan Perubahan"}
             </button>
+            {error && (
+              <p className="rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-600">
+                {error}
+              </p>
+            )}
             {success && (
               <p className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-50 py-2 text-sm text-emerald-700">
                 <CheckCircle2 size={14} /> Tersimpan.
@@ -252,6 +320,7 @@ export function AdminAccountForm({ mode, initial }: Props) {
             {mode === "edit" && initial?.role !== "super_admin" && (
               <button
                 type="button"
+                onClick={handleDelete}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50/40 px-4 py-2.5 text-sm font-semibold text-rose-600 transition hover:bg-rose-50"
               >
                 <Trash2 size={14} /> Hapus Admin

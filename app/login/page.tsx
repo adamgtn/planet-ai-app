@@ -2,23 +2,32 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Eye, EyeOff, Lock, Mail, ShieldCheck, Sparkles } from "lucide-react";
+import { AlertCircle, Eye, EyeOff, Lock, Mail, ShieldCheck, Sparkles } from "lucide-react";
 import { Logo } from "@/components/Logo";
+import { useAuth } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      await login(email, password);
       router.push("/dashboard");
-    }, 700);
+    } catch (err) {
+      const msg =
+        err instanceof Error ? err.message : "Email atau password salah.";
+      setError(msg.includes("Failed") ? "Email atau password salah." : msg);
+      setLoading(false);
+    }
   };
 
   return (
@@ -106,6 +115,12 @@ export default function LoginPage() {
                 Lupa password?
               </a>
             </div>
+
+            {error && (
+              <p className="inline-flex w-full items-center gap-2 rounded-lg bg-rose-50 px-3 py-2 text-sm text-rose-600">
+                <AlertCircle size={14} /> {error}
+              </p>
+            )}
 
             <button
               type="submit"
