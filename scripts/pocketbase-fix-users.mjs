@@ -67,20 +67,40 @@ const NEEDED = [
 
 const toAdd = NEEDED.filter((f) => !existingFields.includes(f.name));
 
-if (toAdd.length === 0) {
-  console.log("  ↺ Semua field sudah ada — skip patch schema");
-} else {
+const ROLE_ADMIN =
+  '@request.auth.role = "admin" || @request.auth.role = "super_admin"';
+const ROLE_SUPER = '@request.auth.role = "super_admin"';
+const VIEW_OWN_OR_ADMIN = `id = @request.auth.id || ${ROLE_ADMIN}`;
+
+const updatePayload = {
+  // API rules — penting agar admin bisa list & manage user lain
+  listRule: ROLE_ADMIN,
+  viewRule: VIEW_OWN_OR_ADMIN,
+  createRule: ROLE_ADMIN,
+  updateRule: VIEW_OWN_OR_ADMIN,
+  deleteRule: ROLE_SUPER,
+};
+
+if (toAdd.length > 0) {
   console.log(`  + Tambah field: ${toAdd.map((f) => f.name).join(", ")}`);
-
   const newFields = [...(users.fields || users.schema || []), ...toAdd];
-
   // Coba update via 'fields' (v0.23+); fallback ke 'schema' (v0.22-)
   try {
-    await pb.collections.update(users.id, { fields: newFields });
+    await pb.collections.update(users.id, {
+      fields: newFields,
+      ...updatePayload,
+    });
   } catch (_e) {
-    await pb.collections.update(users.id, { schema: newFields });
+    await pb.collections.update(users.id, {
+      schema: newFields,
+      ...updatePayload,
+    });
   }
-  console.log("  ✓ Schema users diperbarui");
+  console.log("  ✓ Schema + API rules users diperbarui");
+} else {
+  console.log("  ↺ Semua field sudah ada — update API rules saja");
+  await pb.collections.update(users.id, updatePayload);
+  console.log("  ✓ API rules users diperbarui");
 }
 
 // ─── 2) Set role + status untuk akun demo ──────────────────────────────────
