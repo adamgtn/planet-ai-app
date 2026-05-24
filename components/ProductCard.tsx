@@ -136,17 +136,30 @@ export function ProductCard({ product }: { product: Product }) {
 
           {isLocked && (
             <>
-              <a
-                href={product.landingUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="btn-primary w-full justify-between"
-              >
-                <span className="inline-flex items-center gap-2">
-                  <ShoppingBag size={16} /> Beli Sekarang
-                </span>
-                <ExternalLink size={14} />
-              </a>
+              {product.landingUrl ? (
+                <a
+                  href={product.landingUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-primary w-full justify-between"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <ShoppingBag size={16} /> Beli Sekarang
+                  </span>
+                  <ExternalLink size={14} />
+                </a>
+              ) : (
+                <Link
+                  href={`/produk/${product.id}`}
+                  target="_blank"
+                  className="btn-primary w-full justify-between"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <ShoppingBag size={16} /> Beli Sekarang
+                  </span>
+                  <ExternalLink size={14} />
+                </Link>
+              )}
               <Link
                 href={`/unlock/${product.id}`}
                 className="btn-ghost w-full justify-between text-xs"
