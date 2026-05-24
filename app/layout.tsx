@@ -4,9 +4,13 @@ import { DataStoreProvider } from "@/lib/dataStore";
 import { AuthProvider } from "@/lib/auth";
 
 export const metadata: Metadata = {
-  title: "Planet AI — Learning Center",
+  title: "PlanetSoft — Learning Center",
   description:
-    "Member area eksklusif Planet AI. Belajar AI dengan kurikulum yang terstruktur, modern, dan praktis.",
+    "Member area eksklusif PlanetSoft. Belajar AI dengan kurikulum yang terstruktur, modern, dan praktis.",
+  icons: {
+    icon: "/brand/planetsoft-icon.png",
+    apple: "/brand/planetsoft-icon.png",
+  },
 };
 
 export default function RootLayout({

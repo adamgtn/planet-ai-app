@@ -112,7 +112,7 @@ function ProfileContent() {
             </dl>
 
             <div className="mt-6 rounded-xl border border-dashed border-muted bg-muted/40 p-4 text-xs text-ink/65">
-              Untuk mengubah email atau nama, silakan hubungi admin Planet AI.
+              Untuk mengubah email atau nama, silakan hubungi admin PlanetSoft.
             </div>
           </section>
 

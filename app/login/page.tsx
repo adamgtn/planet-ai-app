@@ -44,7 +44,7 @@ export default function LoginPage() {
               Selamat datang kembali
             </h1>
             <p className="mt-2 text-sm text-ink/65">
-              Masuk untuk melanjutkan pembelajaran AI kamu di Planet AI Learning
+              Masuk untuk melanjutkan pembelajaran AI kamu di PlanetSoft Learning
               Center.
             </p>
           </div>
@@ -136,14 +136,14 @@ export default function LoginPage() {
               Belum memiliki akun member?
             </p>
             <p className="mt-1">
-              Akun hanya dibuat oleh admin setelah pembelian. Hubungi tim Planet
-              AI di WhatsApp untuk aktivasi.
+              Akun hanya dibuat oleh admin setelah pembelian. Hubungi tim
+              PlanetSoft di WhatsApp untuk aktivasi.
             </p>
           </div>
         </div>
 
         <p className="text-xs text-ink/50">
-          © {new Date().getFullYear()} Planet AI. All rights reserved.
+          © {new Date().getFullYear()} PlanetSoft. All rights reserved.
         </p>
       </section>
 
@@ -152,7 +152,7 @@ export default function LoginPage() {
         <div className="absolute inset-0 opacity-30 [background-image:radial-gradient(circle_at_20%_20%,white,transparent_45%),radial-gradient(circle_at_80%_70%,white,transparent_45%)]" />
         <div className="relative flex h-full flex-col justify-between p-12 text-white">
           <div className="flex items-center gap-2 text-white/90">
-            <Sparkles size={20} /> <span className="text-sm font-semibold">Powered by Planet AI</span>
+            <Sparkles size={20} /> <span className="text-sm font-semibold">Powered by PlanetSoft</span>
           </div>
 
           <div>
