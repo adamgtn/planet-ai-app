@@ -9,7 +9,8 @@
     "lint": "next lint",
     "pb:setup": "node scripts/pocketbase-setup.mjs",
     "pb:seed": "node scripts/pocketbase-seed.mjs",
-    "pb:fix-users": "node scripts/pocketbase-fix-users.mjs"
+    "pb:fix-users": "node scripts/pocketbase-fix-users.mjs",
+    "pb:fix-landing": "node scripts/pocketbase-fix-landing.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.441.0",

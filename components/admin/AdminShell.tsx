@@ -7,6 +7,7 @@ import {
   Box,
   ChevronRight,
   Crown,
+  Globe,
   LayoutDashboard,
   LogOut,
   Settings,
@@ -35,6 +36,12 @@ const NAV: NavItem[] = [
     href: "/admin/admins",
     label: "Admin Pengelola",
     icon: UserCog,
+    superAdminOnly: true,
+  },
+  {
+    href: "/admin/landing",
+    label: "Landing Page",
+    icon: Globe,
     superAdminOnly: true,
   },
 ];
