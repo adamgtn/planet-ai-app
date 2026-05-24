@@ -7,10 +7,7 @@ export const metadata: Metadata = {
   title: "PlanetSoft — Learning Center",
   description:
     "Member area eksklusif PlanetSoft. Belajar AI dengan kurikulum yang terstruktur, modern, dan praktis.",
-  icons: {
-    icon: "/brand/planetsoft-icon.png",
-    apple: "/brand/planetsoft-icon.png",
-  },
+  // Next.js auto-generate favicon dari app/icon.png + app/apple-icon.png
 };
 
 export default function RootLayout({
