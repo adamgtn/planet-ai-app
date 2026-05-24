@@ -117,7 +117,7 @@ function Navbar() {
           <img
             src="/brand/planetsoft-icon.png"
             alt="PlanetPrompt"
-            className="h-8 w-8"
+            className="h-9 w-9 shrink-0 object-contain"
           />
           <span className="text-lg font-bold tracking-tight text-white">
             planet<span className="text-emerald-400">prompt</span>
@@ -321,7 +321,7 @@ function SolutionSection() {
           <img
             src="/brand/planetsoft-icon.png"
             alt="PlanetPrompt"
-            className="h-16 w-16 md:h-20 md:w-20"
+            className="h-16 w-16 shrink-0 object-contain md:h-20 md:w-20"
           />
           <span className="text-4xl font-extrabold text-white md:text-6xl">
             planet<span className="text-emerald-400">prompt</span>
@@ -1472,7 +1472,7 @@ function Footer() {
           <img
             src="/brand/planetsoft-icon.png"
             alt="PlanetSoft"
-            className="h-6 w-6"
+            className="h-6 w-6 shrink-0 object-contain"
           />
           <span>
             © {new Date().getFullYear()} PlanetSoft. Built for Indonesian
