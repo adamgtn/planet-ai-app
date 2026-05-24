@@ -113,7 +113,7 @@ export default function AdminsListPage() {
         { label: "Admin Pengelola" },
       ]}
       title="Admin Pengelola"
-      description="Kelola tim admin yang bisa mengakses backend Planet AI. Hanya Super Admin yang dapat menambah atau menghapus admin."
+      description="Kelola tim admin yang bisa mengakses backend PlanetSoft. Hanya Super Admin yang dapat menambah atau menghapus admin."
       actions={
         <Link href="/admin/admins/new" className="btn-primary">
           <Plus size={16} /> Tambah Admin

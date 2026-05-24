@@ -68,7 +68,7 @@ export function AuthGate({
           <p className="mt-2 text-sm text-ink/65">
             Status akunmu saat ini:{" "}
             <strong className="text-rose-600">{user.status}</strong>. Hubungi
-            admin Planet AI untuk mengaktifkan kembali.
+            admin PlanetSoft untuk mengaktifkan kembali.
           </p>
           <a
             href="https://wa.me/6281234567890"

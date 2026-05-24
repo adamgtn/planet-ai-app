@@ -282,7 +282,7 @@ export const recentActivities: ActivityEntry[] = [
   },
   {
     id: "a4",
-    user: "Admin Planet AI",
+    user: "Admin PlanetSoft",
     action: "Menambahkan permission",
     detail: "Build Your First AI SaaS → Fajar Nugroho",
     time: "1 jam lalu",
@@ -296,7 +296,7 @@ export const recentActivities: ActivityEntry[] = [
   },
   {
     id: "a6",
-    user: "Admin Planet AI",
+    user: "Admin PlanetSoft",
     action: "Membuat akun baru",
     detail: "kintan.p@outlook.com",
     time: "Kemarin",
