@@ -1,39 +1,95 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   CheckCircle2,
   ExternalLink,
   Globe,
   Pencil,
+  Plus,
   Sparkles,
+  Trash2,
+  X,
 } from "lucide-react";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { AccessDenied } from "@/components/admin/AccessDenied";
 import { useAuth } from "@/lib/auth";
-import { useDataStore } from "@/lib/dataStore";
 import { getPB } from "@/lib/pocketbase";
 
-type LandingRow = {
+type LandingLink = {
   id: string;
-  product: string; // PB product id
-  published: boolean;
-  updated: string;
+  name: string;
+  url: string;
+  description?: string;
+  tags?: string[];
+  is_active?: boolean;
 };
+
+type FormState = {
+  name: string;
+  url: string;
+  description: string;
+  tags: string; // comma-separated
+  is_active: boolean;
+};
+
+const EMPTY_FORM: FormState = {
+  name: "",
+  url: "",
+  description: "",
+  tags: "",
+  is_active: true,
+};
+
+/**
+ * Fallback hard-coded list — dipakai kalau PB belum punya collection
+ * 'landing_links' (yaitu sebelum `npm run pb:setup-landing-links`
+ * dijalankan). Begitu collection ada, list dari DB jadi sumber kebenaran.
+ */
+const FALLBACK: LandingLink[] = [
+  {
+    id: "_fallback_planetprompt",
+    name: "PlanetPrompt — Toolkit Konten UMKM",
+    url: "/planetprompt",
+    description:
+      "LP utama PlanetPrompt: hero, showcase, pricing 3-tier (Starter / VIP / Resell), testimonial, FAQ.",
+    tags: ["UMKM", "Toolkit", "Pricing 3-tier"],
+    is_active: true,
+  },
+];
 
 export default function AdminLandingListPage() {
   const { isSuperAdmin } = useAuth();
-  const { products } = useDataStore();
-  const [landings, setLandings] = useState<LandingRow[]>([]);
+  const [links, setLinks] = useState<LandingLink[]>([]);
+  const [usingFallback, setUsingFallback] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [editing, setEditing] = useState<LandingLink | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState<FormState>(EMPTY_FORM);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const loadLinks = async () => {
+    setLoading(true);
+    try {
+      const pb = getPB();
+      const list = await pb
+        .collection("landing_links")
+        .getFullList<LandingLink>({ sort: "-created", requestKey: null });
+      setLinks(list);
+      setUsingFallback(false);
+    } catch {
+      // Collection belum dibuat — pakai fallback
+      setLinks(FALLBACK);
+      setUsingFallback(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (!isSuperAdmin) return;
-    const pb = getPB();
-    pb.collection("landing_pages")
-      .getFullList<LandingRow>({ requestKey: null })
-      .then(setLandings)
-      .catch(() => setLandings([]));
+    loadLinks();
   }, [isSuperAdmin]);
 
   if (!isSuperAdmin) {
@@ -45,18 +101,78 @@ export default function AdminLandingListPage() {
         ]}
         title="Landing Page"
       >
-        <AccessDenied reason="Hanya Super Admin yang dapat mengelola landing page produk." />
+        <AccessDenied reason="Hanya Super Admin yang dapat melihat direktori landing page." />
       </AdminShell>
     );
   }
 
-  const landingByProductId = new Map(
-    landings.map((l) => [l.product, l] as const)
-  );
+  const openCreate = () => {
+    setEditing(null);
+    setForm(EMPTY_FORM);
+    setError("");
+    setShowForm(true);
+  };
 
-  // Build product+landing list. products from store use slug as id; we need
-  // to fetch their real PB id. Use the dataStore.products which still
-  // contains slug-based id. Fetch real PB products separately to map.
+  const openEdit = (lp: LandingLink) => {
+    setEditing(lp);
+    setForm({
+      name: lp.name,
+      url: lp.url,
+      description: lp.description ?? "",
+      tags: (lp.tags ?? []).join(", "),
+      is_active: lp.is_active ?? true,
+    });
+    setError("");
+    setShowForm(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSubmitting(true);
+    try {
+      const pb = getPB();
+      const payload = {
+        name: form.name.trim(),
+        url: form.url.trim(),
+        description: form.description.trim(),
+        tags: form.tags
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean),
+        is_active: form.is_active,
+      };
+      if (editing && !editing.id.startsWith("_fallback")) {
+        await pb.collection("landing_links").update(editing.id, payload);
+      } else {
+        await pb.collection("landing_links").create(payload);
+      }
+      setShowForm(false);
+      await loadLinks();
+    } catch (e) {
+      setError(
+        e instanceof Error
+          ? e.message
+          : "Gagal menyimpan. Pastikan collection 'landing_links' sudah dibuat (run: npm run pb:setup-landing-links)"
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleDelete = async (lp: LandingLink) => {
+    if (lp.id.startsWith("_fallback")) return;
+    if (!window.confirm(`Hapus landing page "${lp.name}"?`)) return;
+    try {
+      await getPB().collection("landing_links").delete(lp.id);
+      await loadLinks();
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Gagal menghapus");
+    }
+  };
+
+  const activeCount = links.filter((l) => l.is_active !== false).length;
+
   return (
     <AdminShell
       breadcrumb={[
@@ -64,174 +180,359 @@ export default function AdminLandingListPage() {
         { label: "Landing Page" },
       ]}
       title="Landing Page"
-      description="Kelola landing page penjualan publik untuk tiap produk. Hanya Super Admin yang dapat mengakses."
+      description="Direktori link landing page yang dimiliki. Hanya admin yang melihat list ini — member lihat produk di dashboard mereka."
+      actions={
+        <button
+          type="button"
+          onClick={openCreate}
+          className="btn-primary"
+        >
+          <Plus size={16} /> Tambah Landing Page
+        </button>
+      }
     >
+      {usingFallback && (
+        <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs text-amber-800">
+          <strong>Mode fallback</strong> — collection{" "}
+          <code className="rounded bg-white px-1 py-0.5">landing_links</code>{" "}
+          belum dibuat di PocketBase. Tampil data hard-coded. Untuk aktifkan
+          editing, jalankan:{" "}
+          <code className="rounded bg-white px-1 py-0.5">
+            npm run pb:setup-landing-links
+          </code>
+        </div>
+      )}
+
       <section className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Tile
           icon={<Globe size={18} />}
           tone="brand"
-          label="Total Produk"
-          value={products.length}
-          hint="punya katalog landing"
+          label="Total Landing"
+          value={links.length}
+          hint="link terdaftar"
         />
         <Tile
           icon={<CheckCircle2 size={18} />}
           tone="emerald"
-          label="Published"
-          value={landings.filter((l) => l.published).length}
-          hint="bisa diakses publik"
+          label="Aktif"
+          value={activeCount}
+          hint="tampil & diakses"
         />
         <Tile
           icon={<Sparkles size={18} />}
           tone="amber"
-          label="Belum Dibuat"
-          value={products.length - landings.length}
-          hint="butuh setup landing"
+          label="Non-aktif"
+          value={links.length - activeCount}
+          hint="disembunyikan"
         />
       </section>
 
-      <div className="card-base p-5">
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] border-separate border-spacing-y-2">
-            <thead>
-              <tr className="text-left text-[11px] font-semibold uppercase tracking-wider text-ink/45">
-                <th className="px-4">Produk</th>
-                <th className="px-4">Status Landing</th>
-                <th className="px-4">URL Publik</th>
-                <th className="px-4 text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((p) => {
-                // Find landing where landing.product.slug-mapping... we can
-                // resolve via dataStore — but simpler: fetch all landings
-                // and check by joined product slug. Below uses substring of
-                // any landing where it was looked up via product PB id; for
-                // now we keep it simple and check by counts.
-                // Display: assume each landing matches one product.
-                const landing = landings.find((l) =>
-                  // we don't have direct mapping client-side; try matching
-                  // by created-near approach? Easier: lookup later in editor.
-                  // For now: show "Edit" button always; status comes from
-                  // landings count separately.
-                  false ? l.product === p.id : false
-                );
-                const hasLanding = landingByProductId.size > 0 && false; // placeholder
-                const publicUrl = `/produk/${p.id}`;
-                return (
-                  <tr
-                    key={p.id}
-                    className="bg-white text-sm shadow-card transition hover:bg-muted/40"
-                  >
-                    <td className="rounded-l-xl px-4 py-3">
-                      <div className="flex items-center gap-3">
-                        <div
-                          className={`h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br ${p.cover}`}
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={p.image}
-                            alt={p.title}
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-semibold text-ink line-clamp-1">
-                            {p.title}
-                          </p>
-                          <p className="text-xs text-ink/55 line-clamp-1">
-                            {p.tagline}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3">
-                      <LandingStatusBadge productSlug={p.id} />
-                    </td>
-                    <td className="px-4 py-3">
-                      <a
-                        href={publicUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-xs font-medium text-brand hover:underline"
-                      >
-                        {publicUrl} <ExternalLink size={11} />
-                      </a>
-                    </td>
-                    <td className="rounded-r-xl px-4 py-3 text-right">
-                      <Link
-                        href={`/admin/landing/${p.id}`}
-                        className="inline-flex items-center gap-1 rounded-lg border border-muted px-3 py-1.5 text-xs font-semibold text-ink transition hover:border-brand hover:text-brand"
-                      >
-                        <Pencil size={12} /> Edit
-                      </Link>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+      {loading ? (
+        <p className="text-sm text-ink/55">Memuat...</p>
+      ) : links.length === 0 ? (
+        <div className="card-base p-10 text-center">
+          <p className="text-sm text-ink/60">
+            Belum ada landing page. Klik <strong>Tambah Landing Page</strong>{" "}
+            di kanan atas untuk mulai.
+          </p>
         </div>
-      </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {links.map((lp) => (
+            <LandingCard
+              key={lp.id}
+              lp={lp}
+              onEdit={() => openEdit(lp)}
+              onDelete={() => handleDelete(lp)}
+              canEdit={!usingFallback}
+            />
+          ))}
+        </div>
+      )}
+
+      {showForm && (
+        <FormModal
+          editing={editing}
+          form={form}
+          setForm={setForm}
+          onClose={() => setShowForm(false)}
+          onSubmit={handleSubmit}
+          submitting={submitting}
+          error={error}
+        />
+      )}
     </AdminShell>
   );
 }
 
-/**
- * Component yang fetch landing untuk satu product slug (via product PB id
- * lookup). Tampilkan badge Published/Draft/Belum dibuat.
- */
-function LandingStatusBadge({ productSlug }: { productSlug: string }) {
-  const [status, setStatus] = useState<"none" | "draft" | "published" | null>(
-    null
-  );
+// ─── Card ────────────────────────────────────────────────────────────────────
 
-  useEffect(() => {
-    const pb = getPB();
-    (async () => {
-      const productMatches = await pb
-        .collection("products")
-        .getFullList({
-          filter: `slug = "${productSlug}"`,
-          requestKey: null,
-        });
-      if (productMatches.length === 0) {
-        setStatus("none");
-        return;
-      }
-      const productId = productMatches[0].id;
-      const landingMatches = await pb
-        .collection("landing_pages")
-        .getFullList<{ published: boolean }>({
-          filter: `product = "${productId}"`,
-          requestKey: null,
-        });
-      if (landingMatches.length === 0) setStatus("none");
-      else setStatus(landingMatches[0].published ? "published" : "draft");
-    })().catch(() => setStatus("none"));
-  }, [productSlug]);
-
-  if (status === null) {
-    return <span className="text-xs text-ink/40">memuat...</span>;
-  }
-  if (status === "published") {
-    return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-600">
-        ● Published
-      </span>
-    );
-  }
-  if (status === "draft") {
-    return (
-      <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold text-amber-700">
-        ● Draft
-      </span>
-    );
-  }
+function LandingCard({
+  lp,
+  onEdit,
+  onDelete,
+  canEdit,
+}: {
+  lp: LandingLink;
+  onEdit: () => void;
+  onDelete: () => void;
+  canEdit: boolean;
+}) {
+  const isExternal = /^https?:\/\//i.test(lp.url);
+  const isActive = lp.is_active !== false;
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-1 text-[11px] font-semibold text-ink/55">
-      ○ Belum dibuat
-    </span>
+    <div className="card-base flex flex-col gap-3 p-5">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand-50 text-brand">
+            <Globe size={18} />
+          </span>
+          <div>
+            <p className="text-sm font-bold text-ink line-clamp-1">
+              {lp.name}
+            </p>
+            <p className="text-[11px] text-ink/55 font-mono line-clamp-1">
+              {lp.url}
+            </p>
+          </div>
+        </div>
+        {isActive ? (
+          <span className="shrink-0 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700">
+            ● Aktif
+          </span>
+        ) : (
+          <span className="shrink-0 rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold text-ink/55">
+            ○ Non-aktif
+          </span>
+        )}
+      </div>
+
+      {lp.description && (
+        <p className="text-xs text-ink/65 line-clamp-2">{lp.description}</p>
+      )}
+
+      {lp.tags && lp.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {lp.tags.map((t) => (
+            <span
+              key={t}
+              className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold text-ink/65"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+      )}
+
+      <div className="mt-auto flex items-center gap-2 pt-1">
+        <a
+          href={lp.url}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noreferrer" : undefined}
+          className="inline-flex items-center gap-1 rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-brand/90"
+        >
+          Buka LP <ExternalLink size={11} />
+        </a>
+        <button
+          type="button"
+          onClick={onEdit}
+          disabled={!canEdit}
+          className="inline-flex items-center gap-1 rounded-lg border border-muted px-3 py-1.5 text-xs font-semibold text-ink/75 transition hover:border-brand hover:text-brand disabled:cursor-not-allowed disabled:opacity-50"
+          title={canEdit ? "Edit landing" : "Aktifkan dulu via npm run pb:setup-landing-links"}
+        >
+          <Pencil size={11} /> Edit
+        </button>
+        <button
+          type="button"
+          onClick={onDelete}
+          disabled={!canEdit}
+          className="ml-auto inline-flex items-center gap-1 rounded-lg border border-muted px-2.5 py-1.5 text-xs text-ink/55 transition hover:border-rose-300 hover:bg-rose-50 hover:text-rose-600 disabled:cursor-not-allowed disabled:opacity-50"
+          aria-label="Hapus"
+        >
+          <Trash2 size={12} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ─── Form Modal ──────────────────────────────────────────────────────────────
+
+function FormModal({
+  editing,
+  form,
+  setForm,
+  onClose,
+  onSubmit,
+  submitting,
+  error,
+}: {
+  editing: LandingLink | null;
+  form: FormState;
+  setForm: (f: FormState) => void;
+  onClose: () => void;
+  onSubmit: (e: React.FormEvent) => void;
+  submitting: boolean;
+  error: string;
+}) {
+  return (
+    <div
+      className="fixed inset-0 z-50 grid place-items-center bg-ink/40 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="card-base w-full max-w-lg p-6"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mb-5 flex items-start justify-between">
+          <div>
+            <h2 className="text-lg font-bold text-ink">
+              {editing ? "Edit Landing Page" : "Tambah Landing Page"}
+            </h2>
+            <p className="mt-0.5 text-xs text-ink/55">
+              Isi nama & link landing page. Akan tampil di list direktori.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Tutup"
+            className="grid h-8 w-8 place-items-center rounded-lg text-ink/55 hover:bg-muted"
+          >
+            <X size={16} />
+          </button>
+        </div>
+
+        <form onSubmit={onSubmit} className="space-y-4">
+          <Field label="Nama landing page" required>
+            <input
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              placeholder="Cth: PlanetPrompt — Toolkit Konten UMKM"
+              className="input-base"
+              required
+            />
+          </Field>
+
+          <Field
+            label="URL / Link"
+            required
+            hint="Path internal (cth: /planetprompt) atau URL eksternal lengkap (https://...)"
+          >
+            <input
+              value={form.url}
+              onChange={(e) => setForm({ ...form, url: e.target.value })}
+              placeholder="/planetprompt atau https://..."
+              className="input-base font-mono text-sm"
+              required
+            />
+          </Field>
+
+          <Field label="Deskripsi" hint="Opsional — penjelasan singkat 1-2 kalimat.">
+            <textarea
+              value={form.description}
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
+              rows={3}
+              placeholder="Cth: LP utama PlanetPrompt: hero, pricing 3-tier..."
+              className="input-base"
+            />
+          </Field>
+
+          <Field
+            label="Tags"
+            hint="Opsional — pisahkan dengan koma. Cth: UMKM, Toolkit, Pricing 3-tier"
+          >
+            <input
+              value={form.tags}
+              onChange={(e) => setForm({ ...form, tags: e.target.value })}
+              placeholder="UMKM, Toolkit, Pricing 3-tier"
+              className="input-base"
+            />
+          </Field>
+
+          <label className="flex cursor-pointer items-center justify-between rounded-xl border border-muted bg-white p-3">
+            <div>
+              <p className="text-sm font-semibold text-ink">
+                {form.is_active ? "Aktif" : "Non-aktif"}
+              </p>
+              <p className="text-[11px] text-ink/55">
+                {form.is_active
+                  ? "Akan tampil di list direktori"
+                  : "Disembunyikan tapi data tetap ada"}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() =>
+                setForm({ ...form, is_active: !form.is_active })
+              }
+              aria-label="Toggle aktif"
+              className={`relative h-6 w-11 rounded-full transition ${
+                form.is_active ? "bg-emerald-500" : "bg-ink/20"
+              }`}
+            >
+              <span
+                className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition ${
+                  form.is_active ? "left-5" : "left-0.5"
+                }`}
+              />
+            </button>
+          </label>
+
+          {error && (
+            <p className="rounded-lg bg-rose-50 px-3 py-2 text-xs text-rose-700">
+              {error}
+            </p>
+          )}
+
+          <div className="flex items-center gap-2 pt-2">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn-primary"
+            >
+              {submitting
+                ? "Menyimpan..."
+                : editing
+                ? "Simpan Perubahan"
+                : "Tambah"}
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              className="btn-ghost"
+            >
+              Batal
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function Field({
+  label,
+  hint,
+  required,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  required?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <label className="mb-1.5 block text-sm font-medium text-ink">
+        {label}
+        {required && <span className="ml-0.5 text-rose-500">*</span>}
+      </label>
+      {children}
+      {hint && <p className="mt-1 text-[11px] text-ink/50">{hint}</p>}
+    </div>
   );
 }
 
