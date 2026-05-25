@@ -209,10 +209,10 @@ function Hero() {
         <div className="relative">
           <div className="grid grid-cols-2 gap-3">
             <PromptCard
-              icon="📝"
+              icon="🚀"
               tone="brand"
-              title="Caption Jualan"
-              hint="Buat caption Instagram untuk produk..."
+              title="Aplikasi PlanetPrompt"
+              hint="Akses dashboard prompt langsung dari browser..."
             />
             <PromptCard
               icon="🎨"
@@ -221,16 +221,16 @@ function Hero() {
               hint="Banner diskon untuk Shopee/Tokopedia..."
             />
             <PromptCard
-              icon="📱"
+              icon="🛠️"
               tone="emerald"
-              title="Broadcast WhatsApp"
-              hint="Pesan promosi flash sale ke pelanggan..."
+              title="Tools Kit Brand"
+              hint="Kit lengkap arahan visual & copywriting..."
             />
             <PromptCard
-              icon="🛍️"
+              icon="👥"
               tone="rose"
-              title="Deskripsi Marketplace"
-              hint="Deskripsi produk Shopee/Tokopedia..."
+              title="Join Member"
+              hint="Komunitas VIP + mentoring langsung..."
             />
           </div>
           <div className="absolute -bottom-4 -right-4 rounded-2xl border border-muted bg-white p-4 shadow-card md:-bottom-6 md:-right-6">
@@ -916,23 +916,8 @@ function ExampleOutputSection() {
                   {ex.product}
                 </h3>
 
-                <p className="mt-4 text-[11px] font-semibold uppercase tracking-wider text-ink/45">
-                  Input
-                </p>
-                <div className="mt-2 space-y-1.5">
-                  {ex.input.map(([k, v]) => (
-                    <div
-                      key={k}
-                      className="flex justify-between text-xs text-ink/65"
-                    >
-                      <span>{k}</span>
-                      <span className="font-medium text-ink">{v}</span>
-                    </div>
-                  ))}
-                </div>
-
                 <p className="mt-4 text-[11px] font-semibold uppercase tracking-wider text-emerald-600">
-                  Output
+                  Output yang dihasilkan
                 </p>
                 <div className="mt-2 flex flex-wrap gap-1.5">
                   {ex.outputs.map((o) => (
@@ -979,6 +964,7 @@ function PricingSection() {
       whatsappText:
         "Halo,%20saya%20mau%20ambil%20Paket%20UMKM%20Starter%20PlanetPrompt",
       features: [
+        "**AKUN LOGIN KHUSUS APLIKASI PLANETPROMPT**",
         "1.000+ prompt AI siap pakai",
         "Template caption & copywriting",
         "Template konsep banner & poster",
@@ -1001,12 +987,13 @@ function PricingSection() {
       whatsappText:
         "Halo,%20saya%20mau%20ambil%20Paket%20VIP%20Member%20PlanetPrompt",
       features: [
+        "**AKUN VIP KHUSUS APLIKASI PLANETPROMPT**",
+        "**VIP Tool — Autofill Prompt (lebih cepat)**",
+        "**Grup VIP private dengan mentoring langsung**",
+        "**Sesi konsultasi 1-on-1 dengan founder**",
         "Semua benefit Paket Starter",
-        "VIP Tool — Autofill Prompt (lebih cepat)",
         "Prompt extra — 2.000+ template eksklusif",
-        "Grup VIP private dengan mentoring langsung",
         "Update prompt mingguan",
-        "Sesi konsultasi 1-on-1 dengan founder",
         "Prioritas support",
       ],
       highlighted: true,
