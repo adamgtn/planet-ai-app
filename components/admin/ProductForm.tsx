@@ -75,6 +75,11 @@ export function ProductForm({ mode, initial }: Props) {
   );
   const [cover, setCover] = useState(initial?.cover ?? COVERS[0]);
   const [image, setImage] = useState<string>(initial?.image ?? "");
+  /**
+   * File asli (raw) yang baru di-pilih admin. Akan dikirim ke PB Storage
+   * via FormData saat submit. `image` state cuma untuk preview di form.
+   */
+  const [pendingImageFile, setPendingImageFile] = useState<File | null>(null);
   const [imageError, setImageError] = useState("");
   const [landingUrl, setLandingUrl] = useState(initial?.landingUrl ?? "");
   const [price, setPrice] = useState(initial?.price ?? "");
@@ -112,10 +117,17 @@ export function ProductForm({ mode, initial }: Props) {
       status,
       progress: Number(progress) || 0,
       cover,
-      image: image || `/products/${id}.svg`,
+      // Kalau ada pending file → kosongkan image text field (akan diganti
+      // image_file di PB). Kalau image masih blob URL legacy → kosongkan
+      // juga. Selain itu pakai apa adanya (URL external valid).
+      image:
+        pendingImageFile || image.startsWith("blob:")
+          ? ""
+          : image || `/products/${id}.svg`,
       landingUrl,
       price: price || undefined,
       modules,
+      _pendingImageFile: pendingImageFile ?? undefined,
     };
 
     try {
@@ -141,8 +153,10 @@ export function ProductForm({ mode, initial }: Props) {
   const handleFile = (file: File | undefined) => {
     setImageError("");
     if (!file) return;
-    if (!/^(image\/png|image\/jpeg|image\/svg\+xml)$/.test(file.type)) {
-      setImageError("Format harus PNG, JPG, atau SVG.");
+    if (!/^(image\/png|image\/jpeg|image\/svg\+xml|image\/webp)$/.test(
+      file.type
+    )) {
+      setImageError("Format harus PNG, JPG, SVG, atau WebP.");
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
@@ -150,6 +164,10 @@ export function ProductForm({ mode, initial }: Props) {
       return;
     }
 
+    // Simpan File object — akan di-upload ke PB Storage saat submit
+    setPendingImageFile(file);
+
+    // Bikin blob URL hanya untuk PREVIEW di form (bukan disimpan ke DB)
     const url = URL.createObjectURL(file);
     const probe = new Image();
     probe.onload = () => {
