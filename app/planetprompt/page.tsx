@@ -61,7 +61,6 @@ export default function PlanetPromptLanding() {
   return (
     <div className="min-h-screen bg-white text-ink">
       <Navbar />
-      <HeroBanner />
       <Hero />
       <ShowcaseMarqueeSection />
       <ProblemSection />
@@ -129,26 +128,6 @@ function Navbar() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// HERO BANNER — full-width promo image at the top
-
-function HeroBanner() {
-  return (
-    <section className="relative bg-[#001428] pt-20 lg:pt-24">
-      <div className="mx-auto max-w-7xl px-4">
-        <a href="#pricing" className="group relative block overflow-hidden rounded-3xl">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/lp/planetprompt/hero/banner.png"
-            alt="PlanetPrompt — Revolusi Konten Visual Profesional"
-            className="w-full transition group-hover:scale-[1.01]"
-          />
-        </a>
-      </div>
-    </section>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
 // HERO
 
 function Hero() {
@@ -171,7 +150,20 @@ function Hero() {
             Tanpa Bisa Desain
           </h1>
 
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-ink/70 md:text-lg">
+          {/* Banner promo — di antara H1 dan deskripsi */}
+          <a
+            href="#pricing"
+            className="group mt-6 block overflow-hidden rounded-2xl shadow-card transition hover:shadow-cardHover"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/lp/planetprompt/hero/banner.png"
+              alt="PlanetPrompt — Revolusi Konten Visual Profesional"
+              className="w-full transition group-hover:scale-[1.01]"
+            />
+          </a>
+
+          <p className="mt-6 max-w-xl text-base leading-relaxed text-ink/70 md:text-lg">
             PlanetPrompt bantu kamu bikin caption, konsep banner, script video,
             promosi WhatsApp, dan ide jualan — cukup pakai template prompt siap
             pakai.
@@ -975,7 +967,7 @@ function PricingSection() {
     whatsappText: string;
     features: string[];
     highlighted: boolean;
-    tone: "brand" | "amber" | "ink";
+    tone: "brand" | "amber" | "red";
   }> = [
     {
       name: "Paket UMKM Starter",
@@ -1022,25 +1014,26 @@ function PricingSection() {
     },
     {
       name: "Paket Resell — White Label",
-      tagline: "Jual ulang dengan brand kamu sendiri",
-      icon: <ShoppingBag size={14} />,
+      tagline: "Punya bisnis SaaS sendiri, siap launching",
+      icon: <Crown size={14} />,
       priceNormal: "Rp 1.799.000",
       pricePromo: "Rp 899.000",
       cta: "Ambil Paket Resell",
       whatsappText:
         "Halo,%20saya%20mau%20ambil%20Paket%20Resell%20PlanetPrompt",
       features: [
-        "Semua benefit Paket VIP",
-        "Hak resell — 100% profit milikmu",
-        "Ganti logo & brand dengan punya kamu",
-        "Setup hosting + database dibantu tim kami",
-        "Landing page custom siap pakai",
+        "**APLIKASI PROMPT GENERATOR** — siap pakai",
+        "**GANTI LOGO & BRAND** dengan punya kamu",
+        "**SETUP APLIKASI, WEBSITE & DATABASE** — tim kami bantu",
+        "**HAK RESELL 100%** — semua keuntungan milikmu",
+        "Landing page custom premium siap launching",
         "Setup payment gateway (Tripay/Mayar/Scalev)",
-        "Website online & siap dijual",
-        "Marketing kit lengkap",
+        "Marketing kit lengkap (banner, caption, script ads)",
+        "Konsultasi 1-on-1 dengan founder",
+        "Akses semua benefit VIP Member",
       ],
       highlighted: false,
-      tone: "ink",
+      tone: "red",
     },
   ];
 
@@ -1102,37 +1095,47 @@ function PricingCard({
   whatsappText: string;
   features: string[];
   highlighted: boolean;
-  tone: "brand" | "amber" | "ink";
+  tone: "brand" | "amber" | "red";
 }) {
   const palette = {
     brand: {
       badge: "bg-brand-50 text-brand",
       cta: "bg-brand text-white shadow-brand/40 hover:shadow-brand/60",
       border: highlighted ? "border-brand" : "border-muted",
+      bg: "bg-white",
     },
     amber: {
       badge: "bg-amber-100 text-amber-700",
       cta: "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-amber-500/40 hover:shadow-amber-500/60",
       border: highlighted ? "border-amber-500" : "border-muted",
+      bg: "bg-white",
     },
-    ink: {
-      badge: "bg-ink/10 text-ink",
-      cta: "bg-ink text-white shadow-ink/30 hover:shadow-ink/50",
-      border: highlighted ? "border-ink" : "border-muted",
+    red: {
+      badge: "bg-white/20 text-white backdrop-blur",
+      cta: "bg-white text-rose-700 shadow-2xl shadow-black/40 hover:shadow-black/60",
+      border: "border-rose-300",
+      bg: "bg-gradient-to-br from-rose-600 via-red-700 to-rose-900 text-white",
     },
   }[tone];
 
+  const isRed = tone === "red";
   return (
     <div
-      className={`relative overflow-hidden rounded-3xl border-2 bg-white p-7 transition ${
+      className={`relative rounded-3xl border-2 p-7 transition ${palette.bg} ${
         highlighted
           ? `${palette.border} scale-105 shadow-2xl`
-          : `${palette.border} shadow-card`
+          : `${palette.border} ${isRed ? "shadow-2xl shadow-rose-900/30" : "shadow-card"}`
       }`}
     >
       {highlighted && (
-        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-amber-500 px-4 py-1 text-xs font-bold uppercase tracking-wider text-white shadow">
+        <span className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-amber-500 px-4 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-lg">
           ⭐ Paling Populer
+        </span>
+      )}
+
+      {isRed && (
+        <span className="absolute -top-3 right-6 z-10 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-rose-900 shadow-lg">
+          <Crown size={11} /> Premium
         </span>
       )}
 
@@ -1142,24 +1145,62 @@ function PricingCard({
         {icon} {name}
       </span>
 
-      <p className="mt-3 text-sm text-ink/60">{tagline}</p>
+      <p
+        className={`mt-3 text-sm ${
+          isRed ? "text-rose-100" : "text-ink/60"
+        }`}
+      >
+        {tagline}
+      </p>
 
       <div className="mt-6">
-        <p className="text-sm text-ink/45 line-through">{priceNormal}</p>
-        <p className="text-4xl font-extrabold text-ink md:text-5xl">
+        <p
+          className={`text-sm line-through ${
+            isRed ? "text-rose-200/70" : "text-ink/45"
+          }`}
+        >
+          {priceNormal}
+        </p>
+        <p
+          className={`text-4xl font-extrabold md:text-5xl ${
+            isRed ? "text-white" : "text-ink"
+          }`}
+        >
           {pricePromo}
         </p>
-        <p className="mt-1 text-xs text-ink/55">Sekali bayar, akses lifetime</p>
+        <p
+          className={`mt-1 text-xs ${
+            isRed ? "text-rose-200/80" : "text-ink/55"
+          }`}
+        >
+          Sekali bayar, akses lifetime
+        </p>
       </div>
 
       <ul className="mt-7 space-y-2.5">
         {features.map((f, i) => (
-          <li key={i} className="flex items-start gap-2 text-sm text-ink">
+          <li
+            key={i}
+            className={`flex items-start gap-2 text-sm ${
+              isRed ? "text-white" : "text-ink"
+            }`}
+          >
             <CheckCircle2
               size={16}
-              className="mt-0.5 shrink-0 text-emerald-500"
+              className={`mt-0.5 shrink-0 ${
+                isRed ? "text-amber-300" : "text-emerald-500"
+              }`}
             />
-            <span>{f}</span>
+            <span
+              dangerouslySetInnerHTML={{
+                __html: f.replace(
+                  /\*\*(.+?)\*\*/g,
+                  isRed
+                    ? '<strong class="font-bold text-amber-200">$1</strong>'
+                    : '<strong class="font-bold text-ink">$1</strong>'
+                ),
+              }}
+            />
           </li>
         ))}
       </ul>
