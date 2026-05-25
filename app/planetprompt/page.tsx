@@ -8,6 +8,7 @@ import {
   ChevronDown,
   Coffee,
   Copy,
+  Crown,
   FileText,
   Image as ImageIcon,
   Layers,
@@ -60,6 +61,7 @@ export default function PlanetPromptLanding() {
   return (
     <div className="min-h-screen bg-white text-ink">
       <Navbar />
+      <HeroBanner />
       <Hero />
       <ShowcaseMarqueeSection />
       <ProblemSection />
@@ -119,10 +121,30 @@ function Navbar() {
           rel="noreferrer"
           className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand transition hover:bg-brand hover:text-white"
         >
-          <Users size={14} /> Komunitas UMKM
+          <Users size={14} /> Join Member
         </a>
       </div>
     </header>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HERO BANNER — full-width promo image at the top
+
+function HeroBanner() {
+  return (
+    <section className="relative bg-[#001428] pt-20 lg:pt-24">
+      <div className="mx-auto max-w-7xl px-4">
+        <a href="#pricing" className="group relative block overflow-hidden rounded-3xl">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/lp/planetprompt/hero/banner.png"
+            alt="PlanetPrompt — Revolusi Konten Visual Profesional"
+            className="w-full transition group-hover:scale-[1.01]"
+          />
+        </a>
+      </div>
+    </section>
   );
 }
 
@@ -943,106 +965,214 @@ function ExampleOutputSection() {
 // PRICING — Paket UMKM Starter
 
 function PricingSection() {
-  const features = [
-    "1.000+ prompt AI siap pakai",
-    "Template konten promosi UMKM",
-    "Template caption & copywriting",
-    "Template konsep banner & poster",
-    "Template script video pendek",
-    "Template WhatsApp marketing",
-    "Template marketplace seller",
-    "DesignPrompt Kit (arahan visual)",
-    "Bisa dipakai di banyak AI tools",
-    "Cocok untuk pemula — tidak perlu skill desain",
+  const tiers: Array<{
+    name: string;
+    tagline: string;
+    icon: React.ReactNode;
+    priceNormal: string;
+    pricePromo: string;
+    cta: string;
+    whatsappText: string;
+    features: string[];
+    highlighted: boolean;
+    tone: "brand" | "amber" | "ink";
+  }> = [
+    {
+      name: "Paket UMKM Starter",
+      tagline: "Untuk pemula yang mau coba dulu",
+      icon: <Store size={14} />,
+      priceNormal: "Rp 197.000",
+      pricePromo: "Rp 97.000",
+      cta: "Ambil Paket Starter",
+      whatsappText:
+        "Halo,%20saya%20mau%20ambil%20Paket%20UMKM%20Starter%20PlanetPrompt",
+      features: [
+        "1.000+ prompt AI siap pakai",
+        "Template caption & copywriting",
+        "Template konsep banner & poster",
+        "Template script video pendek",
+        "Template WhatsApp marketing",
+        "Template marketplace seller",
+        "DesignPrompt Kit (arahan visual)",
+        "Cocok untuk pemula",
+      ],
+      highlighted: false,
+      tone: "brand",
+    },
+    {
+      name: "Paket VIP Member",
+      tagline: "Mentoring langsung + tool extra",
+      icon: <Crown size={14} />,
+      priceNormal: "Rp 397.000",
+      pricePromo: "Rp 199.000",
+      cta: "Ambil Paket VIP",
+      whatsappText:
+        "Halo,%20saya%20mau%20ambil%20Paket%20VIP%20Member%20PlanetPrompt",
+      features: [
+        "Semua benefit Paket Starter",
+        "VIP Tool — Autofill Prompt (lebih cepat)",
+        "Prompt extra — 2.000+ template eksklusif",
+        "Grup VIP private dengan mentoring langsung",
+        "Update prompt mingguan",
+        "Sesi konsultasi 1-on-1 dengan founder",
+        "Prioritas support",
+      ],
+      highlighted: true,
+      tone: "amber",
+    },
+    {
+      name: "Paket Resell — White Label",
+      tagline: "Jual ulang dengan brand kamu sendiri",
+      icon: <ShoppingBag size={14} />,
+      priceNormal: "Rp 1.799.000",
+      pricePromo: "Rp 899.000",
+      cta: "Ambil Paket Resell",
+      whatsappText:
+        "Halo,%20saya%20mau%20ambil%20Paket%20Resell%20PlanetPrompt",
+      features: [
+        "Semua benefit Paket VIP",
+        "Hak resell — 100% profit milikmu",
+        "Ganti logo & brand dengan punya kamu",
+        "Setup hosting + database dibantu tim kami",
+        "Landing page custom siap pakai",
+        "Setup payment gateway (Tripay/Mayar/Scalev)",
+        "Website online & siap dijual",
+        "Marketing kit lengkap",
+      ],
+      highlighted: false,
+      tone: "ink",
+    },
   ];
 
   return (
-    <section id="pricing" className="bg-gradient-to-b from-muted/40 to-white py-20 lg:py-28">
-      <div className="mx-auto max-w-5xl px-6">
+    <section
+      id="pricing"
+      className="bg-gradient-to-b from-muted/40 to-white py-20 lg:py-28"
+    >
+      <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
             Pricing
           </p>
           <h2 className="mt-3 text-3xl font-bold text-ink md:text-4xl">
-            Sekali Beli, Bisa Dipakai{" "}
-            <span className="text-brand">Berkali-kali</span>
+            Pilih Paket yang Cocok untuk{" "}
+            <span className="text-brand">Tujuan Kamu</span>
           </h2>
           <p className="mt-3 text-ink/65">
-            Untuk konten jualan kamu — tanpa langganan, tanpa biaya tambahan.
+            Mulai dari starter pemula, naik ke VIP dengan mentoring, atau Resell
+            untuk income tambahan.
           </p>
         </div>
 
-        <div className="mx-auto mt-12 max-w-2xl">
-          <div className="relative overflow-hidden rounded-3xl border-2 border-brand bg-white p-8 shadow-2xl shadow-brand/20 md:p-12">
-            <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-brand/10 blur-3xl" />
-            <div className="absolute -bottom-10 -left-12 h-40 w-40 rounded-full bg-amber-200/40 blur-3xl" />
-
-            <div className="relative">
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-bold text-brand">
-                  <Store size={12} /> Paket UMKM Starter
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-600">
-                  ✓ Cocok Pemula
-                </span>
-              </div>
-
-              <h3 className="mt-6 text-2xl font-bold text-ink">
-                Toolkit konten UMKM lengkap
-              </h3>
-              <p className="mt-1 text-sm text-ink/60">
-                Untuk pemilik usaha kecil, seller online, dan pemula yang ingin
-                mulai bikin konten jualan sendiri dengan bantuan AI.
-              </p>
-
-              <div className="mt-7 flex items-end gap-4">
-                <div>
-                  <p className="text-sm text-ink/45 line-through">
-                    Rp 197.000
-                  </p>
-                  <p className="text-5xl font-extrabold text-ink md:text-6xl">
-                    Rp 97.000
-                  </p>
-                </div>
-                <p className="mb-2 text-xs text-ink/55">
-                  Sekali bayar
-                  <br />
-                  Akses langsung
-                </p>
-              </div>
-
-              <ul className="mt-8 space-y-3">
-                {features.map((f, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-2 text-sm text-ink"
-                  >
-                    <CheckCircle2
-                      size={18}
-                      className="mt-0.5 shrink-0 text-emerald-500"
-                    />
-                    <span>{f}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <a
-                href={`https://wa.me/${WA_NUMBER}?text=Halo,%20saya%20mau%20ambil%20Paket%20UMKM%20Starter%20PlanetPrompt`}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-10 flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-6 py-4 text-base font-bold text-white shadow-xl shadow-brand/40 transition hover:scale-[1.02]"
-              >
-                <ShoppingBag size={18} /> Ambil Paket UMKM Starter
-              </a>
-
-              <p className="mt-4 text-center text-[11px] text-ink/55">
-                Sekali bayar · Akses langsung · Bisa digunakan untuk banyak produk
-              </p>
-            </div>
-          </div>
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {tiers.map((t, i) => (
+            <PricingCard key={i} {...t} />
+          ))}
         </div>
+
+        <p className="mt-10 text-center text-xs text-ink/55">
+          Sekali bayar · Akses selamanya · Tanpa langganan ·{" "}
+          <span className="font-semibold text-emerald-600">
+            Garansi 7 hari
+          </span>
+        </p>
       </div>
     </section>
+  );
+}
+
+function PricingCard({
+  name,
+  tagline,
+  icon,
+  priceNormal,
+  pricePromo,
+  cta,
+  whatsappText,
+  features,
+  highlighted,
+  tone,
+}: {
+  name: string;
+  tagline: string;
+  icon: React.ReactNode;
+  priceNormal: string;
+  pricePromo: string;
+  cta: string;
+  whatsappText: string;
+  features: string[];
+  highlighted: boolean;
+  tone: "brand" | "amber" | "ink";
+}) {
+  const palette = {
+    brand: {
+      badge: "bg-brand-50 text-brand",
+      cta: "bg-brand text-white shadow-brand/40 hover:shadow-brand/60",
+      border: highlighted ? "border-brand" : "border-muted",
+    },
+    amber: {
+      badge: "bg-amber-100 text-amber-700",
+      cta: "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-amber-500/40 hover:shadow-amber-500/60",
+      border: highlighted ? "border-amber-500" : "border-muted",
+    },
+    ink: {
+      badge: "bg-ink/10 text-ink",
+      cta: "bg-ink text-white shadow-ink/30 hover:shadow-ink/50",
+      border: highlighted ? "border-ink" : "border-muted",
+    },
+  }[tone];
+
+  return (
+    <div
+      className={`relative overflow-hidden rounded-3xl border-2 bg-white p-7 transition ${
+        highlighted
+          ? `${palette.border} scale-105 shadow-2xl`
+          : `${palette.border} shadow-card`
+      }`}
+    >
+      {highlighted && (
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-amber-500 px-4 py-1 text-xs font-bold uppercase tracking-wider text-white shadow">
+          ⭐ Paling Populer
+        </span>
+      )}
+
+      <span
+        className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold ${palette.badge}`}
+      >
+        {icon} {name}
+      </span>
+
+      <p className="mt-3 text-sm text-ink/60">{tagline}</p>
+
+      <div className="mt-6">
+        <p className="text-sm text-ink/45 line-through">{priceNormal}</p>
+        <p className="text-4xl font-extrabold text-ink md:text-5xl">
+          {pricePromo}
+        </p>
+        <p className="mt-1 text-xs text-ink/55">Sekali bayar, akses lifetime</p>
+      </div>
+
+      <ul className="mt-7 space-y-2.5">
+        {features.map((f, i) => (
+          <li key={i} className="flex items-start gap-2 text-sm text-ink">
+            <CheckCircle2
+              size={16}
+              className="mt-0.5 shrink-0 text-emerald-500"
+            />
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+
+      <a
+        href={`https://wa.me/${WA_NUMBER}?text=${whatsappText}`}
+        target="_blank"
+        rel="noreferrer"
+        className={`mt-8 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold shadow-xl transition hover:scale-[1.02] ${palette.cta}`}
+      >
+        <ShoppingBag size={16} /> {cta}
+      </a>
+    </div>
   );
 }
 
