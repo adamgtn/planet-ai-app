@@ -949,6 +949,7 @@ function PricingSection() {
     priceNormal: string;
     pricePromo: string;
     cta: string;
+    paymentUrl: string;
     whatsappText: string;
     features: string[];
     highlighted: boolean;
@@ -961,8 +962,9 @@ function PricingSection() {
       priceNormal: "Rp 197.000",
       pricePromo: "Rp 97.000",
       cta: "Ambil Paket Starter",
+      paymentUrl: "https://planetsoft.myr.id/pl/paket-standar-planetprompt",
       whatsappText:
-        "Halo,%20saya%20mau%20ambil%20Paket%20UMKM%20Starter%20PlanetPrompt",
+        "Halo,%20saya%20mau%20tanya%20Paket%20UMKM%20Starter%20PlanetPrompt",
       features: [
         "**AKUN LOGIN KHUSUS APLIKASI PLANETPROMPT**",
         "1.000+ prompt AI siap pakai",
@@ -984,8 +986,9 @@ function PricingSection() {
       priceNormal: "Rp 397.000",
       pricePromo: "Rp 199.000",
       cta: "Ambil Paket VIP",
+      paymentUrl: "https://planetsoft.myr.id/pl/paket-vip-planetprompt",
       whatsappText:
-        "Halo,%20saya%20mau%20ambil%20Paket%20VIP%20Member%20PlanetPrompt",
+        "Halo,%20saya%20mau%20tanya%20Paket%20VIP%20Member%20PlanetPrompt",
       features: [
         "**AKUN VIP KHUSUS APLIKASI PLANETPROMPT**",
         "**VIP Tool — Autofill Prompt (lebih cepat)**",
@@ -1006,8 +1009,9 @@ function PricingSection() {
       priceNormal: "Rp 1.799.000",
       pricePromo: "Rp 899.000",
       cta: "Ambil Paket Resell",
+      paymentUrl: "https://planetsoft.myr.id/pl/paket-aplikasi-full-stack",
       whatsappText:
-        "Halo,%20saya%20mau%20ambil%20Paket%20Resell%20PlanetPrompt",
+        "Halo,%20saya%20mau%20tanya%20Paket%20Resell%20PlanetPrompt",
       features: [
         "**APLIKASI PROMPT GENERATOR** — siap pakai",
         "**GANTI LOGO & BRAND** dengan punya kamu",
@@ -1068,6 +1072,7 @@ function PricingCard({
   priceNormal,
   pricePromo,
   cta,
+  paymentUrl,
   whatsappText,
   features,
   highlighted,
@@ -1079,6 +1084,7 @@ function PricingCard({
   priceNormal: string;
   pricePromo: string;
   cta: string;
+  paymentUrl: string;
   whatsappText: string;
   features: string[];
   highlighted: boolean;
@@ -1193,12 +1199,23 @@ function PricingCard({
       </ul>
 
       <a
-        href={`https://wa.me/${WA_NUMBER}?text=${whatsappText}`}
+        href={paymentUrl}
         target="_blank"
         rel="noreferrer"
         className={`mt-8 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold shadow-xl transition hover:scale-[1.02] ${palette.cta}`}
       >
         <ShoppingBag size={16} /> {cta}
+      </a>
+
+      <a
+        href={`https://wa.me/${WA_NUMBER}?text=${whatsappText}`}
+        target="_blank"
+        rel="noreferrer"
+        className={`mt-3 flex w-full items-center justify-center gap-1.5 text-xs font-semibold underline-offset-4 transition hover:underline ${
+          isRed ? "text-rose-100" : "text-ink/55 hover:text-brand"
+        }`}
+      >
+        💬 Tanya admin dulu via WhatsApp
       </a>
     </div>
   );
