@@ -11,6 +11,7 @@
     "pb:seed": "node scripts/pocketbase-seed.mjs",
     "pb:fix-users": "node scripts/pocketbase-fix-users.mjs",
     "pb:fix-landing": "node scripts/pocketbase-fix-landing.mjs",
+    "pb:setup-landing-links": "node scripts/pocketbase-setup-landing-links.mjs",
     "push": "node scripts/sync.mjs push",
     "pr": "node scripts/sync.mjs pr"
   },
