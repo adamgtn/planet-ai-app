@@ -790,51 +790,53 @@ function ExampleOutputSection() {
   const examples = [
     {
       emoji: "🌶️",
-      product: "Keripik Kaca Pedas",
+      product: "Keripik Kaca Azqiya",
       input: [
-        ["Produk", "Keripik kaca pedas"],
-        ["Harga", "Rp 15.000"],
+        ["Produk", "Keripik kaca pedas daun jeruk"],
+        ["Harga", "Rp 25.000"],
         ["Promo", "Beli 2 gratis 1"],
         ["Target", "Anak muda pecinta camilan pedas"],
       ],
       outputs: [
-        "Caption Instagram",
+        "Konsep poster premium",
         "Headline banner",
-        "Konsep visual poster",
+        "Caption Instagram",
         "Script video pendek",
         "Broadcast WhatsApp",
       ],
       img: showcaseImages[0],
     },
     {
-      emoji: "☕",
-      product: "Kopi Susu Gula Aren",
+      emoji: "🐕",
+      product: "Pawfect Feast Premium",
       input: [
-        ["Produk", "Kopi susu gula aren"],
-        ["Promo", "Diskon opening 20%"],
-        ["Target", "Mahasiswa & pekerja muda"],
+        ["Produk", "Dog food nutrisi premium"],
+        ["Harga", "Rp 40.000 / kg"],
+        ["Promo", "Diskon 40% pelanggan baru"],
+        ["Target", "Pet owner kelas menengah"],
       ],
       outputs: [
-        "Caption promosi",
-        "Ide story Instagram",
+        "Banner promo natural",
+        "Caption Instagram",
+        "Konsep visual outdoor",
         "Hook video TikTok",
-        "Konsep banner outlet",
       ],
       img: showcaseImages[1],
     },
     {
-      emoji: "🧺",
-      product: "Jasa Laundry Kiloan",
+      emoji: "🎒",
+      product: "Tas Sekolah Anak",
       input: [
-        ["Jasa", "Laundry kiloan"],
-        ["Promo", "Gratis antar jemput"],
-        ["Target", "Anak kos & pekerja"],
+        ["Produk", "Tas pelangi anak SD"],
+        ["Harga", "Rp 150.000"],
+        ["Promo", "Free name tag"],
+        ["Target", "Orang tua anak SD usia 6-10"],
       ],
       outputs: [
-        "Copy iklan lokal",
-        "Broadcast WhatsApp",
-        "Caption Instagram",
-        "Ide poster promo",
+        "Poster ceria pastel",
+        "Caption manis untuk emak-emak",
+        "Konsep visual rainbow",
+        "Story Instagram playful",
       ],
       img: showcaseImages[2],
     },
@@ -865,7 +867,8 @@ function ExampleOutputSection() {
               <img
                 src={ex.img}
                 alt={ex.product}
-                className="aspect-[3/2] w-full object-cover"
+                loading="lazy"
+                className="aspect-square w-full bg-muted/60 object-contain"
               />
               <div className="p-5">
                 <p className="text-2xl">{ex.emoji}</p>
