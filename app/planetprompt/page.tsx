@@ -164,9 +164,9 @@ function Hero() {
           </a>
 
           <p className="mt-6 max-w-xl text-base leading-relaxed text-ink/70 md:text-lg">
-            PlanetPrompt bantu kamu bikin caption, konsep banner, script video,
-            promosi WhatsApp, dan ide jualan — cukup pakai template prompt siap
-            pakai.
+            PlanetPrompt bantu kamu bikin caption, konsep banner, deskripsi
+            marketplace, promosi WhatsApp, dan ide jualan — cukup pakai template
+            prompt siap pakai.
           </p>
 
           <ul className="mt-7 space-y-3">
@@ -227,10 +227,10 @@ function Hero() {
               hint="Pesan promosi flash sale ke pelanggan..."
             />
             <PromptCard
-              icon="🎬"
+              icon="🛍️"
               tone="rose"
-              title="Script TikTok"
-              hint="Naskah video 30 detik untuk Reels..."
+              title="Deskripsi Marketplace"
+              hint="Deskripsi produk Shopee/Tokopedia..."
             />
           </div>
           <div className="absolute -bottom-4 -right-4 rounded-2xl border border-muted bg-white p-4 shadow-card md:-bottom-6 md:-right-6">
@@ -343,7 +343,7 @@ function SolutionSection() {
     "Caption produk",
     "Headline banner",
     "Konsep desain promosi",
-    "Script video TikTok / Reels",
+    "Story Instagram",
     "Broadcast WhatsApp",
     "Deskripsi marketplace",
     "Ide campaign diskon",
@@ -404,7 +404,7 @@ function HowItWorksSection() {
     {
       n: "1",
       title: "Pilih kebutuhan konten",
-      desc: "Caption produk, banner promo, script video, broadcast WhatsApp — pilih yang kamu butuhkan.",
+      desc: "Caption produk, banner promo, deskripsi marketplace, broadcast WhatsApp — pilih yang kamu butuhkan.",
       icon: <FileText size={20} />,
     },
     {
@@ -630,7 +630,7 @@ function FeaturesSection() {
     "Template caption produk",
     "Template headline promosi",
     "Template konsep banner & poster",
-    "Template script video TikTok / Reels",
+    "Template story Instagram / Facebook",
     "Template broadcast WhatsApp",
     "Template deskripsi marketplace",
     "Template ide campaign diskon",
@@ -841,7 +841,7 @@ function ExampleOutputSection() {
         "Konsep poster premium",
         "Headline banner",
         "Caption Instagram",
-        "Script video pendek",
+        "Deskripsi marketplace",
         "Broadcast WhatsApp",
       ],
       img: showcaseImages[0],
@@ -859,7 +859,7 @@ function ExampleOutputSection() {
         "Banner promo natural",
         "Caption Instagram",
         "Konsep visual outdoor",
-        "Hook video TikTok",
+        "Headline iklan Facebook Ads",
       ],
       img: showcaseImages[1],
     },
@@ -982,7 +982,7 @@ function PricingSection() {
         "1.000+ prompt AI siap pakai",
         "Template caption & copywriting",
         "Template konsep banner & poster",
-        "Template script video pendek",
+        "Template story Instagram",
         "Template WhatsApp marketing",
         "Template marketplace seller",
         "DesignPrompt Kit (arahan visual)",
@@ -1228,7 +1228,7 @@ function FaqSection() {
     },
     {
       q: "Apakah PlanetPrompt bisa langsung bikin gambar desain?",
-      a: "PlanetPrompt <strong>bukan aplikasi desain</strong> seperti Canva. PlanetPrompt berisi template prompt untuk bantu kamu bikin konsep desain, teks promosi, caption, script video, dan arahan visual. Hasilnya bisa kamu pakai di ChatGPT, Gemini, Claude, Canva AI, atau AI image generator.",
+      a: "PlanetPrompt <strong>bukan aplikasi desain</strong> seperti Canva. PlanetPrompt berisi template prompt untuk bantu kamu bikin konsep desain, teks promosi, caption, deskripsi produk, dan arahan visual. Hasilnya bisa kamu pakai di ChatGPT, Gemini, Claude, Canva AI, atau AI image generator.",
     },
     {
       q: "Apakah cocok untuk bisnis kecil?",
@@ -1316,7 +1316,7 @@ function FinalCtaSection() {
         </h2>
 
         <p className="mx-auto mt-5 max-w-xl text-base text-white/85 md:text-lg">
-          Mulai dari caption, banner, script video, sampai promosi WhatsApp —
+          Mulai dari caption, banner, deskripsi marketplace, sampai promosi WhatsApp —
           semua bisa kamu buat lebih cepat dengan template prompt siap pakai
           dari PlanetPrompt.
         </p>
