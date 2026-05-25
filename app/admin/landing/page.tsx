@@ -75,7 +75,7 @@ export default function AdminLandingListPage() {
       const pb = getPB();
       const list = await pb
         .collection("landing_links")
-        .getFullList<LandingLink>({ sort: "-created", requestKey: null });
+        .getFullList<LandingLink>({ sort: "name", requestKey: null });
       setLinks(list);
       setUsingFallback(false);
     } catch {

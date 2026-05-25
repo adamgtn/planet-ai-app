@@ -32,12 +32,25 @@ const password =
 console.log(`\n→ Connecting to ${PB_URL}...`);
 const pb = new PocketBase(PB_URL);
 
+let firstErr;
 try {
   await pb.collection("_superusers").authWithPassword(email, password);
-} catch {
-  await pb.admins.authWithPassword(email, password);
+  console.log("✓ Authenticated (via _superusers)\n");
+} catch (e1) {
+  firstErr = e1;
+  try {
+    await pb.admins.authWithPassword(email, password);
+    console.log("✓ Authenticated (via admins)\n");
+  } catch (e2) {
+    console.error("❌ Auth gagal di dua-duanya:");
+    console.error("  _superusers:", e1?.message || e1);
+    console.error("  admins     :", e2?.message || e2);
+    console.error(
+      "\nCek: email/password benar? Akun terdaftar sebagai superuser?"
+    );
+    process.exit(1);
+  }
 }
-console.log("✓ Authenticated\n");
 
 const ROLE_SUPER = '@request.auth.role = "super_admin"';
 
@@ -61,6 +74,9 @@ if (collectionExists) {
     { name: "description", type: "text", max: 1000 },
     { name: "tags", type: "json", maxSize: 50000 },
     { name: "is_active", type: "bool" },
+    // Autodate fields agar bisa sort by created/updated
+    { name: "created", type: "autodate", onCreate: true, onUpdate: false },
+    { name: "updated", type: "autodate", onCreate: true, onUpdate: true },
   ];
 
   const payload = {
