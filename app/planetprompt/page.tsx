@@ -61,11 +61,11 @@ export default function PlanetPromptLanding() {
     <div className="min-h-screen bg-white text-ink">
       <Navbar />
       <Hero />
+      <ShowcaseMarqueeSection />
       <ProblemSection />
       <SolutionSection />
       <HowItWorksSection />
       <UseCaseSection />
-      <ShowcaseGallerySection />
       <FeaturesSection />
       <DesignPromptKitSection />
       <BeforeAfterSection />
@@ -544,40 +544,66 @@ function UseCaseSection() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SHOWCASE GALLERY — display semua produk asli
+// SHOWCASE MARQUEE — 2 baris auto-scroll horizontal L→R, gambar full
 
-function ShowcaseGallerySection() {
+function ShowcaseMarqueeSection() {
+  // Split 15 gambar jadi 2 baris (8 + 7), masing-masing slide L→R
+  const row1 = showcaseImages.slice(0, 8);
+  const row2 = showcaseImages.slice(7, 15);
+
   return (
-    <section className="bg-muted/40 py-20 lg:py-28">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="bg-muted/40 py-16 lg:py-20">
+      <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
-            Galeri output
+            Contoh hasil
           </p>
           <h2 className="mt-3 text-3xl font-bold text-ink md:text-4xl">
-            Contoh Konten Jualan dari{" "}
+            Konten Jualan dari{" "}
             <span className="text-brand">Member PlanetPrompt</span>
           </h2>
           <p className="mt-3 text-ink/65">
-            Semua dibuat dengan template prompt dari PlanetPrompt — tanpa skill
-            desain, tanpa Photoshop.
+            Semua dibuat dengan template prompt — tanpa skill desain, tanpa
+            Photoshop.
           </p>
         </div>
+      </div>
 
-        <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-5">
-          {showcaseImages.map((src, i) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              key={i}
-              src={src}
-              alt={`Output PlanetPrompt ${i + 1}`}
-              loading="lazy"
-              className="aspect-[3/4] w-full rounded-2xl object-cover shadow-card transition hover:-translate-y-1 hover:shadow-cardHover"
-            />
-          ))}
-        </div>
+      <div className="mt-10 space-y-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+        <ShowcaseRow images={row1} reverse />
+        <ShowcaseRow images={row2} reverse />
       </div>
     </section>
+  );
+}
+
+function ShowcaseRow({
+  images,
+  reverse,
+}: {
+  images: string[];
+  reverse: boolean;
+}) {
+  // reverse=true → animate-marquee-reverse → konten slide dari kiri ke kanan
+  return (
+    <div className="overflow-hidden">
+      <div
+        className={`flex w-max gap-4 ${
+          reverse ? "animate-marquee-reverse" : "animate-marquee"
+        }`}
+      >
+        {[...images, ...images].map((src, i) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={i}
+            src={src}
+            alt=""
+            loading="lazy"
+            className="h-60 w-auto shrink-0 rounded-2xl object-contain shadow-card md:h-72"
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
