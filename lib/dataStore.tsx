@@ -27,6 +27,8 @@ import { useAuth } from "./auth";
 
 type PBProduct = {
   id: string;
+  collectionId?: string;
+  collectionName?: string;
   slug: string;
   title: string;
   tagline: string;
@@ -34,7 +36,10 @@ type PBProduct = {
   duration: string;
   lesson_count: number;
   cover: string;
+  /** URL legacy / external (text field). */
   image: string;
+  /** Filename file yang ter-upload ke PB Storage. */
+  image_file?: string;
   landing_url: string;
   price?: string;
   status: "draft" | "published" | "archived";
@@ -66,6 +71,15 @@ function pbToProduct(
   progress = 0,
   modules: Module[] = []
 ): Product {
+  // Prefer image_file (real upload di PB Storage) over image text field
+  // (legacy / external URL). Image yang isinya "blob:..." dianggap invalid
+  // (legacy bug — sebelum field image_file ada).
+  let imageUrl = "";
+  if (rec.image_file && rec.collectionId) {
+    imageUrl = `https://db.planet-ai.tech/api/files/${rec.collectionId}/${rec.id}/${rec.image_file}`;
+  } else if (rec.image && !rec.image.startsWith("blob:")) {
+    imageUrl = rec.image;
+  }
   return {
     id: rec.slug || rec.id,
     title: rec.title,
@@ -74,7 +88,7 @@ function pbToProduct(
     duration: rec.duration,
     lessonCount: rec.lesson_count,
     cover: rec.cover,
-    image: rec.image,
+    image: imageUrl,
     landingUrl: rec.landing_url,
     price: rec.price,
     status,
@@ -221,7 +235,14 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
   const upsertProduct = useCallback(
     async (p: Product) => {
       const pb = getPB();
-      const payload: Partial<PBProduct> = {
+
+      // Field text yang aman dikirim sebagai JSON. Image text field di-clear
+      // kalau ada pendingImageFile (akan diganti oleh image_file). Kalau
+      // image string adalah blob URL (legacy), juga di-clear.
+      const cleanImage =
+        p._pendingImageFile || p.image.startsWith("blob:") ? "" : p.image;
+
+      const basePayload: Partial<PBProduct> = {
         slug: p.id,
         title: p.title,
         tagline: p.tagline,
@@ -229,10 +250,22 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
         duration: p.duration,
         lesson_count: p.lessonCount,
         cover: p.cover,
-        image: p.image,
+        image: cleanImage,
         landing_url: p.landingUrl,
         price: p.price,
         status: "published",
+      };
+
+      // Kalau ada file baru, gunakan FormData supaya PocketBase nyimpan file
+      // ke Storage. Field 'image_file' butuh multipart.
+      const buildPayload = (): Partial<PBProduct> | FormData => {
+        if (!p._pendingImageFile) return basePayload;
+        const fd = new FormData();
+        for (const [k, v] of Object.entries(basePayload)) {
+          if (v !== undefined && v !== null) fd.append(k, String(v));
+        }
+        fd.append("image_file", p._pendingImageFile);
+        return fd;
       };
 
       // 1. Upsert main product
@@ -246,9 +279,13 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       let productPbId: string;
       if (existing.length > 0) {
         productPbId = existing[0].id;
-        await pb.collection("products").update(productPbId, payload);
+        await pb
+          .collection("products")
+          .update(productPbId, buildPayload() as never);
       } else {
-        const created = await pb.collection("products").create(payload);
+        const created = await pb
+          .collection("products")
+          .create(buildPayload() as never);
         productPbId = created.id;
       }
 

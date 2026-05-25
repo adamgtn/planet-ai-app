@@ -41,17 +41,31 @@ export function ProductCard({ product }: { product: Product }) {
       }`}
     >
       {/* Cover image — 1000x1000 PNG/SVG */}
-      <div className="relative aspect-[5/4] w-full overflow-hidden bg-muted">
-        <img
-          src={product.image}
-          alt={product.title}
-          loading="lazy"
-          className={`h-full w-full object-cover transition duration-500 ${
-            isLocked ? "scale-105 blur-sm grayscale" : ""
-          } ${isExpired ? "grayscale" : ""} ${
-            isOpen ? "group-hover:scale-105" : ""
-          }`}
-        />
+      <div
+        className={`relative aspect-[5/4] w-full overflow-hidden bg-gradient-to-br ${
+          product.cover || "from-brand to-brand/70"
+        }`}
+      >
+        {product.image ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={product.image}
+            alt={product.title}
+            loading="lazy"
+            className={`h-full w-full object-cover transition duration-500 ${
+              isLocked ? "scale-105 blur-sm grayscale" : ""
+            } ${isExpired ? "grayscale" : ""} ${
+              isOpen ? "group-hover:scale-105" : ""
+            }`}
+          />
+        ) : (
+          // Belum ada cover image — tampilkan title centered di atas gradient
+          <div className="absolute inset-0 grid place-items-center px-6 text-center">
+            <span className="text-2xl font-extrabold uppercase tracking-tight text-white drop-shadow-lg">
+              {product.title}
+            </span>
+          </div>
+        )}
 
         {/* Always-on top gradient for badge readability */}
         <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/40 to-transparent" />

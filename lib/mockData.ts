@@ -53,6 +53,13 @@ export type Product = {
   landingUrl: string;
   price?: string;
   modules: Module[];
+  /**
+   * File baru yang di-upload admin lewat form. Saat upsertProduct
+   * dipanggil, file ini akan di-PUT ke PocketBase Storage via FormData
+   * dan disimpan ke field 'image_file'. Setelah upload, field ini
+   * di-clear dan `image` di-replace dengan URL real dari PB.
+   */
+  _pendingImageFile?: File;
 };
 
 export const products: Product[] = [
