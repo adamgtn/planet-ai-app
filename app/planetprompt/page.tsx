@@ -35,10 +35,13 @@ const WA_NUMBER = "6281234567890";
 const COMMUNITY_LINK = "https://chat.whatsapp.com/dummy";
 const VIDEO_DEMO_ID = "dQw4w9WgXcQ";
 
-const heroProducts = Array.from(
-  { length: 8 },
-  (_, i) => `https://picsum.photos/seed/pp-umkm-${i}/400/400`
+// Gambar showcase produk real (15 file di /public/lp/planetprompt/showcase/)
+const showcaseImages = Array.from(
+  { length: 15 },
+  (_, i) =>
+    `/lp/planetprompt/showcase/showcase-${(i + 1).toString().padStart(2, "0")}.png`
 );
+const heroProducts = showcaseImages.slice(0, 4);
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -62,6 +65,7 @@ export default function PlanetPromptLanding() {
       <SolutionSection />
       <HowItWorksSection />
       <UseCaseSection />
+      <ShowcaseGallerySection />
       <FeaturesSection />
       <DesignPromptKitSection />
       <BeforeAfterSection />
@@ -540,6 +544,44 @@ function UseCaseSection() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// SHOWCASE GALLERY — display semua produk asli
+
+function ShowcaseGallerySection() {
+  return (
+    <section className="bg-muted/40 py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
+            Galeri output
+          </p>
+          <h2 className="mt-3 text-3xl font-bold text-ink md:text-4xl">
+            Contoh Konten Jualan dari{" "}
+            <span className="text-brand">Member PlanetPrompt</span>
+          </h2>
+          <p className="mt-3 text-ink/65">
+            Semua dibuat dengan template prompt dari PlanetPrompt — tanpa skill
+            desain, tanpa Photoshop.
+          </p>
+        </div>
+
+        <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4 lg:grid-cols-5">
+          {showcaseImages.map((src, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={i}
+              src={src}
+              alt={`Output PlanetPrompt ${i + 1}`}
+              loading="lazy"
+              className="aspect-[3/4] w-full rounded-2xl object-cover shadow-card transition hover:-translate-y-1 hover:shadow-cardHover"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // FEATURES — Apa Saja yang Kamu Dapatkan?
 
 function FeaturesSection() {
@@ -762,7 +804,7 @@ function ExampleOutputSection() {
         "Script video pendek",
         "Broadcast WhatsApp",
       ],
-      img: "https://picsum.photos/seed/pp-keripik/600/400",
+      img: showcaseImages[0],
     },
     {
       emoji: "☕",
@@ -778,7 +820,7 @@ function ExampleOutputSection() {
         "Hook video TikTok",
         "Konsep banner outlet",
       ],
-      img: "https://picsum.photos/seed/pp-kopi/600/400",
+      img: showcaseImages[1],
     },
     {
       emoji: "🧺",
@@ -794,7 +836,7 @@ function ExampleOutputSection() {
         "Caption Instagram",
         "Ide poster promo",
       ],
-      img: "https://picsum.photos/seed/pp-laundry/600/400",
+      img: showcaseImages[2],
     },
   ];
 
