@@ -27,26 +27,6 @@ export function TopBar() {
         <Link href="/dashboard" className="flex items-center">
           <Logo />
         </Link>
-        <nav className="hidden items-center gap-1 md:flex">
-          <Link
-            href="/dashboard"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-ink/70 transition hover:bg-muted hover:text-ink"
-          >
-            Dashboard
-          </Link>
-          <Link
-            href="/tools/prompt-generator"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-ink/70 transition hover:bg-muted hover:text-ink"
-          >
-            AI Tools
-          </Link>
-          <Link
-            href="/profile"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-ink/70 transition hover:bg-muted hover:text-ink"
-          >
-            Profil
-          </Link>
-        </nav>
         <div className="flex items-center gap-2">
           {isAdmin && (
             <Link

@@ -3,8 +3,8 @@
 import { useMemo, useState } from "react";
 import { Search, Sparkles } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
+import { Sidebar } from "@/components/Sidebar";
 import { ProductCard } from "@/components/ProductCard";
-import { ToolsSuiteBanner } from "@/components/ToolsSuiteBanner";
 import { AuthGate } from "@/components/AuthGate";
 import { type ProductStatus } from "@/lib/mockData";
 import { useDataStore } from "@/lib/dataStore";
@@ -62,7 +62,10 @@ function DashboardContent() {
     <div className="min-h-screen bg-muted/40">
       <TopBar />
 
-      <main className="mx-auto max-w-7xl px-6 py-10">
+      <div className="mx-auto flex max-w-7xl">
+        <Sidebar />
+
+        <main className="min-w-0 flex-1 px-6 py-10 lg:px-8">
         <section className="card-base relative overflow-hidden p-8">
           <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-brand/10 blur-3xl" />
           <div className="absolute -bottom-12 right-24 h-40 w-40 rounded-full bg-amber-200/40 blur-3xl" />
@@ -92,10 +95,6 @@ function DashboardContent() {
             </div>
           </div>
         </section>
-
-        <div className="mt-8">
-          <ToolsSuiteBanner />
-        </div>
 
         <div className="mt-10 mb-4 flex items-end justify-between">
           <div>
@@ -162,7 +161,8 @@ function DashboardContent() {
             </p>
           </div>
         )}
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
