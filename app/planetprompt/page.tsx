@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import {
   ArrowRight,
   Check,
@@ -106,10 +107,12 @@ function Navbar() {
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6">
         <div className="flex items-center gap-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/brand/planetsoft-icon.png"
             alt="PlanetPrompt"
+            width={72}
+            height={72}
+            priority
             className="h-9 w-9 shrink-0 object-contain"
           />
           <span className="text-lg font-bold tracking-tight text-ink">
@@ -157,11 +160,14 @@ function Hero() {
             href="#pricing"
             className="group mt-6 block overflow-hidden rounded-2xl shadow-card transition hover:shadow-cardHover"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/lp/planetprompt/hero/banner.png"
-              alt="PlanetPrompt — Revolusi Konten Visual Profesional"
-              className="w-full transition group-hover:scale-[1.01]"
+              alt="PlanetPrompt — Era Baru Desain Konten Kreatif"
+              width={1536}
+              height={896}
+              priority
+              sizes="(max-width: 768px) 100vw, 800px"
+              className="h-auto w-full transition group-hover:scale-[1.01]"
             />
           </a>
 
@@ -585,10 +591,12 @@ function ShowcaseMarqueeSection() {
         </div>
       </div>
 
-      <div className="mt-10 space-y-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-        <ShowcaseRow images={row1} reverse />
-        <ShowcaseRow images={row2} reverse />
-      </div>
+      <DeferMount minHeight="540px">
+        <div className="mt-10 space-y-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+          <ShowcaseRow images={row1} reverse />
+          <ShowcaseRow images={row2} reverse />
+        </div>
+      </DeferMount>
     </section>
   );
 }
@@ -609,13 +617,14 @@ function ShowcaseRow({
         }`}
       >
         {[...images, ...images].map((src, i) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             key={i}
             src={src}
             alt=""
-            loading="lazy"
-            className="h-60 w-auto shrink-0 rounded-2xl object-contain shadow-card md:h-72"
+            width={400}
+            height={400}
+            sizes="(max-width: 768px) 240px, 288px"
+            className="h-60 w-auto shrink-0 rounded-2xl bg-muted/40 object-contain shadow-card md:h-72"
           />
         ))}
       </div>
@@ -726,13 +735,14 @@ function DesignPromptKitSection() {
             {/* Visual mockup */}
             <div className="grid grid-cols-2 gap-3">
               {heroProducts.slice(0, 4).map((src, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   key={i}
                   src={src}
                   alt=""
-                  loading="lazy"
-                  className="aspect-square w-full rounded-2xl object-cover shadow-card"
+                  width={400}
+                  height={400}
+                  sizes="(max-width: 640px) 45vw, 200px"
+                  className="aspect-square w-full rounded-2xl bg-muted/40 object-cover shadow-card"
                 />
               ))}
             </div>
@@ -905,11 +915,12 @@ function ExampleOutputSection() {
               key={i}
               className="overflow-hidden rounded-2xl border border-muted bg-white shadow-card transition hover:-translate-y-1 hover:shadow-cardHover"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={ex.img}
                 alt={ex.product}
-                loading="lazy"
+                width={400}
+                height={400}
+                sizes="(max-width: 768px) 50vw, 300px"
                 className="aspect-square w-full bg-muted/60 object-contain"
               />
               <div className="p-5">
@@ -1389,10 +1400,11 @@ function Footer() {
     <footer className="border-t border-muted py-10">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 text-center text-xs text-ink/50 md:flex-row md:justify-between md:text-left">
         <div className="flex items-center gap-2">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/brand/planetsoft-icon.png"
             alt="PlanetSoft"
+            width={48}
+            height={48}
             className="h-6 w-6 shrink-0 object-contain"
           />
           <span>
@@ -1476,6 +1488,52 @@ function VideoModal({ onClose }: { onClose: () => void }) {
           className="h-full w-full"
         />
       </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DEFER MOUNT — render children hanya saat container mendekati viewport.
+// Dipakai untuk section berat (marquee 30 images) supaya nggak download
+// & nggak animate sebelum user scroll ke section itu. Reduces initial JS
+// work + saves bandwidth di mobile.
+
+function DeferMount({
+  children,
+  minHeight = "240px",
+  rootMargin = "300px",
+}: {
+  children: React.ReactNode;
+  minHeight?: string;
+  rootMargin?: string;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || mounted) return;
+    // Fallback: kalau IntersectionObserver nggak ada, langsung mount
+    if (typeof IntersectionObserver === "undefined") {
+      setMounted(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setMounted(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin }
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, [mounted, rootMargin]);
+
+  return (
+    <div ref={ref} style={{ minHeight: mounted ? undefined : minHeight }}>
+      {mounted ? children : null}
     </div>
   );
 }
