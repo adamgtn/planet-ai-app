@@ -32,7 +32,9 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 // CONFIG
 
-const WA_NUMBER = "6281234567890";
+// Nomor admin WhatsApp PlanetPrompt — format international tanpa "+"
+// (085780685293 → 62 + 85780685293)
+const WA_NUMBER = "6285780685293";
 const COMMUNITY_LINK = "https://chat.whatsapp.com/dummy";
 const VIDEO_DEMO_ID = "dQw4w9WgXcQ";
 
