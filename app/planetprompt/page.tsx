@@ -241,12 +241,16 @@ function Hero() {
               hint="Komunitas VIP + mentoring langsung..."
             />
           </div>
-          <div className="absolute -bottom-4 -right-4 rounded-2xl border border-muted bg-white p-4 shadow-card md:-bottom-6 md:-right-6">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-ink/45">
+          <div className="absolute -bottom-3 right-2 rounded-2xl border border-muted bg-white p-3 shadow-card md:-bottom-6 md:-right-6 md:p-4">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-ink/45 md:text-[11px]">
               Powered by
             </p>
-            <p className="text-2xl font-extrabold text-brand">AI Generator</p>
-            <p className="text-[11px] text-ink/55">Generate konten tanpa batas</p>
+            <p className="text-lg font-extrabold text-brand md:text-2xl">
+              AI Generator
+            </p>
+            <p className="text-[10px] text-ink/55 md:text-[11px]">
+              Generate konten tanpa batas
+            </p>
           </div>
         </div>
       </div>
@@ -298,7 +302,7 @@ function ProblemSection() {
   ];
 
   return (
-    <section className="bg-muted/40 py-20 lg:py-28">
+    <section className="bg-muted/40 py-12 lg:py-28">
       <div className="mx-auto max-w-5xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
@@ -360,7 +364,7 @@ function SolutionSection() {
   ];
 
   return (
-    <section className="py-20 lg:py-28">
+    <section className="py-12 lg:py-28">
       <div className="mx-auto max-w-5xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
@@ -437,7 +441,7 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section id="cara-pakai" className="bg-muted/40 py-20 lg:py-28">
+    <section id="cara-pakai" className="bg-muted/40 py-12 lg:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
@@ -521,7 +525,7 @@ function UseCaseSection() {
   ];
 
   return (
-    <section className="py-20 lg:py-28">
+    <section className="py-12 lg:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
@@ -575,7 +579,7 @@ function ShowcaseMarqueeSection() {
   const row2 = showcaseImages.slice(7, 15);
 
   return (
-    <section className="bg-muted/40 py-16 lg:py-20">
+    <section className="bg-muted/40 py-10 lg:py-20">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
@@ -653,7 +657,7 @@ function FeaturesSection() {
   ];
 
   return (
-    <section className="bg-muted/40 py-20 lg:py-28">
+    <section className="bg-muted/40 py-12 lg:py-28">
       <div className="mx-auto max-w-5xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
@@ -699,7 +703,7 @@ function DesignPromptKitSection() {
   ];
 
   return (
-    <section className="py-20 lg:py-28">
+    <section className="py-12 lg:py-28">
       <div className="mx-auto max-w-6xl px-6">
         <div className="rounded-3xl border border-brand/20 bg-gradient-to-br from-brand/[0.06] via-amber-50/40 to-white p-8 md:p-12">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
@@ -774,7 +778,7 @@ function BeforeAfterSection() {
   ];
 
   return (
-    <section className="bg-muted/40 py-20 lg:py-28">
+    <section className="bg-muted/40 py-12 lg:py-28">
       <div className="mx-auto max-w-5xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
@@ -896,7 +900,7 @@ function ExampleOutputSection() {
   ];
 
   return (
-    <section className="py-20 lg:py-28">
+    <section className="py-12 lg:py-28">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
@@ -1045,7 +1049,7 @@ function PricingSection() {
   return (
     <section
       id="pricing"
-      className="bg-gradient-to-b from-muted/40 to-white py-20 lg:py-28"
+      className="bg-gradient-to-b from-muted/40 to-white py-12 lg:py-28"
     >
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-2xl text-center">
@@ -1303,7 +1307,7 @@ function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="py-20 lg:py-28">
+    <section className="py-12 lg:py-28">
       <div className="mx-auto max-w-3xl px-6">
         <div className="text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
