@@ -36,7 +36,7 @@ import {
 // Nomor admin WhatsApp PlanetPrompt — format international tanpa "+"
 // (085780685293 → 62 + 85780685293)
 const WA_NUMBER = "6285780685293";
-const COMMUNITY_LINK = "https://chat.whatsapp.com/dummy";
+const COMMUNITY_LINK = "https://chat.whatsapp.com/FRSMZRQk6mABqMJdwkZw0l";
 const VIDEO_DEMO_ID = "dQw4w9WgXcQ";
 
 // Gambar showcase produk real (15 file di /public/lp/planetprompt/showcase/)
