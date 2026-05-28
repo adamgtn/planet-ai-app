@@ -243,10 +243,10 @@ function Hero() {
           </div>
           <div className="absolute -bottom-4 -right-4 rounded-2xl border border-muted bg-white p-4 shadow-card md:-bottom-6 md:-right-6">
             <p className="text-[11px] font-semibold uppercase tracking-wider text-ink/45">
-              Total
+              Powered by
             </p>
-            <p className="text-2xl font-extrabold text-brand">1.000+</p>
-            <p className="text-[11px] text-ink/55">Template siap pakai</p>
+            <p className="text-2xl font-extrabold text-brand">AI Generator</p>
+            <p className="text-[11px] text-ink/55">Generate konten tanpa batas</p>
           </div>
         </div>
       </div>
@@ -586,7 +586,7 @@ function ShowcaseMarqueeSection() {
             <span className="text-brand">Member PlanetPrompt</span>
           </h2>
           <p className="mt-3 text-ink/65">
-            Semua dibuat dengan template prompt — tanpa skill desain, tanpa
+            Semua di-generate dengan AI — tanpa skill desain, tanpa
             Photoshop.
           </p>
         </div>
@@ -638,18 +638,18 @@ function ShowcaseRow({
 
 function FeaturesSection() {
   const features = [
-    "1.000+ prompt AI siap pakai",
-    "Template caption produk",
-    "Template headline promosi",
-    "Template konsep banner & poster",
-    "Template story Instagram / Facebook",
-    "Template broadcast WhatsApp",
-    "Template deskripsi marketplace",
-    "Template ide campaign diskon",
-    "Template kalender konten",
-    "Template brand storytelling",
-    "Template copywriting iklan",
-    "Template arahan visual untuk AI image generator",
+    "Akses AI generator unlimited",
+    "Generate caption produk",
+    "Generate headline promosi",
+    "Generate konsep banner & poster",
+    "Generate story Instagram / Facebook",
+    "Generate broadcast WhatsApp",
+    "Generate deskripsi marketplace",
+    "Generate ide campaign diskon",
+    "Generate kalender konten",
+    "Generate brand storytelling",
+    "Generate copywriting iklan",
+    "Generate arahan visual untuk AI image generator",
   ];
 
   return (
@@ -759,7 +759,7 @@ function DesignPromptKitSection() {
 
 function BeforeAfterSection() {
   const rows = [
-    ["Bingung bikin caption", "Tinggal pakai template caption"],
+    ["Bingung bikin caption", "AI generator caption tinggal pakai"],
     [
       "Desain promo terlihat biasa",
       "Dapat arahan konsep desain yang lebih menarik",
@@ -981,13 +981,13 @@ function PricingSection() {
         "Halo,%20saya%20mau%20tanya%20Paket%20UMKM%20Starter%20PlanetPrompt",
       features: [
         "**AKUN LOGIN KHUSUS APLIKASI PLANETPROMPT**",
-        "1.000+ prompt AI siap pakai",
-        "Template caption & copywriting",
-        "Template konsep banner & poster",
-        "Template story Instagram",
-        "Template WhatsApp marketing",
-        "Template marketplace seller",
-        "DesignPrompt Kit (arahan visual)",
+        "Akses AI generator unlimited",
+        "Generate caption & copywriting",
+        "Generate konsep banner & poster",
+        "Generate story Instagram",
+        "Generate WhatsApp marketing",
+        "Generate konten marketplace seller",
+        "DesignPrompt Kit (arahan visual AI)",
         "Cocok untuk pemula",
       ],
       highlighted: false,
@@ -1009,8 +1009,8 @@ function PricingSection() {
         "**Grup VIP private dengan mentoring langsung**",
         "**Sesi konsultasi 1-on-1 dengan founder**",
         "Semua benefit Paket Starter",
-        "Prompt extra — 2.000+ template eksklusif",
-        "Update prompt mingguan",
+        "AI generator advanced + prompt eksklusif",
+        "Update fitur generator mingguan",
         "Prioritas support",
       ],
       highlighted: true,
@@ -1246,15 +1246,15 @@ function FaqSection() {
     },
     {
       q: "Apakah PlanetPrompt bisa langsung bikin gambar desain?",
-      a: "PlanetPrompt <strong>bukan aplikasi desain</strong> seperti Canva. PlanetPrompt berisi template prompt untuk bantu kamu bikin konsep desain, teks promosi, caption, deskripsi produk, dan arahan visual. Hasilnya bisa kamu pakai di ChatGPT, Gemini, Claude, Canva AI, atau AI image generator.",
+      a: "PlanetPrompt <strong>bukan aplikasi desain</strong> seperti Canva. PlanetPrompt adalah <strong>AI generator</strong> untuk bantu kamu bikin konsep desain, teks promosi, caption, deskripsi produk, dan arahan visual. Hasilnya bisa kamu pakai di ChatGPT, Gemini, Claude, Canva AI, atau AI image generator.",
     },
     {
       q: "Apakah cocok untuk bisnis kecil?",
-      a: "Ya, sangat cocok. Makanan, minuman, fashion, skincare, jasa lokal, toko online, marketplace seller — semua tipe UMKM bisa pakai. Template prompt-nya dibuat fleksibel untuk berbagai produk.",
+      a: "Ya, sangat cocok. Makanan, minuman, fashion, skincare, jasa lokal, toko online, marketplace seller — semua tipe UMKM bisa pakai. AI generator-nya fleksibel untuk berbagai produk.",
     },
     {
       q: "Apakah saya harus paham prompt engineering?",
-      a: "Tidak. Template sudah disusun rapi agar mudah dipakai. Kamu cukup mengganti bagian seperti nama produk, harga, promo, target pembeli, dan platform.",
+      a: "Tidak. AI generator-nya sudah disiapkan agar mudah dipakai. Kamu cukup isi nama produk, harga, promo, target pembeli, dan platform — sisanya AI yang generate.",
     },
     {
       q: "Bisa dipakai berkali-kali?",
@@ -1335,7 +1335,7 @@ function FinalCtaSection() {
 
         <p className="mx-auto mt-5 max-w-xl text-base text-white/85 md:text-lg">
           Mulai dari caption, banner, deskripsi marketplace, sampai promosi WhatsApp —
-          semua bisa kamu buat lebih cepat dengan template prompt siap pakai
+          semua bisa kamu generate lebih cepat dengan AI generator
           dari PlanetPrompt.
         </p>
 
