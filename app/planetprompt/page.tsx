@@ -1378,7 +1378,7 @@ function FinalCtaSection() {
             href="#pricing"
             className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-4 text-base font-bold text-brand shadow-2xl transition hover:scale-105"
           >
-            <ShoppingBag size={20} /> Ambil Toolkit Konten UMKM Sekarang
+            <ShoppingBag size={20} /> Ambil PlanetPrompt Sekarang
           </a>
         </div>
 
@@ -1478,7 +1478,7 @@ function StickyMobileCta() {
         href="#pricing"
         className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-5 py-3 text-sm font-bold text-white shadow-lg shadow-brand/30"
       >
-        <ShoppingBag size={18} /> Ambil Toolkit UMKM • Rp 97.000
+        <ShoppingBag size={18} /> Ambil PlanetPrompt • Rp 97.000
       </a>
     </div>
   );
