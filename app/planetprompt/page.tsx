@@ -1367,10 +1367,10 @@ function CommunityCta() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-[1fr_auto] md:items-center">
             <div>
               <p className="inline-flex items-center gap-1.5 rounded-full bg-brand-100 px-3 py-1 text-xs font-bold text-brand">
-                <Users size={12} /> 5.000+ UMKM bergabung
+                <Users size={12} /> 5.000+ member bergabung
               </p>
               <h3 className="mt-3 text-2xl font-bold text-ink md:text-3xl">
-                Gabung Komunitas UMKM PlanetPrompt
+                Gabung Komunitas PlanetPrompt
               </h3>
               <p className="mt-2 max-w-lg text-sm text-ink/65">
                 Tips konten harian, share trick AI untuk jualan, dan penawaran
