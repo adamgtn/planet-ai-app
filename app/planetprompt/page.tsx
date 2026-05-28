@@ -929,10 +929,7 @@ function ExampleOutputSection() {
                 className="aspect-[4/3] w-full bg-muted/40 object-contain"
               />
               <div className="p-5">
-                <p className="text-2xl">{ex.emoji}</p>
-                <h3 className="mt-2 text-lg font-bold text-ink">
-                  {ex.product}
-                </h3>
+                <h3 className="text-lg font-bold text-ink">{ex.product}</h3>
 
                 <p className="mt-4 text-[11px] font-semibold uppercase tracking-wider text-emerald-600">
                   Output yang dihasilkan
