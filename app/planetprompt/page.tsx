@@ -39,9 +39,9 @@ const WA_NUMBER = "6285780685293";
 const COMMUNITY_LINK = "https://chat.whatsapp.com/FRSMZRQk6mABqMJdwkZw0l";
 const VIDEO_DEMO_ID = "dQw4w9WgXcQ";
 
-// Gambar showcase produk real (28 file di /public/lp/planetprompt/showcase/)
+// Gambar showcase produk real (22 file di /public/lp/planetprompt/showcase/)
 const showcaseImages = Array.from(
-  { length: 28 },
+  { length: 22 },
   (_, i) =>
     `/lp/planetprompt/showcase/showcase-${(i + 1).toString().padStart(2, "0")}.png`
 );
@@ -574,9 +574,9 @@ function UseCaseSection() {
 // SHOWCASE MARQUEE — 2 baris auto-scroll horizontal L→R, gambar full
 
 function ShowcaseMarqueeSection() {
-  // Split 28 gambar jadi 2 baris (14 + 14), masing-masing slide L→R
-  const row1 = showcaseImages.slice(0, 14);
-  const row2 = showcaseImages.slice(14, 28);
+  // Split 22 gambar jadi 2 baris (11 + 11), masing-masing slide L→R
+  const row1 = showcaseImages.slice(0, 11);
+  const row2 = showcaseImages.slice(11, 22);
 
   return (
     <section className="bg-muted/40 py-10 lg:py-20">
