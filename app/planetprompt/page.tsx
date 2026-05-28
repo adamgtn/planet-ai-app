@@ -926,7 +926,7 @@ function ExampleOutputSection() {
                 width={400}
                 height={400}
                 sizes="(max-width: 768px) 50vw, 300px"
-                className="aspect-square w-full bg-muted/60 object-contain"
+                className="aspect-square w-full bg-muted/60 object-cover"
               />
               <div className="p-5">
                 <p className="text-2xl">{ex.emoji}</p>
