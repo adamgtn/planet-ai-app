@@ -289,12 +289,12 @@ function PromptCard({
 
 function ProblemSection() {
   const pains = [
-    "Mau **posting produk**, tapi bingung caption-nya apa",
-    "Desain promosi kelihatan **biasa saja**",
-    "**Tidak punya budget** hire designer atau admin konten",
-    "Tidak tahu cara bikin **banner, story, atau poster** yang menarik",
-    "Setiap hari jualan, tapi konten terasa **itu-itu saja**",
-    "Sudah coba AI, tapi hasilnya masih **terlalu umum**",
+    "Bingung **mau bikin desain produk** seperti apa yang menarik",
+    "**Mahal bayar designer** Rp 500rb–2jt per konten promosi",
+    "Coba desain sendiri di Canva, hasilnya masih **terlihat amatir**",
+    "Skill **Photoshop / Illustrator** masih basic banget",
+    "Mau visual yang **terlihat premium & profesional** kayak brand besar",
+    "Sudah coba AI image, tapi hasilnya **nggak sesuai bayangan**",
   ];
 
   return (
@@ -305,7 +305,7 @@ function ProblemSection() {
             Masalah yang kamu rasakan
           </p>
           <h2 className="mt-3 text-3xl font-bold text-ink md:text-4xl">
-            Jualan Sudah Jalan, Tapi Kontennya Sering Mentok?
+            Pengen Desain Produk Keren, Tapi Selalu Mentok?
           </h2>
         </div>
 
@@ -332,11 +332,12 @@ function ProblemSection() {
         </div>
 
         <p className="mx-auto mt-10 max-w-2xl text-center text-base italic text-ink/65">
-          Kalau kamu sering mentok bikin konten jualan, PlanetPrompt bisa jadi{" "}
+          Kalau kamu bingung mau desain produk seperti apa, PlanetPrompt bisa
+          jadi{" "}
           <span className="font-bold not-italic text-brand">
             tim kreatif mini
           </span>{" "}
-          yang siap bantu kapan saja.
+          yang siap bantu kapan saja — tanpa biaya designer mahal.
         </p>
       </div>
     </section>
