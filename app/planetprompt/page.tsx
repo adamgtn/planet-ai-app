@@ -39,9 +39,9 @@ const WA_NUMBER = "6285780685293";
 const COMMUNITY_LINK = "https://chat.whatsapp.com/FRSMZRQk6mABqMJdwkZw0l";
 const VIDEO_DEMO_ID = "dQw4w9WgXcQ";
 
-// Gambar showcase produk real (22 file di /public/lp/planetprompt/showcase/)
+// Gambar showcase produk real (23 file di /public/lp/planetprompt/showcase/)
 const showcaseImages = Array.from(
-  { length: 22 },
+  { length: 23 },
   (_, i) =>
     `/lp/planetprompt/showcase/showcase-${(i + 1).toString().padStart(2, "0")}.png`
 );
@@ -574,9 +574,9 @@ function UseCaseSection() {
 // SHOWCASE MARQUEE — 2 baris auto-scroll horizontal L→R, gambar full
 
 function ShowcaseMarqueeSection() {
-  // Split 22 gambar jadi 2 baris (11 + 11), masing-masing slide L→R
-  const row1 = showcaseImages.slice(0, 11);
-  const row2 = showcaseImages.slice(11, 22);
+  // Split 23 gambar jadi 2 baris (12 + 11), masing-masing slide L→R
+  const row1 = showcaseImages.slice(0, 12);
+  const row2 = showcaseImages.slice(12, 23);
 
   return (
     <section className="bg-muted/40 py-10 lg:py-20">
@@ -864,38 +864,38 @@ function ExampleOutputSection() {
       img: showcaseImages[0],
     },
     {
-      emoji: "🐕",
-      product: "Pawfect Feast Premium",
+      emoji: "▶️",
+      product: "Thumbnail YouTube Generator",
       input: [
-        ["Produk", "Dog food nutrisi premium"],
-        ["Harga", "Rp 40.000 / kg"],
-        ["Promo", "Diskon 40% pelanggan baru"],
-        ["Target", "Pet owner kelas menengah"],
+        ["Tipe video", "Podcast / review snack viral"],
+        ["Style", "Hype, warna bold, big text"],
+        ["Mood", "Dramatic, clickable, viral"],
+        ["Highlight", "Box premium + badge VIRAL DI SOSMED"],
       ],
       outputs: [
-        "Banner promo natural",
-        "Caption Instagram",
-        "Konsep visual outdoor",
-        "Headline iklan Facebook Ads",
+        "Thumbnail YouTube HD siap upload",
+        "Variasi A/B test thumbnail",
+        "Headline clickbait yang relevan",
+        "Cover Instagram Reels / TikTok",
       ],
-      img: showcaseImages[1],
+      img: showcaseImages[14],
     },
     {
-      emoji: "🎒",
-      product: "Tas Sekolah Anak",
+      emoji: "✨",
+      product: "Creative Prompt",
       input: [
-        ["Produk", "Tas pelangi anak SD"],
-        ["Harga", "Rp 150.000"],
-        ["Promo", "Free name tag"],
-        ["Target", "Orang tua anak SD usia 6-10"],
+        ["Produk", "Susu sapi rasa karamel kaleng"],
+        ["Brand", "Fresh Nourish"],
+        ["Style", "Premium splash, dramatic lighting"],
+        ["Background", "Biru gelap dengan splash karamel"],
       ],
       outputs: [
-        "Poster ceria pastel",
-        "Caption manis untuk emak-emak",
-        "Konsep visual rainbow",
-        "Story Instagram playful",
+        "Visual produk premium splash",
+        "Poster iklan dramatic",
+        "Konsep cover marketplace",
+        "Arahan visual untuk AI image generator",
       ],
-      img: showcaseImages[2],
+      img: showcaseImages[22],
     },
   ];
 
