@@ -1067,27 +1067,33 @@ function PricingSection() {
             <Fragment key={i}>
               <PricingCard {...t} />
               {/* Teaser antara VIP (index 1) dan Paket Aplikasi (index 2) —
-                  hanya tampil di mobile (di desktop card sebelahan). */}
+                  hanya tampil di mobile (di desktop card sebelahan).
+                  Text-only (tanpa card shape) supaya lebih besar & terbaca. */}
               {i === 1 && (
-                <div className="flex flex-col items-center gap-2 pt-2 md:hidden">
-                  <div className="rounded-2xl border-2 border-amber-300 bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 px-5 py-4 text-center shadow-card">
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-rose-600">
-                      🔥 Mau Naik Level Lagi?
-                    </p>
-                    <p className="mt-2 text-sm font-semibold leading-snug text-ink">
-                      Pengen punya{" "}
-                      <span className="text-brand">aplikasi sendiri</span> yang
-                      keuntungannya{" "}
-                      <span className="text-brand">100% buat kamu</span> — dan
-                      kami{" "}
-                      <span className="text-brand">ajarin sampai jualan</span>?
-                    </p>
-                    <p className="mt-2 text-xs italic text-ink/60">
-                      Cek paket di bawah ↓
-                    </p>
-                  </div>
+                <div className="flex flex-col items-center gap-3 px-2 py-6 text-center md:hidden">
+                  <p className="text-sm font-bold uppercase tracking-wider text-rose-600">
+                    🔥 Mau Naik Level Lagi?
+                  </p>
+                  <p className="text-xl font-extrabold leading-tight text-ink">
+                    Pengen punya{" "}
+                    <span className="text-brand">aplikasi sendiri</span>
+                    <br />
+                    keuntungannya{" "}
+                    <span className="text-brand">100% buat kamu</span>
+                    <br />
+                    <span className="italic text-ink/85">
+                      + kami{" "}
+                      <span className="not-italic text-brand">
+                        ajarin sampai jualan
+                      </span>
+                      ?
+                    </span>
+                  </p>
+                  <p className="text-sm font-semibold text-ink/55">
+                    Cek paket di bawah ↓
+                  </p>
                   <ChevronDown
-                    size={22}
+                    size={28}
                     className="animate-bounce text-rose-500"
                   />
                 </div>
