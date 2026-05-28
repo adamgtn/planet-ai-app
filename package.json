@@ -13,6 +13,7 @@
     "pb:fix-landing": "node scripts/pocketbase-fix-landing.mjs",
     "pb:setup-landing-links": "node scripts/pocketbase-setup-landing-links.mjs",
     "pb:fix-product-image": "node scripts/pocketbase-fix-product-image.mjs",
+    "optimize:showcase": "node scripts/optimize-showcase.mjs",
     "push": "node scripts/sync.mjs push",
     "pr": "node scripts/sync.mjs pr"
   },
@@ -29,6 +30,7 @@
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.13",
     "typescript": "^5"
   }
