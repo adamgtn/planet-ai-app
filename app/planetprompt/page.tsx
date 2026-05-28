@@ -924,9 +924,9 @@ function ExampleOutputSection() {
                 src={ex.img}
                 alt={ex.product}
                 width={400}
-                height={400}
-                sizes="(max-width: 768px) 50vw, 300px"
-                className="aspect-square w-full bg-muted/60 object-cover"
+                height={300}
+                sizes="(max-width: 768px) 90vw, 300px"
+                className="aspect-[4/3] w-full bg-muted/40 object-contain"
               />
               <div className="p-5">
                 <p className="text-2xl">{ex.emoji}</p>
