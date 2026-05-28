@@ -37,39 +37,51 @@ function fmtBytes(n) {
 const all = await fs.readdir(DIR);
 const pngs = all.filter((f) => f.toLowerCase().endsWith(".png"));
 
-const existing = pngs.filter((f) => PATTERN.test(f));
-const toRename = pngs.filter((f) => !PATTERN.test(f)).sort();
+// Urutkan supaya hasil renumber deterministic:
+// 1. File yang udah pattern showcase-NN duluan (urutan numerik)
+// 2. File lain (random name dari ChatGPT dll) di belakang, urut alfabetis
+const matched = pngs
+  .filter((f) => PATTERN.test(f))
+  .sort(
+    (a, b) =>
+      parseInt(a.match(/\d+/)[0], 10) - parseInt(b.match(/\d+/)[0], 10)
+  );
+const unmatched = pngs.filter((f) => !PATTERN.test(f)).sort();
 
-const existingNums = existing
-  .map((f) => parseInt(f.match(/\d+/)[0], 10))
-  .sort((a, b) => a - b);
-let nextNum = (existingNums.at(-1) ?? 0) + 1;
+// Final order: matched (sequential) + unmatched (append di belakang)
+const ordered = [...matched, ...unmatched];
 
 console.log(`📁 ${DIR}`);
 console.log(`  Total PNG: ${pngs.length}`);
-console.log(`  showcase-NN: ${existing.length}`);
-console.log(`  Perlu rename: ${toRename.length}`);
+console.log(`  Sudah ber-pattern: ${matched.length} (akan di-renumber jika ada gap)`);
+console.log(`  Perlu rename baru: ${unmatched.length}`);
 console.log("");
 
 let totalBefore = 0;
 let totalAfter = 0;
 
-for (const file of pngs) {
-  const src = path.join(DIR, file);
-  const stat = await fs.stat(src);
+// Step 1: rename ke nama temp dulu (hindari konflik kalau renumber overlap)
+const tempRenames = [];
+for (let i = 0; i < ordered.length; i++) {
+  const oldName = ordered[i];
+  const newName = `showcase-${String(i + 1).padStart(2, "0")}.png`;
+  if (oldName === newName) {
+    tempRenames.push({ oldName, tempName: oldName, newName, skipTemp: true });
+  } else {
+    const tempName = `__tmp__${i}__${Date.now()}.png`;
+    await fs.rename(path.join(DIR, oldName), path.join(DIR, tempName));
+    tempRenames.push({ oldName, tempName, newName, skipTemp: false });
+  }
+}
+
+// Step 2: process tiap file (compress + rename final)
+for (const item of tempRenames) {
+  const { oldName, tempName, newName } = item;
+  const srcPath = path.join(DIR, tempName);
+  const stat = await fs.stat(srcPath);
   totalBefore += stat.size;
 
-  // Tentukan target name
-  let targetName;
-  if (PATTERN.test(file)) {
-    targetName = file;
-  } else {
-    targetName = `showcase-${String(nextNum++).padStart(2, "0")}.png`;
-  }
-  const target = path.join(DIR, targetName);
-
-  // Proses pakai sharp
-  const buf = await sharp(src)
+  const buf = await sharp(srcPath)
     .resize({
       width: MAX_DIM,
       height: MAX_DIM,
@@ -81,15 +93,14 @@ for (const file of pngs) {
 
   totalAfter += buf.length;
 
-  // Kalau target beda dari source, hapus source dulu
-  if (target !== src) {
-    await fs.unlink(src);
-  }
-  await fs.writeFile(target, buf);
+  const finalPath = path.join(DIR, newName);
+  // Hapus temp (atau original kalau skip temp)
+  if (tempName !== newName) await fs.unlink(srcPath);
+  await fs.writeFile(finalPath, buf);
 
-  const renamed = target !== src ? ` → ${targetName}` : "";
+  const renamed = oldName !== newName ? ` → ${newName}` : "";
   console.log(
-    `  ✓ ${file}${renamed}\n` +
+    `  ✓ ${oldName}${renamed}\n` +
       `    ${fmtBytes(stat.size)} → ${fmtBytes(buf.length)}  (${(
         ((stat.size - buf.length) / stat.size) *
         100
