@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { trackLead } from "@/lib/pixels";
 import {
   ArrowRight,
   Check,
@@ -963,6 +964,7 @@ function PricingSection() {
     icon: React.ReactNode;
     priceNormal: string;
     pricePromo: string;
+    priceValue: number;
     cta: string;
     paymentUrl: string;
     whatsappText: string;
@@ -976,6 +978,7 @@ function PricingSection() {
       icon: <Store size={14} />,
       priceNormal: "Rp 197.000",
       pricePromo: "Rp 97.000",
+      priceValue: 97000,
       cta: "Ambil Paket Starter",
       paymentUrl: "https://planetsoft.myr.id/pl/paket-standar-planetprompt",
       whatsappText:
@@ -1000,6 +1003,7 @@ function PricingSection() {
       icon: <Crown size={14} />,
       priceNormal: "Rp 397.000",
       pricePromo: "Rp 199.000",
+      priceValue: 199000,
       cta: "Ambil Paket VIP",
       paymentUrl: "https://planetsoft.myr.id/pl/paket-vip-planetprompt",
       whatsappText:
@@ -1023,6 +1027,7 @@ function PricingSection() {
       icon: <Crown size={14} />,
       priceNormal: "Rp 1.799.000",
       pricePromo: "Rp 899.000",
+      priceValue: 899000,
       cta: "Ambil Paket Aplikasi",
       paymentUrl: "https://planetsoft.myr.id/pl/paket-aplikasi-full-stack",
       whatsappText:
@@ -1120,6 +1125,7 @@ function PricingCard({
   icon,
   priceNormal,
   pricePromo,
+  priceValue,
   cta,
   paymentUrl,
   whatsappText,
@@ -1132,6 +1138,7 @@ function PricingCard({
   icon: React.ReactNode;
   priceNormal: string;
   pricePromo: string;
+  priceValue: number;
   cta: string;
   paymentUrl: string;
   whatsappText: string;
@@ -1251,6 +1258,7 @@ function PricingCard({
         href={paymentUrl}
         target="_blank"
         rel="noreferrer"
+        onClick={() => trackLead({ contentName: name, value: priceValue })}
         className={`mt-8 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-bold shadow-xl transition hover:scale-[1.02] ${palette.cta}`}
       >
         <ShoppingBag size={16} /> {cta}
