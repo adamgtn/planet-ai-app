@@ -33,6 +33,9 @@ export function AdminAccountForm({ mode, initial }: Props) {
   const [role, setRole] = useState<AdminRole>(initial?.role ?? "admin");
   const [active, setActive] = useState(initial?.active ?? true);
   const [tempPassword, setTempPassword] = useState("");
+  // Di mode edit, email dikunci default biar nggak ke-overwrite browser autofill.
+  // Klik "Ubah email" buat ngebuka kalau emang sengaja mau ganti.
+  const [emailEditable, setEmailEditable] = useState(mode === "create");
   const [success, setSuccess] = useState(false);
 
   const [error, setError] = useState("");
@@ -107,7 +110,7 @@ export function AdminAccountForm({ mode, initial }: Props) {
   const meta = ADMIN_PERMISSIONS[role];
 
   return (
-    <form onSubmit={submit} className="space-y-6">
+    <form onSubmit={submit} autoComplete="off" className="space-y-6">
       <Link
         href="/admin/admins"
         className="inline-flex items-center gap-1 text-sm font-medium text-ink/60 hover:text-brand"
@@ -132,15 +135,28 @@ export function AdminAccountForm({ mode, initial }: Props) {
                 placeholder="Cth: Rini Kartika"
                 required
               />
-              <Field
-                label="Email"
-                icon={<Mail size={16} />}
-                type="email"
-                value={email}
-                onChange={setEmail}
-                placeholder="admin@planet-ai.id"
-                required
-              />
+              <div>
+                <Field
+                  label="Email"
+                  icon={<Mail size={16} />}
+                  type="email"
+                  value={email}
+                  onChange={setEmail}
+                  placeholder="admin@planet-ai.id"
+                  required
+                  readOnly={!emailEditable}
+                  autoComplete="off"
+                />
+                {mode === "edit" && !emailEditable && (
+                  <button
+                    type="button"
+                    onClick={() => setEmailEditable(true)}
+                    className="mt-1.5 text-xs font-semibold text-brand hover:underline"
+                  >
+                    Ubah email
+                  </button>
+                )}
+              </div>
             </div>
           </section>
 
@@ -238,6 +254,7 @@ export function AdminAccountForm({ mode, initial }: Props) {
                   value={tempPassword}
                   onChange={(e) => setTempPassword(e.target.value)}
                   placeholder="Klik 'Generate' untuk membuat password aman"
+                  autoComplete="off"
                   className="input-base pl-9 font-mono"
                 />
               </div>
@@ -370,6 +387,8 @@ function Field({
   onChange,
   placeholder,
   required,
+  readOnly,
+  autoComplete,
 }: {
   label: string;
   icon?: React.ReactNode;
@@ -378,6 +397,8 @@ function Field({
   onChange: (v: string) => void;
   placeholder?: string;
   required?: boolean;
+  readOnly?: boolean;
+  autoComplete?: string;
 }) {
   return (
     <div>
@@ -396,7 +417,11 @@ function Field({
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           required={required}
-          className={`input-base ${icon ? "pl-9" : ""}`}
+          readOnly={readOnly}
+          autoComplete={autoComplete}
+          className={`input-base ${icon ? "pl-9" : ""} ${
+            readOnly ? "cursor-not-allowed bg-muted/50 text-ink/60" : ""
+          }`}
         />
       </div>
     </div>
