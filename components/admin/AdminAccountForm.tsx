@@ -63,10 +63,12 @@ export function AdminAccountForm({ mode, initial }: Props) {
       } else if (initial) {
         const payload: Record<string, unknown> = {
           name,
-          email,
           role,
           status,
         };
+        // Email = auth field dengan handling khusus di PocketBase. Cuma kirim
+        // kalau benar-benar diubah, supaya update status/role nggak ke-blok.
+        if (email !== initial.email) payload.email = email;
         if (tempPassword) {
           payload.password = tempPassword;
           payload.passwordConfirm = tempPassword;
@@ -76,9 +78,7 @@ export function AdminAccountForm({ mode, initial }: Props) {
       setSuccess(true);
       setTimeout(() => router.push("/admin/admins"), 700);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Gagal menyimpan akun admin."
-      );
+      setError(describePbError(err, "Gagal menyimpan akun admin."));
     } finally {
       setSubmitting(false);
     }
@@ -91,7 +91,7 @@ export function AdminAccountForm({ mode, initial }: Props) {
       await getPB().collection("users").delete(initial.id);
       router.push("/admin/admins");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Gagal menghapus admin.");
+      setError(describePbError(err, "Gagal menghapus admin."));
     }
   };
 
@@ -331,6 +331,35 @@ export function AdminAccountForm({ mode, initial }: Props) {
       </div>
     </form>
   );
+}
+
+/**
+ * Ambil pesan error PocketBase yang informatif — termasuk error per-field
+ * (mis. "role: tidak valid") yang biasanya kesembunyi di balik pesan umum
+ * "Failed to update record." / "Failed to create record."
+ */
+function describePbError(err: unknown, fallback: string): string {
+  const e = err as {
+    message?: string;
+    data?: {
+      message?: string;
+      data?: Record<string, { message?: string; code?: string }>;
+    };
+    response?: {
+      message?: string;
+      data?: Record<string, { message?: string; code?: string }>;
+    };
+  };
+  const body = e?.response ?? e?.data;
+  const top = body?.message || e?.message || fallback;
+  const fields = body?.data;
+  if (fields && typeof fields === "object" && Object.keys(fields).length) {
+    const parts = Object.entries(fields).map(
+      ([k, v]) => `${k}: ${v?.message || v?.code || "tidak valid"}`
+    );
+    return `${top} → ${parts.join("; ")}`;
+  }
+  return top;
 }
 
 function Field({
