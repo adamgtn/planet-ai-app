@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { DataStoreProvider } from "@/lib/dataStore";
 import { AuthProvider } from "@/lib/auth";
+import MarketingPixels from "@/components/MarketingPixels";
 
 export const metadata: Metadata = {
   title: "PlanetSoft — Learning Center",
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="id">
       <body className="min-h-screen bg-white text-ink antialiased">
+        <MarketingPixels />
         <AuthProvider>
           <DataStoreProvider>{children}</DataStoreProvider>
         </AuthProvider>
