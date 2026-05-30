@@ -128,7 +128,7 @@ await setUserRole("member@planet-ai.id", "member");
 
 console.log("\n✅ Fix selesai.\n");
 console.log("Langkah berikutnya:");
-console.log("  1. Buka https://app.planet-ai.tech");
+console.log("  1. Buka https://planetsoft.id");
 console.log("  2. Logout (kalau masih login)");
 console.log("  3. Hard refresh (Ctrl+Shift+R)");
 console.log("  4. Login ulang dengan super@planet-ai.id");
