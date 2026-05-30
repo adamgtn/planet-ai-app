@@ -37,19 +37,25 @@ type PlanetPromptHeroProps = {
   headline?: string;
   /** Gambar hasil utama (kartu tengah). */
   featImage?: string;
-  /** Gambar kartu jauh kiri (mockup app). */
+  /** Gambar kartu samping kiri. */
+  s1Image?: string;
+  /** Gambar kartu samping kanan. */
+  s2Image?: string;
+  /** Gambar kartu jauh kiri. */
   appImage?: string;
-  /** Gambar kartu jauh kanan (showcase). */
+  /** Gambar kartu jauh kanan. */
   showcaseImage?: string;
   className?: string;
 };
 
 export default function PlanetPromptHero({
-  brand = "GoldHeritage",
-  headline = "24K Pendant — Eid Edition",
+  brand = "Keripik Kaca Azqiya",
+  headline = "Sensasi Keripik Kaca Premium",
   featImage = "/lp/planetprompt/showcase/showcase-01.png",
-  appImage = "/lp/planetprompt/showcase/showcase-15.png",
-  showcaseImage = "/lp/planetprompt/showcase/showcase-23.png",
+  s1Image = "/lp/planetprompt/showcase/showcase-06.png",
+  s2Image = "/lp/planetprompt/showcase/showcase-11.png",
+  appImage = "/lp/planetprompt/showcase/showcase-16.png",
+  showcaseImage = "/lp/planetprompt/showcase/showcase-21.png",
   className = "",
 }: PlanetPromptHeroProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -358,32 +364,14 @@ export default function PlanetPromptHero({
               <div className={`${styles.pcard} ${styles.feat}`}>
                 <Image src={featImage} alt="" fill sizes="200px" className={styles.pimg} />
               </div>
-              <div className={`${styles.pcard} ${styles.s1} ${styles.mini}`}>
-                <div className={styles.mk}>EID · 24K</div>
-                <div className={styles.mt}>
-                  Pendant
-                  <br />
-                  Eid Edition
-                </div>
-                <div className={styles.mc}>
-                  <i style={{ background: "#e6b450" }} />
-                  <i style={{ background: "#fff" }} />
-                </div>
+              <div className={`${styles.pcard} ${styles.s1}`}>
+                <Image src={s1Image} alt="" fill sizes="150px" className={styles.pimg} />
               </div>
               <div className={`${styles.pcard} ${styles.f1}`}>
                 <Image src={appImage} alt="" fill sizes="120px" className={styles.pimg} />
               </div>
-              <div className={`${styles.pcard} ${styles.s2} ${styles.mini} ${styles.alt}`}>
-                <div className={styles.mk}>STORY · 9:16</div>
-                <div className={styles.mt}>
-                  Flash
-                  <br />
-                  Sale 70%
-                </div>
-                <div className={styles.mc}>
-                  <i style={{ background: "#ec4899" }} />
-                  <i style={{ background: "#7b3fe4" }} />
-                </div>
+              <div className={`${styles.pcard} ${styles.s2}`}>
+                <Image src={s2Image} alt="" fill sizes="150px" className={styles.pimg} />
               </div>
               <div className={`${styles.pcard} ${styles.f2}`}>
                 <Image src={showcaseImage} alt="" fill sizes="120px" className={styles.pimg} />
