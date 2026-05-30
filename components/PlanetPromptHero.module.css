@@ -5,8 +5,8 @@
  * lewat next/font (var --font-sora / --font-jetbrains).
  * ───────────────────────────────────────────────────────────── */
 
-/* ===== STAGE ===== */
-.stage {
+/* ===== ROOT (wrapper, vars di sini supaya badge bisa overhang di luar stage) ===== */
+.root {
   --bg: #0a0712;
   --bg2: #0e0a1c;
   --ink: #ece8ff;
@@ -27,10 +27,16 @@
 
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10.2;
-  border-radius: 26px;
   color: var(--ink);
   font-family: var(--sans);
+}
+
+/* ===== STAGE (kartu yang di-clip) ===== */
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10.2;
+  border-radius: 26px;
   background:
     radial-gradient(120% 90% at 80% -10%, rgba(168, 85, 247, 0.22), transparent 55%),
     radial-gradient(100% 80% at 0% 110%, rgba(236, 72, 153, 0.16), transparent 55%),
@@ -85,12 +91,12 @@
   font-family: var(--mono);
 }
 .lbl { font-size: 9.5px; letter-spacing: 0.22em; color: var(--muted); text-transform: uppercase; }
-.badge-format { top: 18px; right: 18px; text-align: right; animation: floatA 6s ease-in-out infinite; }
+.badge-format { top: -14px; right: -14px; text-align: right; animation: floatA 6s ease-in-out infinite; }
 .badge-format .big { font-size: 16px; font-weight: 700; color: var(--pink); letter-spacing: 0.02em; margin-top: 2px; }
 .badge-format .sub { font-size: 10px; color: var(--muted); margin-top: 5px; letter-spacing: 0.12em; }
 .badge-format .sub b { color: var(--violet-2); }
 .badge-format .chips { margin-top: 6px; font-size: 8px; color: #cbbff0; letter-spacing: 0.06em; }
-.badge-speed { left: 18px; bottom: 18px; animation: floatB 6.6s ease-in-out infinite; }
+.badge-speed { left: -14px; bottom: -14px; animation: floatB 6.6s ease-in-out infinite; }
 .badge-speed .big { font-size: 20px; font-weight: 800; color: var(--green); letter-spacing: 0.01em; line-height: 1; margin-top: 4px; font-family: var(--mono); }
 .badge-speed .flow { font-size: 10px; color: var(--muted); margin-top: 6px; letter-spacing: 0.06em; }
 .badge-speed .flow b { color: var(--ink); }
@@ -280,13 +286,13 @@
 /* side cards */
 .pcard.s1 { width: 120px; height: 150px; z-index: 3; transform: translate(-30px, 8px) rotate(-9deg) scale(0.7); }
 .pcard.s2 { width: 120px; height: 150px; z-index: 3; transform: translate(30px, 8px) rotate(9deg) scale(0.7); }
-.window[data-phase="result"] .pcard.s1 { opacity: 0.96; transform: translate(-150px, 4px) rotate(-11deg) scale(0.92); }
-.window[data-phase="result"] .pcard.s2 { opacity: 0.96; transform: translate(150px, 4px) rotate(11deg) scale(0.92); }
+.window[data-phase="result"] .pcard.s1 { opacity: 0.96; transform: translate(-128px, 4px) rotate(-11deg) scale(0.92); }
+.window[data-phase="result"] .pcard.s2 { opacity: 0.96; transform: translate(128px, 4px) rotate(11deg) scale(0.92); }
 /* far mini (their app + showcase) */
 .pcard.f1 { width: 108px; height: 78px; z-index: 2; transform: translate(-30px, 0) rotate(-16deg) scale(0.6); }
 .pcard.f2 { width: 104px; height: 84px; z-index: 2; transform: translate(30px, 0) rotate(15deg) scale(0.6); }
-.window[data-phase="result"] .pcard.f1 { opacity: 0.8; transform: translate(-218px, -60px) rotate(-17deg) scale(0.86); }
-.window[data-phase="result"] .pcard.f2 { opacity: 0.8; transform: translate(214px, 62px) rotate(16deg) scale(0.86); }
+.window[data-phase="result"] .pcard.f1 { opacity: 0.8; transform: translate(-170px, -50px) rotate(-17deg) scale(0.86); }
+.window[data-phase="result"] .pcard.f2 { opacity: 0.8; transform: translate(170px, 52px) rotate(16deg) scale(0.86); }
 
 /* css mini-banner cards (purple) */
 .mini { display: flex; flex-direction: column; justify-content: space-between; padding: 11px; background: linear-gradient(150deg, #2a1145, #160a2a); }

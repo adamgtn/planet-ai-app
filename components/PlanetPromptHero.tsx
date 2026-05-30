@@ -211,28 +211,10 @@ export default function PlanetPromptHero({
     <div
       ref={rootRef}
       aria-hidden="true"
-      className={`${styles.stage} ${sora.variable} ${jetbrainsMono.variable} ${className}`}
+      className={`${styles.root} ${sora.variable} ${jetbrainsMono.variable} ${className}`}
     >
-      <div className={styles["orbit-glow"]} />
-
-      {/* top-right format badge */}
-      <div className={`${styles.badge} ${styles["badge-format"]}`}>
-        <div className={styles.lbl}>Format</div>
-        <div className={styles.big}>Multi-rasio</div>
-        <div className={styles.sub}>
-          PLANETPROMPT · <b>v1.0</b>
-        </div>
-        <div className={styles.chips}>JSON · CHATGPT · MJ · STORY</div>
-      </div>
-
-      {/* bottom-left speed badge */}
-      <div className={`${styles.badge} ${styles["badge-speed"]}`}>
-        <div className={styles.lbl}>Rata-rata</div>
-        <div className={styles.big}>&lt; 30 detik</div>
-        <div className={styles.flow}>
-          <b>brief</b> → JSON → <b>visual</b>
-        </div>
-      </div>
+      <div className={styles.stage}>
+        <div className={styles["orbit-glow"]} />
 
       {/* APP WINDOW */}
       <div className={styles.window} data-pph="window" data-phase="brief">
@@ -381,6 +363,24 @@ export default function PlanetPromptHero({
               <b>5 variasi</b> rasio · siap posting
             </div>
           </div>
+        </div>
+      </div>
+      </div>
+
+      {/* Badges — overhang di luar kartu (stage) biar nggak nutupin window */}
+      <div className={`${styles.badge} ${styles["badge-format"]}`}>
+        <div className={styles.lbl}>Format</div>
+        <div className={styles.big}>Multi-rasio</div>
+        <div className={styles.sub}>
+          PLANETPROMPT · <b>v1.0</b>
+        </div>
+        <div className={styles.chips}>JSON · CHATGPT · MJ · STORY</div>
+      </div>
+      <div className={`${styles.badge} ${styles["badge-speed"]}`}>
+        <div className={styles.lbl}>Rata-rata</div>
+        <div className={styles.big}>&lt; 30 detik</div>
+        <div className={styles.flow}>
+          <b>brief</b> → JSON → <b>visual</b>
         </div>
       </div>
     </div>
