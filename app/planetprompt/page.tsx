@@ -911,14 +911,14 @@ function ExampleOutputSection() {
                   ))}
                 </ul>
               </div>
-              <div className="relative w-28 shrink-0 self-center sm:w-36">
+              <div className="relative w-32 shrink-0 self-center sm:w-44">
                 <Image
                   src={e.img}
                   alt={e.title}
-                  width={360}
-                  height={450}
-                  sizes="(max-width: 768px) 35vw, 180px"
-                  className="aspect-[4/5] w-full rounded-xl border border-white/10 bg-black/30 object-cover"
+                  width={0}
+                  height={0}
+                  sizes="(max-width: 768px) 40vw, 200px"
+                  className="h-auto w-full rounded-xl border border-white/10 bg-black/20"
                 />
                 <span className="absolute right-1.5 top-1.5 rounded-md bg-black/55 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-violet-200 backdrop-blur">
                   ↗ {e.ratio}
