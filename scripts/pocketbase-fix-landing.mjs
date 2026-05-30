@@ -127,6 +127,6 @@ if (existing.items.length > 0) {
 
 console.log("✅ Setup landing page selesai.\n");
 console.log("Langkah berikutnya:");
-console.log("  1. Login ke https://app.planet-ai.tech sebagai super_admin");
+console.log("  1. Login ke https://planetsoft.id sebagai super_admin");
 console.log("  2. Sidebar admin akan muncul menu baru 'Landing Page'");
 console.log("  3. Klik untuk mulai edit landing page tiap produk\n");

@@ -4,7 +4,7 @@
  * Halaman Terima Kasih — tujuan redirect setelah pembayaran berhasil.
  *
  * SETUP: di dashboard Mayar, set "Redirect URL setelah bayar" ke:
- *   https://app.planet-ai.tech/terima-kasih
+ *   https://planetsoft.id/terima-kasih
  *
  * Optional: kalau Mayar bisa kirim query param, kita baca buat nilai Purchase:
  *   /terima-kasih?amount=97000&product=Paket%20UMKM%20Starter

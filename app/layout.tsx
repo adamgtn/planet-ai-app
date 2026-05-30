@@ -5,6 +5,7 @@ import { AuthProvider } from "@/lib/auth";
 import MarketingPixels from "@/components/MarketingPixels";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://planetsoft.id"),
   title: "PlanetSoft — Learning Center",
   description:
     "Member area eksklusif PlanetSoft. Belajar AI dengan kurikulum yang terstruktur, modern, dan praktis.",
