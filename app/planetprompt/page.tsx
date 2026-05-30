@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { trackLead } from "@/lib/pixels";
+import PlanetPromptHero from "@/components/PlanetPromptHero";
 import {
   ArrowRight,
   Check,
@@ -156,21 +157,10 @@ function Hero() {
             Tanpa Bisa Desain
           </h1>
 
-          {/* Banner promo — di antara H1 dan deskripsi */}
-          <a
-            href="#pricing"
-            className="group mt-6 block overflow-hidden rounded-2xl shadow-card transition hover:shadow-cardHover"
-          >
-            <Image
-              src="/lp/planetprompt/hero/banner.png"
-              alt="PlanetPrompt — Era Baru Desain Konten Kreatif"
-              width={1536}
-              height={896}
-              priority
-              sizes="(max-width: 768px) 100vw, 800px"
-              className="h-auto w-full transition group-hover:scale-[1.01]"
-            />
-          </a>
+          {/* Hero animasi studio — brief → JSON → banner (ganti banner statis) */}
+          <div className="mt-6">
+            <PlanetPromptHero />
+          </div>
 
           <p className="mt-6 max-w-xl text-base leading-relaxed text-ink/70 md:text-lg">
             PlanetPrompt bantu kamu bikin caption, konsep banner, deskripsi
