@@ -196,13 +196,13 @@
   bottom: 18px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 11px 20px;
-  border-radius: 11px;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 9px;
   border: none;
   font-family: var(--sans);
   font-weight: 700;
-  font-size: 13px;
+  font-size: 12px;
   color: #fff;
   background: linear-gradient(90deg, var(--magenta), var(--violet-2));
   box-shadow: 0 10px 26px -8px rgba(236, 72, 153, 0.7);
@@ -324,6 +324,7 @@
   .window { width: 88%; }
   .screen { height: 300px; }
   .pcard.f1, .pcard.f2 { display: none; }
+  .badge-format, .badge-speed { display: none; }
   .window[data-phase="result"] .pcard.s1 { transform: translate(-104px, 4px) rotate(-12deg) scale(0.78); }
   .window[data-phase="result"] .pcard.s2 { transform: translate(104px, 4px) rotate(12deg) scale(0.78); }
   .badge-format .big { font-size: 16px; }
