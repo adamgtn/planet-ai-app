@@ -64,7 +64,7 @@ export default function PlanetPromptLanding() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-ink">
+    <div className="theme-purple min-h-screen bg-white text-ink">
       <Navbar />
       <Hero />
       <ShowcaseMarqueeSection />
@@ -141,7 +141,7 @@ function Hero() {
   return (
     <section className="relative overflow-hidden pb-20 pt-32 lg:pt-40">
       <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[1100px] -translate-x-1/2 rounded-full bg-brand/10 blur-[100px]" />
-      <div className="pointer-events-none absolute -bottom-20 -right-32 h-80 w-80 rounded-full bg-amber-200/30 blur-[80px]" />
+      <div className="pointer-events-none absolute -bottom-20 -right-32 h-80 w-80 rounded-full bg-fuchsia-300/25 blur-[80px]" />
 
       <div className="relative mx-auto max-w-6xl px-6">
         {/* Teks: eyebrow + judul + caption + CTA */}
@@ -152,7 +152,7 @@ function Hero() {
 
           <h1 className="mt-5 text-balance text-4xl font-extrabold leading-tight tracking-tight text-ink md:text-5xl lg:text-6xl">
             Konten{" "}
-            <span className="bg-gradient-to-r from-brand to-amber-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brand to-fuchsia-500 bg-clip-text text-transparent">
               Profesional
             </span>{" "}
             Kini Bisa Dibuat Siapa Saja.
@@ -659,7 +659,7 @@ function DesignPromptKitSection() {
   return (
     <section className="py-12 lg:py-28">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="rounded-3xl border border-brand/20 bg-gradient-to-br from-brand/[0.06] via-amber-50/40 to-white p-8 md:p-12">
+        <div className="rounded-3xl border border-brand/20 bg-gradient-to-br from-brand/[0.06] via-fuchsia-50/40 to-white p-8 md:p-12">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.2fr_1fr] lg:items-center">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-brand px-3 py-1 text-xs font-bold uppercase tracking-wider text-white">
@@ -769,7 +769,7 @@ function BeforeAfterSection() {
           </div>
 
           {/* After */}
-          <div className="relative rounded-2xl border-2 border-brand bg-gradient-to-br from-brand-50 to-amber-50/60 p-6 shadow-2xl shadow-brand/20">
+          <div className="relative rounded-2xl border-2 border-brand bg-gradient-to-br from-brand-50 to-fuchsia-50/60 p-6 shadow-2xl shadow-brand/20">
             <p className="inline-flex items-center gap-2 rounded-full bg-brand px-3 py-1 text-xs font-bold text-white">
               <Sparkles size={12} /> Setelah PlanetPrompt
             </p>
@@ -1321,12 +1321,12 @@ function FinalCtaSection() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-brand via-brand-600 to-orange-700 py-20 text-white lg:py-28">
       <div className="pointer-events-none absolute -right-20 -top-20 h-80 w-80 rounded-full bg-white/10 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-20 left-1/4 h-72 w-72 rounded-full bg-amber-300/20 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-20 left-1/4 h-72 w-72 rounded-full bg-fuchsia-300/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-3xl px-6 text-center">
         <h2 className="text-balance text-3xl font-extrabold leading-tight md:text-5xl">
           Siap Bikin Konten Jualan yang Lebih{" "}
-          <span className="text-amber-200">Rapi dan Menarik?</span>
+          <span className="text-fuchsia-300">Rapi dan Menarik?</span>
         </h2>
 
         <p className="mx-auto mt-5 max-w-xl text-base text-white/85 md:text-lg">
