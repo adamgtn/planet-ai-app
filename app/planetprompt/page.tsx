@@ -6,6 +6,8 @@ import { trackLead } from "@/lib/pixels";
 import PlanetPromptHero from "@/components/PlanetPromptHero";
 import {
   ArrowRight,
+  BarChart3,
+  BookOpen,
   Check,
   CheckCircle2,
   ChevronDown,
@@ -15,10 +17,12 @@ import {
   FileText,
   Image as ImageIcon,
   Layers,
+  LayoutGrid,
   MessageCircle,
   Palette,
   Phone,
   Play,
+  Scan,
   Scissors,
   Shirt,
   ShoppingBag,
@@ -29,6 +33,7 @@ import {
   Users,
   Utensils,
   Wand2,
+  Youtube,
   X,
 } from "lucide-react";
 
@@ -798,106 +803,126 @@ function BeforeAfterSection() {
 // EXAMPLE OUTPUT — 3 contoh
 
 function ExampleOutputSection() {
-  const examples = [
+  const engines = [
     {
-      emoji: "🌶️",
-      product: "Keripik Kaca Azqiya",
-      input: [
-        ["Produk", "Keripik kaca pedas daun jeruk"],
-        ["Harga", "Rp 25.000"],
-        ["Promo", "Beli 2 gratis 1"],
-        ["Target", "Anak muda pecinta camilan pedas"],
-      ],
-      outputs: [
-        "Konsep poster premium",
-        "Headline banner",
-        "Caption Instagram",
-        "Deskripsi marketplace",
-        "Broadcast WhatsApp",
-      ],
-      img: showcaseImages[0],
+      code: "M1",
+      icon: <LayoutGrid size={18} />,
+      title: "Design Grafis",
+      desc: "Brief produk → banner komersial siap upload. Cocok buat feed IG, marketplace, dan hero website.",
+      points: ["Komposisi commercial-grade", "Aspect 1:1 / 4:5 / 16:9", "Sesuai warna brand kamu"],
+      img: "/lp/planetprompt/engine/design-grafis.png",
+      ratio: "1:1",
     },
     {
-      emoji: "▶️",
-      product: "Thumbnail YouTube Generator",
-      input: [
-        ["Tipe video", "Podcast / review snack viral"],
-        ["Style", "Hype, warna bold, big text"],
-        ["Mood", "Dramatic, clickable, viral"],
-        ["Highlight", "Box premium + badge VIRAL DI SOSMED"],
-      ],
-      outputs: [
-        "Thumbnail YouTube HD siap upload",
-        "Variasi A/B test thumbnail",
-        "Headline clickbait yang relevan",
-        "Cover Instagram Reels / TikTok",
-      ],
-      img: showcaseImages[14],
+      code: "M2",
+      icon: <Youtube size={18} />,
+      title: "YouTube Thumbnail",
+      desc: "Thumbnail yang clickable — komposisi, ekspresi, dan teks overlay sudah diatur otomatis.",
+      points: ["Layout CTR-oriented", "Teks overlay otomatis", "Pose & emosi subjek"],
+      img: "/lp/planetprompt/engine/youtube-thumbnail.png",
+      ratio: "16:9",
     },
     {
-      emoji: "✨",
-      product: "Creative Prompt",
-      input: [
-        ["Produk", "Susu sapi rasa karamel kaleng"],
-        ["Brand", "Fresh Nourish"],
-        ["Style", "Premium splash, dramatic lighting"],
-        ["Background", "Biru gelap dengan splash karamel"],
-      ],
-      outputs: [
-        "Visual produk premium splash",
-        "Poster iklan dramatic",
-        "Konsep cover marketplace",
-        "Arahan visual untuk AI image generator",
-      ],
-      img: showcaseImages[22],
+      code: "M3",
+      icon: <Scan size={18} />,
+      title: "Anatomi",
+      desc: "Breakdown anatomi visual produk — angle, proporsi, dan detail biar hasil AI presisi & konsisten.",
+      points: ["Panduan angle & proporsi", "Detail tekstur produk", "Konsisten antar variasi"],
+      img: "/lp/planetprompt/engine/anatomi.png",
+      ratio: "4:5",
+    },
+    {
+      code: "M4",
+      icon: <BookOpen size={18} />,
+      title: "Comic",
+      desc: "Konten storytelling gaya komik — panel, dialog, dan ekspresi untuk promosi yang lebih engaging.",
+      points: ["Panel & alur cerita", "Dialog promosi", "Karakter brand kamu"],
+      img: "/lp/planetprompt/engine/comic.png",
+      ratio: "4:5",
+    },
+    {
+      code: "M5",
+      icon: <BarChart3 size={18} />,
+      title: "Infografis",
+      desc: "Ubah keunggulan & data produk jadi infografis rapi yang gampang dipahami calon pembeli.",
+      points: ["Layout data yang jelas", "Ikon & highlight angka", "Hierarki informasi rapi"],
+      img: "/lp/planetprompt/engine/infografis.png",
+      ratio: "4:5",
+    },
+    {
+      code: "M6",
+      icon: <Sparkles size={18} />,
+      title: "Creative Prompt",
+      desc: "Prompt visual bebas untuk ide out-of-the-box — splash, dramatic lighting, konsep premium.",
+      points: ["Konsep visual premium", "Arahan lighting & mood", "Siap untuk AI image generator"],
+      img: "/lp/planetprompt/engine/creative-prompt.png",
+      ratio: "1:1",
     },
   ];
 
   return (
-    <section className="py-12 lg:py-28">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="relative overflow-hidden bg-[#0d0818] py-16 lg:py-28">
+      <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[680px] -translate-x-1/2 rounded-full bg-violet-600/20 blur-[110px]" />
+      <div className="relative mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
-            Contoh hasil
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-violet-300">
+            Engine Kreatif
           </p>
-          <h2 className="mt-3 text-3xl font-bold text-ink md:text-4xl">
-            Contoh Hasil yang Bisa Kamu Buat
+          <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
+            6 Engine Kreatif untuk Setiap{" "}
+            <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+              Kebutuhan Visual
+            </span>
           </h2>
-          <p className="mt-3 text-ink/65">
-            Tiga contoh nyata dari produk UMKM.
+          <p className="mt-3 text-white/55">
+            Bukan satu generator dipakai untuk semua. Tiap mode punya logic
+            sendiri biar output AI-nya konsisten sesuai format akhirnya.
           </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {examples.map((ex, i) => (
+        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2">
+          {engines.map((e) => (
             <div
-              key={i}
-              className="overflow-hidden rounded-2xl border border-muted bg-white shadow-card transition hover:-translate-y-1 hover:shadow-cardHover"
+              key={e.code}
+              className="flex gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-violet-500/40 hover:bg-white/[0.06]"
             >
-              <Image
-                src={ex.img}
-                alt={ex.product}
-                width={400}
-                height={300}
-                sizes="(max-width: 768px) 90vw, 300px"
-                className="aspect-[4/3] w-full bg-muted/40 object-contain"
-              />
-              <div className="p-5">
-                <h3 className="text-lg font-bold text-ink">{ex.product}</h3>
-
-                <p className="mt-4 text-[11px] font-semibold uppercase tracking-wider text-emerald-600">
-                  Output yang dihasilkan
-                </p>
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {ex.outputs.map((o) => (
-                    <span
-                      key={o}
-                      className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-medium text-emerald-700"
-                    >
-                      <Check size={10} /> {o}
-                    </span>
-                  ))}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2.5">
+                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-violet-500/15 text-violet-300">
+                    {e.icon}
+                  </span>
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-300/70">
+                    / Engine · {e.code}
+                  </span>
                 </div>
+                <h3 className="mt-3 text-lg font-bold text-white">{e.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-white/55">
+                  {e.desc}
+                </p>
+                <ul className="mt-3 space-y-1.5">
+                  {e.points.map((p) => (
+                    <li
+                      key={p}
+                      className="flex items-center gap-2 text-xs text-white/70"
+                    >
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-violet-400" />
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="relative w-28 shrink-0 self-center sm:w-36">
+                <Image
+                  src={e.img}
+                  alt={e.title}
+                  width={360}
+                  height={450}
+                  sizes="(max-width: 768px) 35vw, 180px"
+                  className="aspect-[4/5] w-full rounded-xl border border-white/10 bg-black/30 object-cover"
+                />
+                <span className="absolute right-1.5 top-1.5 rounded-md bg-black/55 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-violet-200 backdrop-blur">
+                  ↗ {e.ratio}
+                </span>
               </div>
             </div>
           ))}
