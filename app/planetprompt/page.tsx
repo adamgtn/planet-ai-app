@@ -143,50 +143,45 @@ function Hero() {
       <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[1100px] -translate-x-1/2 rounded-full bg-brand/10 blur-[100px]" />
       <div className="pointer-events-none absolute -bottom-20 -right-32 h-80 w-80 rounded-full bg-amber-200/30 blur-[80px]" />
 
-      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-8 px-6 lg:grid-cols-[1fr_1.5fr] lg:items-center">
-        {/* A — eyebrow + judul */}
-        <div className="lg:col-start-1 lg:row-start-1">
+      <div className="relative mx-auto max-w-6xl px-6">
+        {/* Teks: eyebrow + judul + caption + CTA */}
+        <div className="max-w-2xl">
           <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand">
             <Store size={12} /> Toolkit Konten untuk UMKM
           </span>
 
           <h1 className="mt-5 text-balance text-4xl font-extrabold leading-tight tracking-tight text-ink md:text-5xl lg:text-6xl">
-            Bikin Konten Jualan{" "}
+            Konten{" "}
             <span className="bg-gradient-to-r from-brand to-amber-500 bg-clip-text text-transparent">
               Profesional
             </span>{" "}
-            Tanpa Bisa Desain
+            Kini Bisa Dibuat Siapa Saja.
           </h1>
-        </div>
 
-        {/* B — animasi studio (kanan di desktop, tepat di bawah judul di mobile) */}
-        <div className="w-full lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:self-center">
-          <PlanetPromptHero />
-        </div>
-
-        {/* C — deskripsi + langkah + CTA */}
-        <div className="lg:col-start-1 lg:row-start-2">
-          <p className="max-w-xl text-base leading-relaxed text-ink/70 md:text-lg">
-            PlanetPrompt bantu kamu bikin caption, konsep banner, deskripsi
-            marketplace, promosi WhatsApp, dan ide jualan — cukup pakai template
-            prompt siap pakai.
+          <p className="mt-6 text-base leading-relaxed text-ink/70 md:text-lg">
+            Ubah ide sederhana menjadi desain iklan premium untuk social media,
+            ads, dan branding dalam hitungan detik.
           </p>
 
-          <ul className="mt-7 space-y-3">
+          <ul className="mt-5 space-y-2">
             {[
-              "Tinggal pilih template kebutuhan kontenmu",
-              "Isi nama produk, harga, dan promo",
-              "Copy ke ChatGPT, Gemini, Claude, atau AI favoritmu",
-              "Dapatkan ide konten & arahan promosi siap pakai",
+              "Tidak perlu belajar desain.",
+              "Tidak perlu langganan tool mahal.",
+              "Tidak perlu menunggu designer berhari-hari.",
             ].map((b, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-brand text-xs font-bold text-white">
-                  {i + 1}
-                </span>
-                <span className="text-sm text-ink/80 md:text-base">{b}</span>
+              <li
+                key={i}
+                className="flex items-center gap-2.5 text-sm text-ink/80 md:text-base"
+              >
+                <Check size={18} className="shrink-0 text-emerald-500" />
+                {b}
               </li>
             ))}
           </ul>
+
+          <p className="mt-5 text-base font-semibold text-ink/85 md:text-lg">
+            Cepat, praktis, dan siap bantu jualan Anda tampil lebih profesional.
+          </p>
 
           <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
             <a
@@ -206,6 +201,11 @@ function Hero() {
           <p className="mt-5 text-xs text-ink/55">
             Sekali beli · Bisa dipakai berkali-kali · Cocok untuk pemula
           </p>
+        </div>
+
+        {/* Animasi studio — di bawah caption */}
+        <div className="mt-10 w-full max-w-4xl lg:mt-12">
+          <PlanetPromptHero />
         </div>
       </div>
     </section>
