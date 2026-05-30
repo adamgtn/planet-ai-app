@@ -143,9 +143,9 @@ function Hero() {
       <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[1100px] -translate-x-1/2 rounded-full bg-brand/10 blur-[100px]" />
       <div className="pointer-events-none absolute -bottom-20 -right-32 h-80 w-80 rounded-full bg-amber-200/30 blur-[80px]" />
 
-      <div className="relative mx-auto max-w-6xl px-6">
-        {/* Eyebrow + headline */}
-        <div className="max-w-2xl">
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-8 px-6 lg:grid-cols-[1fr_1.5fr] lg:items-center">
+        {/* A — eyebrow + judul */}
+        <div className="lg:col-start-1 lg:row-start-1">
           <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand">
             <Store size={12} /> Toolkit Konten untuk UMKM
           </span>
@@ -159,16 +159,14 @@ function Hero() {
           </h1>
         </div>
 
-        {/* Hero animasi studio — FULL WIDTH biar kartu fan-out nggak kepotong */}
-        <div className="mx-auto mt-8 w-full max-w-4xl">
+        {/* B — animasi studio (kanan di desktop, tepat di bawah judul di mobile) */}
+        <div className="w-full lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:self-center">
           <PlanetPromptHero />
         </div>
 
-        {/* Detail + mockup kartu */}
-        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center">
-          <div>
-
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-ink/70 md:text-lg">
+        {/* C — deskripsi + langkah + CTA */}
+        <div className="lg:col-start-1 lg:row-start-2">
+          <p className="max-w-xl text-base leading-relaxed text-ink/70 md:text-lg">
             PlanetPrompt bantu kamu bikin caption, konsep banner, deskripsi
             marketplace, promosi WhatsApp, dan ide jualan — cukup pakai template
             prompt siap pakai.
@@ -208,48 +206,6 @@ function Hero() {
           <p className="mt-5 text-xs text-ink/55">
             Sekali beli · Bisa dipakai berkali-kali · Cocok untuk pemula
           </p>
-        </div>
-
-        {/* Hero mockup — kartu prompt UMKM */}
-        <div className="relative">
-          <div className="grid grid-cols-2 gap-3">
-            <PromptCard
-              icon="🚀"
-              tone="brand"
-              title="Aplikasi PlanetPrompt"
-              hint="Akses dashboard prompt langsung dari browser..."
-            />
-            <PromptCard
-              icon="🎨"
-              tone="amber"
-              title="Konsep Banner Promo"
-              hint="Banner diskon untuk Shopee/Tokopedia..."
-            />
-            <PromptCard
-              icon="🛠️"
-              tone="emerald"
-              title="Tools Kit Brand"
-              hint="Kit lengkap arahan visual & copywriting..."
-            />
-            <PromptCard
-              icon="👥"
-              tone="rose"
-              title="Join Member"
-              hint="Komunitas VIP + mentoring langsung..."
-            />
-          </div>
-          <div className="absolute -bottom-3 right-2 rounded-2xl border border-muted bg-white p-3 shadow-card md:-bottom-6 md:-right-6 md:p-4">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-ink/45 md:text-[11px]">
-              Powered by
-            </p>
-            <p className="text-lg font-extrabold text-brand md:text-2xl">
-              AI Generator
-            </p>
-            <p className="text-[10px] text-ink/55 md:text-[11px]">
-              Generate konten tanpa batas
-            </p>
-          </div>
-        </div>
         </div>
       </div>
     </section>
