@@ -74,13 +74,13 @@ export default function PlanetPromptLanding() {
       <Hero />
       <ShowcaseMarqueeSection />
       <ProblemSection />
+      <ExampleOutputSection />
       <SolutionSection />
       <HowItWorksSection />
       <UseCaseSection />
       <FeaturesSection />
       <DesignPromptKitSection />
       <BeforeAfterSection />
-      <ExampleOutputSection />
       <PricingSection />
       <FaqSection />
       <FinalCtaSection />
