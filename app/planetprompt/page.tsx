@@ -143,8 +143,9 @@ function Hero() {
       <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[1100px] -translate-x-1/2 rounded-full bg-brand/10 blur-[100px]" />
       <div className="pointer-events-none absolute -bottom-20 -right-32 h-80 w-80 rounded-full bg-amber-200/30 blur-[80px]" />
 
-      <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-12 px-6 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-        <div>
+      <div className="relative mx-auto max-w-6xl px-6">
+        {/* Eyebrow + headline */}
+        <div className="max-w-2xl">
           <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand">
             <Store size={12} /> Toolkit Konten untuk UMKM
           </span>
@@ -156,11 +157,16 @@ function Hero() {
             </span>{" "}
             Tanpa Bisa Desain
           </h1>
+        </div>
 
-          {/* Hero animasi studio — brief → JSON → banner (ganti banner statis) */}
-          <div className="mt-6">
-            <PlanetPromptHero />
-          </div>
+        {/* Hero animasi studio — FULL WIDTH biar kartu fan-out nggak kepotong */}
+        <div className="mx-auto mt-8 w-full max-w-4xl">
+          <PlanetPromptHero />
+        </div>
+
+        {/* Detail + mockup kartu */}
+        <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-center">
+          <div>
 
           <p className="mt-6 max-w-xl text-base leading-relaxed text-ink/70 md:text-lg">
             PlanetPrompt bantu kamu bikin caption, konsep banner, deskripsi
@@ -243,6 +249,7 @@ function Hero() {
               Generate konten tanpa batas
             </p>
           </div>
+        </div>
         </div>
       </div>
     </section>
