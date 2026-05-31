@@ -211,6 +211,18 @@ function Hero() {
           </p>
         </div>
 
+        {/* Banner promo — di bawah headline/caption */}
+        <div className="mt-8 w-full max-w-xl">
+          <Image
+            src="/lp/planetprompt/hero/banner-promo.png"
+            alt="PlanetPrompt — Banner Promo"
+            width={1254}
+            height={1254}
+            sizes="(max-width: 768px) 100vw, 576px"
+            className="h-auto w-full rounded-2xl shadow-card"
+          />
+        </div>
+
         {/* Animasi studio — di bawah caption */}
         <div className="mt-10 w-full max-w-4xl lg:mt-12">
           <PlanetPromptHero />
