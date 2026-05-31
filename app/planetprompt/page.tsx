@@ -514,59 +514,43 @@ function UseCaseSection() {
   ];
 
   return (
-    <section className="py-12 lg:py-28">
-      <div className="mx-auto max-w-6xl px-6">
+    <section className="relative overflow-hidden bg-[#0d0818] py-16 lg:py-28">
+      <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[680px] -translate-x-1/2 rounded-full bg-violet-600/20 blur-[110px]" />
+      <div className="relative mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
-            Untuk siapa
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-violet-300">
+            Untuk Siapa
           </p>
-          <h2 className="mt-3 text-3xl font-bold text-ink md:text-4xl">
-            Cocok untuk Banyak Jenis Usaha
+          <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
+            Cocok untuk Banyak{" "}
+            <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+              Jenis Usaha
+            </span>
           </h2>
-          <p className="mt-3 text-ink/65">
+          <p className="mt-3 text-white/55">
             Apapun produkmu, ada template kontennya.
           </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((c, i) => {
-            const palette = {
-              rose: "bg-rose-50 text-rose-500",
-              brand: "bg-brand-50 text-brand",
-              emerald: "bg-emerald-50 text-emerald-600",
-              amber: "bg-amber-50 text-amber-600",
-              sky: "bg-sky-50 text-sky-600",
-              violet: "bg-violet-50 text-violet-600",
-              indigo: "bg-indigo-50 text-indigo-600",
-              fuchsia: "bg-fuchsia-50 text-fuchsia-600",
-              teal: "bg-teal-50 text-teal-600",
-            }[c.tone];
-            return (
-              <div
-                key={i}
-                className="overflow-hidden rounded-2xl border border-muted bg-white shadow-card transition hover:-translate-y-1 hover:shadow-cardHover"
-              >
-                <div className="relative aspect-[4/3] w-full bg-muted/40">
-                  <Image
-                    src={c.img}
-                    alt={c.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 360px"
-                    className="object-cover"
-                  />
-                  <span
-                    className={`absolute left-3 top-3 inline-grid h-9 w-9 place-items-center rounded-xl shadow-sm ring-2 ring-white ${palette}`}
-                  >
-                    {c.icon}
-                  </span>
-                </div>
-                <div className="p-5">
-                  <h3 className="text-lg font-bold text-ink">{c.title}</h3>
-                  <p className="mt-1.5 text-sm text-ink/60">{c.examples}</p>
-                </div>
+        <div className="mt-12 grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {categories.map((c, i) => (
+            <div
+              key={i}
+              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition hover:border-violet-500/40"
+            >
+              <Image
+                src={c.img}
+                alt={c.title}
+                width={0}
+                height={0}
+                sizes="(max-width: 768px) 100vw, 360px"
+                className="h-auto w-full"
+              />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 pt-12">
+                <h3 className="text-base font-bold text-white">{c.title}</h3>
               </div>
-            );
-          })}
+            </div>
+          ))}
         </div>
       </div>
     </section>
