@@ -166,6 +166,18 @@ function Hero() {
             Kini Bisa Dibuat Siapa Saja.
           </h1>
 
+          {/* Banner promo — di bawah title, di atas caption */}
+          <div className="mt-6 w-full max-w-xl">
+            <Image
+              src="/lp/planetprompt/hero/banner-promo.png"
+              alt="PlanetPrompt — Banner Promo"
+              width={1254}
+              height={1254}
+              sizes="(max-width: 768px) 100vw, 576px"
+              className="h-auto w-full rounded-2xl shadow-card"
+            />
+          </div>
+
           <p className="mt-6 text-base leading-relaxed text-ink/70 md:text-lg">
             Ubah ide sederhana menjadi desain iklan premium untuk social media,
             ads, dan branding dalam hitungan detik.
@@ -209,18 +221,6 @@ function Hero() {
           <p className="mt-5 text-xs text-ink/55">
             Sekali beli · Bisa dipakai berkali-kali · Cocok untuk pemula
           </p>
-        </div>
-
-        {/* Banner promo — di bawah headline/caption */}
-        <div className="mt-8 w-full max-w-xl">
-          <Image
-            src="/lp/planetprompt/hero/banner-promo.png"
-            alt="PlanetPrompt — Banner Promo"
-            width={1254}
-            height={1254}
-            sizes="(max-width: 768px) 100vw, 576px"
-            className="h-auto w-full rounded-2xl shadow-card"
-          />
         </div>
 
         {/* Animasi studio — di bawah caption */}
