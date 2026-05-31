@@ -36,6 +36,9 @@ jobs:
             echo "→ npm run build"
             npm run build
 
+            echo "→ bersihin cache gambar Next (biar gambar yang di-swap langsung tampil)"
+            rm -rf .next/cache/images
+
             echo "→ pm2 restart"
             pm2 restart planet-ai-app --update-env
 
