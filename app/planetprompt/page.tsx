@@ -536,7 +536,7 @@ function UseCaseSection() {
           {categories.map((c, i) => (
             <div
               key={i}
-              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition hover:border-violet-500/40"
+              className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] transition hover:border-violet-500/40 hover:bg-white/[0.07]"
             >
               <Image
                 src={c.img}
@@ -546,9 +546,9 @@ function UseCaseSection() {
                 sizes="(max-width: 768px) 100vw, 360px"
                 className="h-auto w-full"
               />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-4 pt-12">
-                <h3 className="text-base font-bold text-white">{c.title}</h3>
-              </div>
+              <h3 className="px-4 py-3.5 text-center text-base font-bold text-white">
+                {c.title}
+              </h3>
             </div>
           ))}
         </div>
