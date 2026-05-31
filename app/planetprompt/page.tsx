@@ -15,11 +15,14 @@ import {
   Copy,
   Crown,
   FileText,
+  Gamepad2,
+  GraduationCap,
   Image as ImageIcon,
   Layers,
   LayoutGrid,
   MessageCircle,
   Palette,
+  PartyPopper,
   Phone,
   Play,
   Scan,
@@ -450,36 +453,63 @@ function UseCaseSection() {
       tone: "rose",
       title: "Makanan & Minuman",
       examples: "Donat, kopi susu, keripik, frozen food, catering",
+      img: "/lp/planetprompt/use-case/makanan-minuman.png",
     },
     {
       icon: <Shirt size={20} />,
       tone: "brand",
       title: "Fashion & Apparel",
       examples: "Kaos basic, thrift, hijab, sepatu, tas lokal",
+      img: "/lp/planetprompt/use-case/fashion-apparel.png",
     },
     {
       icon: <Palette size={20} />,
       tone: "emerald",
       title: "Beauty & Skincare",
       examples: "Skincare lokal, parfum, salon, nail art",
+      img: "/lp/planetprompt/use-case/beauty-skincare.png",
     },
     {
       icon: <Scissors size={20} />,
       tone: "amber",
       title: "Jasa Lokal",
       examples: "Laundry, barbershop, fotografi, percetakan, bengkel",
+      img: "/lp/planetprompt/use-case/jasa-lokal.png",
     },
     {
       icon: <Layers size={20} />,
       tone: "sky",
       title: "Produk Digital",
       examples: "Template, kelas online, jasa desain, e-book",
+      img: "/lp/planetprompt/use-case/produk-digital.png",
     },
     {
       icon: <Tag size={20} />,
       tone: "violet",
       title: "Marketplace Seller",
       examples: "Shopee, Tokopedia, TikTok Shop, Instagram",
+      img: "/lp/planetprompt/use-case/marketplace.png",
+    },
+    {
+      icon: <GraduationCap size={20} />,
+      tone: "indigo",
+      title: "Edukasi & Kelas",
+      examples: "Kelas online, bimbel, kursus, webinar, e-course",
+      img: "/lp/planetprompt/use-case/education.png",
+    },
+    {
+      icon: <Gamepad2 size={20} />,
+      tone: "fuchsia",
+      title: "Esport & Gaming",
+      examples: "Tim esport, turnamen, gaming gear, streamer",
+      img: "/lp/planetprompt/use-case/esport.png",
+    },
+    {
+      icon: <PartyPopper size={20} />,
+      tone: "teal",
+      title: "Festive & Musiman",
+      examples: "Lebaran, Natal, tahun baru, promo musiman, giveaway",
+      img: "/lp/planetprompt/use-case/festive.png",
     },
   ];
 
@@ -507,19 +537,33 @@ function UseCaseSection() {
               amber: "bg-amber-50 text-amber-600",
               sky: "bg-sky-50 text-sky-600",
               violet: "bg-violet-50 text-violet-600",
+              indigo: "bg-indigo-50 text-indigo-600",
+              fuchsia: "bg-fuchsia-50 text-fuchsia-600",
+              teal: "bg-teal-50 text-teal-600",
             }[c.tone];
             return (
               <div
                 key={i}
-                className="rounded-2xl border border-muted bg-white p-6 shadow-card transition hover:-translate-y-1 hover:shadow-cardHover"
+                className="overflow-hidden rounded-2xl border border-muted bg-white shadow-card transition hover:-translate-y-1 hover:shadow-cardHover"
               >
-                <span
-                  className={`inline-grid h-12 w-12 place-items-center rounded-xl ${palette}`}
-                >
-                  {c.icon}
-                </span>
-                <h3 className="mt-4 text-lg font-bold text-ink">{c.title}</h3>
-                <p className="mt-1.5 text-sm text-ink/60">{c.examples}</p>
+                <div className="relative aspect-[4/3] w-full bg-muted/40">
+                  <Image
+                    src={c.img}
+                    alt={c.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 360px"
+                    className="object-cover"
+                  />
+                  <span
+                    className={`absolute left-3 top-3 inline-grid h-9 w-9 place-items-center rounded-xl shadow-sm ring-2 ring-white ${palette}`}
+                  >
+                    {c.icon}
+                  </span>
+                </div>
+                <div className="p-5">
+                  <h3 className="text-lg font-bold text-ink">{c.title}</h3>
+                  <p className="mt-1.5 text-sm text-ink/60">{c.examples}</p>
+                </div>
               </div>
             );
           })}
