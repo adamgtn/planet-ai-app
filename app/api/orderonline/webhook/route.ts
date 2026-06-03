@@ -20,13 +20,10 @@
  * sekali (tanpa secret) supaya bisa dicek & dirapikan setelah order pertama.
  */
 
-import PocketBase from "pocketbase";
-import { sendCredentialEmail, mailerReady } from "@/lib/mailer";
+import { provisionMember } from "@/lib/provisionMember";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-const PB_URL = process.env.NEXT_PUBLIC_PB_URL || "https://db.planet-ai.tech";
 
 /** Ambil value pertama yang ada (non-kosong) dari beberapa kemungkinan key. */
 function pick(obj: Record<string, unknown>, keys: string[]): string {
@@ -36,16 +33,6 @@ function pick(obj: Record<string, unknown>, keys: string[]): string {
     if (typeof v === "number") return String(v);
   }
   return "";
-}
-
-/** Password acak ramah-ketik (tanpa karakter ambigu seperti O/0/l/1). */
-function genPassword(len = 10): string {
-  const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
-  let out = "";
-  const rnd = new Uint32Array(len);
-  crypto.getRandomValues(rnd);
-  for (let i = 0; i < len; i++) out += chars[rnd[i] % chars.length];
-  return out;
 }
 
 /** Deteksi apakah status menandakan SUDAH bayar. Kalau status tidak dikenal,
@@ -132,56 +119,14 @@ export async function POST(req: Request) {
     "data[merges][PHONE]",
   ]);
 
-  const pb = new PocketBase(PB_URL);
-
+  // buat akun + kirim email (logika bersama dengan form admin). Password TIDAK
+  // diteruskan ke caller eksternal — cukup status created/emailed.
   try {
-    // 2) auth sebagai akun service (role admin) — createRule users butuh ROLE_ADMIN
-    await pb
-      .collection("users")
-      .authWithPassword(process.env.PB_SERVICE_EMAIL || "", process.env.PB_SERVICE_PASSWORD || "");
+    const { password, ...result } = await provisionMember({ email, name, phone });
+    void password;
+    return Response.json(result);
   } catch (e) {
-    console.error("[oo-webhook] gagal auth service-admin:", (e as Error).message);
-    return Response.json({ ok: false, error: "auth service gagal" }, { status: 500 });
-  }
-
-  // 3) idempotent — kalau email sudah ada, jangan dobel
-  try {
-    const existing = await pb
-      .collection("users")
-      .getFirstListItem(pb.filter("email = {:email}", { email }))
-      .catch(() => null);
-    if (existing) {
-      return Response.json({ ok: true, created: false, note: "akun sudah ada", email });
-    }
-
-    const password = genPassword();
-    await pb.collection("users").create({
-      email,
-      name: name || email.split("@")[0],
-      phone,
-      role: "member",
-      status: "active",
-      password,
-      passwordConfirm: password,
-      emailVisibility: true,
-    });
-
-    // 4) kirim kredensial via email (kalau SMTP siap)
-    let emailed = false;
-    if (mailerReady()) {
-      try {
-        await sendCredentialEmail({ to: email, name, password });
-        emailed = true;
-      } catch (e) {
-        console.error("[oo-webhook] gagal kirim email kredensial:", (e as Error).message);
-      }
-    } else {
-      console.warn("[oo-webhook] SMTP belum dikonfigurasi — akun dibuat tapi email TIDAK terkirim:", email);
-    }
-
-    return Response.json({ ok: true, created: true, emailed, email });
-  } catch (e) {
-    console.error("[oo-webhook] gagal create user:", (e as Error).message);
+    console.error("[oo-webhook] provisionMember error:", (e as Error).message);
     return Response.json({ ok: false, error: "gagal buat akun" }, { status: 500 });
   }
 }

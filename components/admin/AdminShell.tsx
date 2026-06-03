@@ -10,6 +10,7 @@ import {
   Globe,
   LayoutDashboard,
   LogOut,
+  Send,
   Settings,
   ShieldCheck,
   UserCog,
@@ -30,6 +31,7 @@ type NavItem = {
 const NAV: NavItem[] = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
   { href: "/admin/users", label: "Member", icon: Users },
+  { href: "/admin/kirim-akses", label: "Kirim Akses", icon: Send },
   { href: "/admin/products", label: "Produk", icon: Box },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   {
