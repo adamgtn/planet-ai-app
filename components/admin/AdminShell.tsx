@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -63,23 +64,38 @@ export function AdminShell({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, isSuperAdmin, isAdmin, logout } = useAuth();
+  const { user, loading, isAuthenticated, isSuperAdmin, isAdmin, logout } =
+    useAuth();
   const role = user?.role === "super_admin" ? "super_admin" : "admin";
   const meta = ADMIN_PERMISSIONS[role];
 
   const visibleNav = NAV.filter((i) => !i.superAdminOnly || isSuperAdmin);
 
+  // Auth gating — HANYA admin yang boleh akses.
+  //  - belum login        → /admin/login
+  //  - login, bukan admin → /dashboard
+  //  - sedang loading     → jangan render apa pun (hindari "bocor" UI admin)
+  useEffect(() => {
+    if (loading) return;
+    if (!isAuthenticated) {
+      router.replace("/admin/login");
+    } else if (!isAdmin) {
+      router.replace("/dashboard");
+    }
+  }, [loading, isAuthenticated, isAdmin, router]);
+
   const handleLogout = () => {
     logout();
-    router.push("/login");
+    router.replace("/admin/login");
   };
 
-  // Block render kalau belum login atau bukan admin (akan redirect)
-  if (!isAdmin && user !== null) {
-    if (typeof window !== "undefined") {
-      router.push("/dashboard");
-    }
-    return null;
+  // Jangan pernah render isi admin sebelum dipastikan user = admin.
+  if (loading || !isAuthenticated || !isAdmin) {
+    return (
+      <div className="grid min-h-screen place-items-center bg-muted/40 text-sm text-ink/50">
+        Memuat…
+      </div>
+    );
   }
 
   return (

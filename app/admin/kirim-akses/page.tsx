@@ -12,7 +12,6 @@ import {
   User as UserIcon,
 } from "lucide-react";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { useRequireAuth } from "@/lib/auth";
 import { getPB } from "@/lib/pocketbase";
 
 type Result =
@@ -27,8 +26,7 @@ type Result =
   | { ok: false; error: string };
 
 export default function KirimAksesPage() {
-  useRequireAuth({ adminOnly: true });
-
+  // Gating ditangani oleh AdminShell (cek admin + redirect).
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
