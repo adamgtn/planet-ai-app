@@ -41,7 +41,7 @@ jobs:
               echo "SMTP_USER=ad749d001@smtp-brevo.com"
               echo "SMTP_PASS=${{ secrets.SMTP_PASS }}"
               echo "SMTP_FROM=PlanetPrompt <member@planetsoft.id>"
-              echo "APP_LOGIN_URL=https://planetsoft.id/login"
+              echo "APP_LOGIN_URL=https://planetsoft.id/app"
             } > .env.production.local
 
             echo "→ npm ci"
