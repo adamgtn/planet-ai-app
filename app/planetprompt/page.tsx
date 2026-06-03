@@ -989,16 +989,22 @@ function PricingSection() {
     features: string[];
     highlighted: boolean;
     tone: "brand" | "amber" | "red";
+    coupon?: { code: string; save: string; limit: string };
   }> = [
     {
       name: "Paket UMKM Starter",
       tagline: "Untuk pemula yang mau coba dulu",
       icon: <Store size={14} />,
-      priceNormal: "Rp 197.000",
-      pricePromo: "Rp 97.000",
-      priceValue: 97000,
+      priceNormal: "Rp 199.000",
+      pricePromo: "Rp 99.000",
+      priceValue: 99000,
       cta: "Ambil Paket Starter",
-      paymentUrl: "https://planetsoft.myr.id/pl/paket-standar-planetprompt",
+      paymentUrl: "https://gamebot.orderonline.id/planetprompt-2",
+      coupon: {
+        code: "UMKM35",
+        save: "Rp 35.000",
+        limit: "50 pembeli pertama",
+      },
       whatsappText:
         "Halo,%20saya%20mau%20tanya%20Paket%20UMKM%20Starter%20PlanetPrompt",
       features: [
@@ -1019,11 +1025,11 @@ function PricingSection() {
       name: "Paket VIP Member",
       tagline: "Mentoring langsung + tool extra",
       icon: <Crown size={14} />,
-      priceNormal: "Rp 397.000",
-      pricePromo: "Rp 199.000",
-      priceValue: 199000,
+      priceNormal: "Rp 299.000",
+      pricePromo: "Rp 149.000",
+      priceValue: 149000,
       cta: "Ambil Paket VIP",
-      paymentUrl: "https://planetsoft.myr.id/pl/paket-vip-planetprompt",
+      paymentUrl: "https://gamebot.orderonline.id/planetprompt-3",
       whatsappText:
         "Halo,%20saya%20mau%20tanya%20Paket%20VIP%20Member%20PlanetPrompt",
       features: [
@@ -1044,10 +1050,15 @@ function PricingSection() {
       tagline: "Dapat aplikasi PlanetPrompt, ganti logo jadi brand kamu — tim kami yang pasangkan",
       icon: <Crown size={14} />,
       priceNormal: "Rp 1.799.000",
-      pricePromo: "Rp 899.000",
-      priceValue: 899000,
+      pricePromo: "Rp 799.000",
+      priceValue: 799000,
       cta: "Ambil Paket Aplikasi",
-      paymentUrl: "https://planetsoft.myr.id/pl/paket-aplikasi-full-stack",
+      paymentUrl: "https://gamebot.orderonline.id/planetprompt3",
+      coupon: {
+        code: "UMKM99",
+        save: "Rp 200.000",
+        limit: "10 pembeli pertama",
+      },
       whatsappText:
         "Halo,%20saya%20mau%20tanya%20Paket%20Aplikasi%20Resell%20PlanetPrompt",
       features: [
@@ -1150,6 +1161,7 @@ function PricingCard({
   features,
   highlighted,
   tone,
+  coupon,
 }: {
   name: string;
   tagline: string;
@@ -1163,6 +1175,7 @@ function PricingCard({
   features: string[];
   highlighted: boolean;
   tone: "brand" | "amber" | "red";
+  coupon?: { code: string; save: string; limit: string };
 }) {
   const palette = {
     brand: {
@@ -1243,6 +1256,31 @@ function PricingCard({
           Sekali bayar, akses lifetime
         </p>
       </div>
+
+      {coupon && (
+        <div
+          className={`mt-4 rounded-xl border border-dashed px-3 py-2.5 text-xs ${
+            isRed
+              ? "border-white/40 bg-white/10 text-rose-50"
+              : "border-brand/40 bg-brand-50 text-ink"
+          }`}
+        >
+          🎟️ Kode{" "}
+          <span
+            className={`font-extrabold ${isRed ? "text-white" : "text-brand"}`}
+          >
+            {coupon.code}
+          </span>{" "}
+          — hemat <span className="font-bold">{coupon.save}</span>
+          <span
+            className={`mt-0.5 block ${
+              isRed ? "text-rose-100/80" : "text-ink/55"
+            }`}
+          >
+            🔥 Khusus {coupon.limit}
+          </span>
+        </div>
+      )}
 
       <ul className="mt-7 space-y-2.5">
         {features.map((f, i) => (
@@ -1505,7 +1543,7 @@ function StickyMobileCta() {
         href="#pricing"
         className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-5 py-3 text-sm font-bold text-white shadow-lg shadow-brand/30"
       >
-        <ShoppingBag size={18} /> Ambil PlanetPrompt • Rp 97.000
+        <ShoppingBag size={18} /> Ambil PlanetPrompt • Rp 99.000
       </a>
     </div>
   );
