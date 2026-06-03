@@ -55,7 +55,9 @@ function getTransporter(cfg: SmtpConfig): nodemailer.Transporter {
   return _transporter;
 }
 
-const APP_LOGIN_URL = process.env.APP_LOGIN_URL || "https://planetsoft.id/login";
+const APP_LOGIN_URL = process.env.APP_LOGIN_URL || "https://planetsoft.id/app";
+const WA_ADMIN = process.env.WA_ADMIN_NUMBER || "6285780685293";
+const LOGO_URL = "https://planetsoft.id/brand/planetsoft-icon.png";
 
 type CredentialEmail = {
   to: string;
@@ -75,6 +77,8 @@ export async function sendCredentialEmail({ to, name, password }: CredentialEmai
   const transporter = getTransporter(cfg);
   const safeName = name?.trim() || "Sahabat PlanetPrompt";
 
+  const waLink = `https://wa.me/${WA_ADMIN}`;
+
   const text = [
     `Halo ${safeName},`,
     "",
@@ -84,25 +88,49 @@ export async function sendCredentialEmail({ to, name, password }: CredentialEmai
     `Email    : ${to}`,
     `Password : ${password}`,
     "",
+    "PENTING — Akun ini untuk kamu pribadi.",
+    "Jangan login di lebih dari 1 akun/perangkat orang lain dan jangan",
+    "dibagikan ke siapa pun. Akun yang dibagikan akan otomatis diblokir (banned).",
+    "",
     "Demi keamanan, ganti password kamu setelah login pertama.",
     "",
-    "Kalau butuh bantuan, balas email ini atau chat admin via WhatsApp.",
+    `Butuh bantuan? Chat admin via WhatsApp: ${waLink}`,
     "",
     "Salam,",
     "Tim PlanetPrompt",
   ].join("\n");
 
   const html = `
-  <div style="font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;max-width:520px;margin:0 auto;color:#1f2430">
-    <h2 style="margin:0 0 4px">Akun PlanetPrompt kamu sudah aktif 🎉</h2>
-    <p style="margin:0 0 16px;color:#4b5563">Halo <b>${escapeHtml(safeName)}</b>, terima kasih sudah bergabung. Berikut detail login kamu:</p>
-    <div style="background:#f5f3ff;border:1px solid #e9d5ff;border-radius:14px;padding:16px 18px;margin:0 0 16px">
-      <p style="margin:0 0 8px"><span style="color:#6b7280">Login di</span><br><a href="${APP_LOGIN_URL}" style="color:#7c3aed;font-weight:700">${APP_LOGIN_URL}</a></p>
-      <p style="margin:0 0 8px"><span style="color:#6b7280">Email</span><br><b>${escapeHtml(to)}</b></p>
-      <p style="margin:0"><span style="color:#6b7280">Password</span><br><b style="font-family:ui-monospace,monospace;font-size:16px">${escapeHtml(password)}</b></p>
+  <div style="background:#f6f7f9;padding:24px 12px;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif">
+    <div style="max-width:520px;margin:0 auto;background:#ffffff;border:1px solid #eceef1;border-radius:18px;overflow:hidden">
+      <div style="padding:22px 24px 0;text-align:center">
+        <img src="${LOGO_URL}" width="44" height="44" alt="PlanetSoft" style="display:inline-block;vertical-align:middle;border:0" />
+        <span style="display:inline-block;vertical-align:middle;margin-left:8px;font-size:20px;font-weight:800;letter-spacing:-0.3px"><span style="color:#1f2430">planet</span><span style="color:#FF6B00">soft</span></span>
+      </div>
+      <div style="padding:18px 26px 26px;color:#1f2430">
+        <h2 style="margin:0 0 4px;font-size:20px">Akun PlanetPrompt kamu sudah aktif 🎉</h2>
+        <p style="margin:0 0 16px;color:#4b5563">Halo <b>${escapeHtml(safeName)}</b>, terima kasih sudah bergabung. Berikut detail login kamu:</p>
+
+        <div style="background:#f8f9fb;border:1px solid #eceef1;border-radius:14px;padding:16px 18px;margin:0 0 16px">
+          <p style="margin:0 0 10px"><span style="color:#6b7280;font-size:13px">Login di</span><br><a href="${APP_LOGIN_URL}" style="color:#FF6B00;font-weight:700;text-decoration:none">${APP_LOGIN_URL}</a></p>
+          <p style="margin:0 0 10px"><span style="color:#6b7280;font-size:13px">Email</span><br><b>${escapeHtml(to)}</b></p>
+          <p style="margin:0"><span style="color:#6b7280;font-size:13px">Password</span><br><b style="font-family:ui-monospace,monospace;font-size:16px;letter-spacing:0.5px">${escapeHtml(password)}</b></p>
+        </div>
+
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px">
+          <tr><td style="background:#fff4ed;border:1px solid #ffd9bf;border-radius:14px;padding:14px 16px;color:#9a3412;font-size:13px;line-height:1.5">
+            <b>⚠️ Penting — akun ini untuk kamu pribadi.</b><br>
+            Jangan login di lebih dari 1 akun/perangkat orang lain dan <b>jangan dibagikan</b> ke siapa pun. Akun yang dibagikan akan <b>otomatis diblokir (banned)</b>.
+          </td></tr>
+        </table>
+
+        <p style="margin:0 0 18px;color:#4b5563;font-size:14px">Demi keamanan, ganti password kamu setelah login pertama.</p>
+
+        <a href="https://wa.me/${WA_ADMIN}" style="display:inline-block;background:#25D366;color:#ffffff;font-weight:700;font-size:14px;text-decoration:none;padding:11px 18px;border-radius:12px">💬 Butuh bantuan? Chat admin via WhatsApp</a>
+
+        <p style="margin:18px 0 0;color:#9ca3af;font-size:12px">Email ini dikirim otomatis oleh PlanetPrompt. Kalau kamu tidak merasa mendaftar, abaikan saja.</p>
+      </div>
     </div>
-    <p style="margin:0 0 8px;color:#4b5563">Demi keamanan, ganti password kamu setelah login pertama.</p>
-    <p style="margin:0;color:#9ca3af;font-size:13px">Butuh bantuan? Balas email ini atau chat admin via WhatsApp.</p>
   </div>`;
 
   await transporter.sendMail({
