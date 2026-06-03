@@ -98,19 +98,39 @@ export async function POST(req: Request) {
   void secret; void webhook_secret; void token;
   console.log("[oo-webhook] payload:", JSON.stringify(safePayload));
 
+  // gate MailChimp: webhook MailChimp kirim field `type` (subscribe/unsubscribe/
+  // profile/cleaned/upemail). Kita HANYA proses "subscribe". Sumber lain
+  // (orderonline langsung) tidak kirim `type`, jadi tetap lolos.
+  const eventType = pick(payload, ["type"]);
+  if (eventType && eventType !== "subscribe") {
+    return Response.json({ ok: true, skipped: "event bukan subscribe", type: eventType });
+  }
+
   // gate: lewati kalau status jelas BELUM bayar
   const status = pick(payload, ["status", "order_status", "payment_status", "status_pembayaran"]);
   if (looksUnpaid(status)) {
     return Response.json({ ok: true, skipped: "belum lunas", status });
   }
 
-  const email = pick(payload, ["email", "customer_email", "buyer_email", "contact_email", "user_email"]).toLowerCase();
+  // Field extractor mendukung beberapa sumber:
+  //  - orderonline langsung: email / customer_email / nama / dst
+  //  - MailChimp webhook (form-encoded): data[email], data[merges][FNAME], dst
+  const email = pick(payload, [
+    "email", "customer_email", "buyer_email", "contact_email", "user_email",
+    "data[email]", "data[merges][EMAIL]",
+  ]).toLowerCase();
   if (!email || !email.includes("@")) {
     console.error("[oo-webhook] email tidak ditemukan di payload");
     return Response.json({ ok: false, error: "email tidak ada di payload" }, { status: 422 });
   }
-  const name = pick(payload, ["name", "customer_name", "buyer_name", "nama", "full_name"]);
-  const phone = pick(payload, ["phone", "customer_phone", "buyer_phone", "telepon", "hp", "whatsapp", "no_hp"]);
+  const name = pick(payload, [
+    "name", "customer_name", "buyer_name", "nama", "full_name",
+    "data[merges][FNAME]", "data[merges][NAME]",
+  ]);
+  const phone = pick(payload, [
+    "phone", "customer_phone", "buyer_phone", "telepon", "hp", "whatsapp", "no_hp",
+    "data[merges][PHONE]",
+  ]);
 
   const pb = new PocketBase(PB_URL);
 
