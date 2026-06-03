@@ -1030,6 +1030,11 @@ function PricingSection() {
       priceValue: 149000,
       cta: "Ambil Paket VIP",
       paymentUrl: "https://gamebot.orderonline.id/planetprompt-3",
+      coupon: {
+        code: "UMKM35",
+        save: "Rp 35.000",
+        limit: "50 pembeli pertama",
+      },
       whatsappText:
         "Halo,%20saya%20mau%20tanya%20Paket%20VIP%20Member%20PlanetPrompt",
       features: [
@@ -1145,6 +1150,29 @@ function PricingSection() {
         </p>
       </div>
     </section>
+  );
+}
+
+function CopyCode({ code, isRed }: { code: string; isRed: boolean }) {
+  const [copied, setCopied] = useState(false);
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        navigator.clipboard?.writeText(code);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      }}
+      aria-label="Salin kode kupon"
+      title="Salin kode"
+      className={`ml-1 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded align-middle transition ${
+        isRed
+          ? "text-white/80 hover:bg-white/15 hover:text-white"
+          : "text-brand hover:bg-brand-50"
+      }`}
+    >
+      {copied ? <Check size={13} /> : <Copy size={13} />}
+    </button>
   );
 }
 
@@ -1270,7 +1298,8 @@ function PricingCard({
             className={`font-extrabold ${isRed ? "text-white" : "text-brand"}`}
           >
             {coupon.code}
-          </span>{" "}
+          </span>
+          <CopyCode code={coupon.code} isRed={isRed} />{" "}
           — hemat <span className="font-bold">{coupon.save}</span>
           <span
             className={`mt-0.5 block ${
