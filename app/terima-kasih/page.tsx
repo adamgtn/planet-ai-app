@@ -1,40 +1,19 @@
-"use client";
-
 /**
- * Halaman Terima Kasih — tujuan redirect setelah pembayaran berhasil.
+ * Halaman Terima Kasih — tujuan redirect setelah pembayaran.
+ * Set di orderonline.id: "Redirect setelah bayar" → https://planetsoft.id/terima-kasih
  *
- * SETUP: di dashboard Mayar, set "Redirect URL setelah bayar" ke:
- *   https://planetsoft.id/terima-kasih
- *
- * Optional: kalau Mayar bisa kirim query param, kita baca buat nilai Purchase:
- *   /terima-kasih?amount=97000&product=Paket%20UMKM%20Starter
- * Kalau nggak ada param, Purchase tetap ke-track (tanpa nilai).
+ * CATATAN PENTING: event Purchase TIDAK di-fire di halaman ini (biar nggak DOBEL).
+ * Purchase di-track oleh orderonline.id pas pembayaran benar-benar confirmed —
+ * itu sumber yang paling akurat. Halaman ini cuma tampilan "makasih"
+ * (PageView tetap ke-track otomatis dari pixel global di layout).
  */
 
-import { Suspense, useEffect } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { CheckCircle2, MessageCircle } from "lucide-react";
-import { trackPurchase } from "@/lib/pixels";
 
 const WA_NUMBER = "6285780685293";
 
-function ThankYouInner() {
-  const params = useSearchParams();
-
-  useEffect(() => {
-    const amountRaw = params.get("amount");
-    const amount = amountRaw
-      ? Number(amountRaw.replace(/[^\d]/g, ""))
-      : undefined;
-    const product = params.get("product") || undefined;
-
-    trackPurchase({
-      value: Number.isFinite(amount as number) ? amount : undefined,
-      contentName: product,
-    });
-  }, [params]);
-
+export default function ThankYouPage() {
   return (
     <main className="grid min-h-screen place-items-center bg-gradient-to-b from-muted/40 to-white px-6 py-16">
       <div className="w-full max-w-lg rounded-3xl border border-muted bg-white p-8 text-center shadow-card md:p-10">
@@ -76,13 +55,5 @@ function ThankYouInner() {
         </Link>
       </div>
     </main>
-  );
-}
-
-export default function ThankYouPage() {
-  return (
-    <Suspense fallback={null}>
-      <ThankYouInner />
-    </Suspense>
   );
 }
