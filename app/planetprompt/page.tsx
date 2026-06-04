@@ -53,7 +53,7 @@ const VIDEO_DEMO_ID = "dQw4w9WgXcQ";
 const showcaseImages = Array.from(
   { length: 23 },
   (_, i) =>
-    `/lp/planetprompt/showcase/showcase-${(i + 1).toString().padStart(2, "0")}.png`
+    `/lp/planetprompt/showcase/showcase-${(i + 1).toString().padStart(2, "0")}.webp`
 );
 const heroProducts = showcaseImages.slice(0, 4);
 
@@ -465,63 +465,63 @@ function UseCaseSection() {
       tone: "rose",
       title: "Makanan & Minuman",
       examples: "Donat, kopi susu, keripik, frozen food, catering",
-      img: "/lp/planetprompt/use-case/makanan-minuman.png",
+      img: "/lp/planetprompt/use-case/makanan-minuman.webp",
     },
     {
       icon: <Shirt size={20} />,
       tone: "brand",
       title: "Fashion & Apparel",
       examples: "Kaos basic, thrift, hijab, sepatu, tas lokal",
-      img: "/lp/planetprompt/use-case/fashion-apparel.png",
+      img: "/lp/planetprompt/use-case/fashion-apparel.webp",
     },
     {
       icon: <Palette size={20} />,
       tone: "emerald",
       title: "Beauty & Skincare",
       examples: "Skincare lokal, parfum, salon, nail art",
-      img: "/lp/planetprompt/use-case/beauty-skincare.png",
+      img: "/lp/planetprompt/use-case/beauty-skincare.webp",
     },
     {
       icon: <Scissors size={20} />,
       tone: "amber",
       title: "Jasa Lokal",
       examples: "Laundry, barbershop, fotografi, percetakan, bengkel",
-      img: "/lp/planetprompt/use-case/jasa-lokal.png",
+      img: "/lp/planetprompt/use-case/jasa-lokal.webp",
     },
     {
       icon: <Layers size={20} />,
       tone: "sky",
       title: "Produk Digital",
       examples: "Template, kelas online, jasa desain, e-book",
-      img: "/lp/planetprompt/use-case/produk-digital.png",
+      img: "/lp/planetprompt/use-case/produk-digital.webp",
     },
     {
       icon: <Tag size={20} />,
       tone: "violet",
       title: "Marketplace Seller",
       examples: "Shopee, Tokopedia, TikTok Shop, Instagram",
-      img: "/lp/planetprompt/use-case/marketplace.png",
+      img: "/lp/planetprompt/use-case/marketplace.webp",
     },
     {
       icon: <GraduationCap size={20} />,
       tone: "indigo",
       title: "Edukasi & Kelas",
       examples: "Kelas online, bimbel, kursus, webinar, e-course",
-      img: "/lp/planetprompt/use-case/education.png",
+      img: "/lp/planetprompt/use-case/education.webp",
     },
     {
       icon: <Gamepad2 size={20} />,
       tone: "fuchsia",
       title: "Esport & Gaming",
       examples: "Tim esport, turnamen, gaming gear, streamer",
-      img: "/lp/planetprompt/use-case/esport.png",
+      img: "/lp/planetprompt/use-case/esport.webp",
     },
     {
       icon: <PartyPopper size={20} />,
       tone: "teal",
       title: "Festive & Musiman",
       examples: "Lebaran, Natal, tahun baru, promo musiman, giveaway",
-      img: "/lp/planetprompt/use-case/festive.png",
+      img: "/lp/planetprompt/use-case/festive.webp",
     },
   ];
 

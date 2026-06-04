@@ -51,11 +51,11 @@ type PlanetPromptHeroProps = {
 export default function PlanetPromptHero({
   brand = "Keripik Kaca Azqiya",
   headline = "Sensasi Keripik Kaca Premium",
-  featImage = "/lp/planetprompt/showcase/showcase-01.png",
-  s1Image = "/lp/planetprompt/showcase/showcase-06.png",
-  s2Image = "/lp/planetprompt/showcase/showcase-11.png",
-  appImage = "/lp/planetprompt/showcase/showcase-16.png",
-  showcaseImage = "/lp/planetprompt/showcase/showcase-21.png",
+  featImage = "/lp/planetprompt/showcase/showcase-01.webp",
+  s1Image = "/lp/planetprompt/showcase/showcase-06.webp",
+  s2Image = "/lp/planetprompt/showcase/showcase-11.webp",
+  appImage = "/lp/planetprompt/showcase/showcase-16.webp",
+  showcaseImage = "/lp/planetprompt/showcase/showcase-21.webp",
   className = "",
 }: PlanetPromptHeroProps) {
   const rootRef = useRef<HTMLDivElement>(null);
