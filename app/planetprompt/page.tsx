@@ -922,28 +922,23 @@ function ExampleOutputSection() {
         <div className="mt-12 space-y-10">
           {engines.map((e) => (
             <div key={e.code}>
-              <div className="flex items-start gap-3">
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-violet-500/15 text-violet-200">
-                  {e.icon}
-                </span>
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-300/70">
-                      Engine · {e.code}
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-300/70">
+                    Engine · {e.code}
+                  </span>
+                  {e.badge && (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
+                      <Sparkles size={9} /> Fitur Baru
                     </span>
-                    {e.badge && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
-                        <Sparkles size={9} /> Fitur Baru
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="mt-1 text-lg font-bold text-white md:text-xl">
-                    {e.title}
-                  </h3>
-                  <p className="mt-0.5 max-w-2xl text-sm leading-relaxed text-white/55">
-                    {e.desc}
-                  </p>
+                  )}
                 </div>
+                <h3 className="mt-1 text-lg font-bold text-white md:text-xl">
+                  {e.title}
+                </h3>
+                <p className="mt-0.5 max-w-2xl text-sm leading-relaxed text-white/55">
+                  {e.desc}
+                </p>
               </div>
               <div className="mt-4 grid grid-cols-2 gap-4">
                 {e.imgs.slice(0, 2).map((src, i) => (
