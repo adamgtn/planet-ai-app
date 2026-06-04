@@ -843,60 +843,59 @@ function BeforeAfterSection() {
 // EXAMPLE OUTPUT — 3 contoh
 
 function ExampleOutputSection() {
+  const EP = "/lp/planetprompt/engine";
+
+  // 7 engine, tiap engine 3 contoh output. Logo = engine baru (M7, ada badge).
   const engines = [
     {
+      code: "M7",
+      icon: <Palette size={16} />,
+      title: "Logo & Brand Identity",
+      desc: "Dari nama brand → board identitas lengkap: filosofi logo, palet warna, tipografi, sampai aturan pakai.",
+      badge: true,
+      imgs: [`${EP}/logo-1.webp`, `${EP}/logo-2.webp`, `${EP}/logo-3.webp`],
+    },
+    {
       code: "M1",
-      icon: <LayoutGrid size={18} />,
+      icon: <LayoutGrid size={16} />,
       title: "Design Grafis",
-      desc: "Brief produk → banner komersial siap upload. Cocok buat feed IG, marketplace, dan hero website.",
-      points: ["Komposisi commercial-grade", "Aspect 1:1 / 4:5 / 16:9", "Sesuai warna brand kamu"],
-      img: "/lp/planetprompt/engine/design-grafis.png",
-      ratio: "1:1",
+      desc: "Brief produk → foto/banner komersial siap upload. Cocok feed IG, marketplace, hero website.",
+      imgs: [`${EP}/design-grafis-1.webp`, `${EP}/design-grafis-2.webp`, `${EP}/design-grafis-3.webp`],
     },
     {
       code: "M2",
-      icon: <Youtube size={18} />,
+      icon: <Youtube size={16} />,
       title: "YouTube Thumbnail",
-      desc: "Thumbnail yang clickable — komposisi, ekspresi, dan teks overlay sudah diatur otomatis.",
-      points: ["Layout CTR-oriented", "Teks overlay otomatis", "Pose & emosi subjek"],
-      img: "/lp/planetprompt/engine/youtube-thumbnail.png",
-      ratio: "16:9",
+      desc: "Thumbnail clickable — komposisi, ekspresi, dan teks overlay diatur otomatis.",
+      imgs: [`${EP}/youtube-thumbnail-1.webp`, `${EP}/youtube-thumbnail-2.webp`, `${EP}/youtube-thumbnail-3.webp`],
     },
     {
       code: "M3",
-      icon: <Scan size={18} />,
+      icon: <Scan size={16} />,
       title: "Anatomi",
-      desc: "Breakdown anatomi visual produk — angle, proporsi, dan detail biar hasil AI presisi & konsisten.",
-      points: ["Panduan angle & proporsi", "Detail tekstur produk", "Konsisten antar variasi"],
-      img: "/lp/planetprompt/engine/anatomi.png",
-      ratio: "4:5",
+      desc: "Breakdown angle, proporsi & detail biar hasil AI presisi dan konsisten.",
+      imgs: [`${EP}/anatomi-1.webp`, `${EP}/anatomi-2.webp`, `${EP}/anatomi-3.webp`],
     },
     {
       code: "M4",
-      icon: <BookOpen size={18} />,
+      icon: <BookOpen size={16} />,
       title: "Comic",
-      desc: "Konten storytelling gaya komik — panel, dialog, dan ekspresi untuk promosi yang lebih engaging.",
-      points: ["Panel & alur cerita", "Dialog promosi", "Karakter brand kamu"],
-      img: "/lp/planetprompt/engine/comic.png",
-      ratio: "4:5",
+      desc: "Storytelling gaya komik — panel, dialog, ekspresi untuk promosi yang engaging.",
+      imgs: [`${EP}/comic-1.webp`, `${EP}/comic-2.webp`, `${EP}/comic-3.webp`],
     },
     {
       code: "M5",
-      icon: <BarChart3 size={18} />,
+      icon: <BarChart3 size={16} />,
       title: "Infografis",
-      desc: "Ubah keunggulan & data produk jadi infografis rapi yang gampang dipahami calon pembeli.",
-      points: ["Layout data yang jelas", "Ikon & highlight angka", "Hierarki informasi rapi"],
-      img: "/lp/planetprompt/engine/infografis.png",
-      ratio: "4:5",
+      desc: "Keunggulan & data produk jadi infografis rapi yang gampang dipahami calon pembeli.",
+      imgs: [`${EP}/infografis-1.webp`, `${EP}/infografis-2.webp`, `${EP}/infografis-3.webp`],
     },
     {
       code: "M6",
-      icon: <Sparkles size={18} />,
+      icon: <Sparkles size={16} />,
       title: "Creative Prompt",
-      desc: "Prompt visual bebas untuk ide out-of-the-box — splash, dramatic lighting, konsep premium.",
-      points: ["Konsep visual premium", "Arahan lighting & mood", "Siap untuk AI image generator"],
-      img: "/lp/planetprompt/engine/creative-prompt.png",
-      ratio: "1:1",
+      desc: "Konsep visual premium & out-of-the-box — splash, dramatic lighting, ide bebas.",
+      imgs: [`${EP}/creative-prompt-1.webp`, `${EP}/creative-prompt-2.webp`, `${EP}/creative-prompt-3.webp`],
     },
   ];
 
@@ -905,11 +904,11 @@ function ExampleOutputSection() {
       <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[680px] -translate-x-1/2 rounded-full bg-violet-600/20 blur-[110px]" />
       <div className="relative mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-mono text-xs font-semibold uppercase tracking-[0.25em] text-violet-300">
-            Engine Kreatif
+          <p className="inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/10 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-violet-200">
+            <Sparkles size={13} /> Fitur Baru · 7 Engine
           </p>
-          <h2 className="mt-3 text-3xl font-bold text-white md:text-4xl">
-            6 Engine Kreatif untuk Setiap{" "}
+          <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">
+            7 Engine Kreatif untuk Setiap{" "}
             <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
               Kebutuhan Visual
             </span>
@@ -920,49 +919,47 @@ function ExampleOutputSection() {
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="mt-12 space-y-10">
           {engines.map((e) => (
-            <div
-              key={e.code}
-              className="flex gap-4 rounded-3xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-violet-500/40 hover:bg-white/[0.06]"
-            >
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2.5">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-violet-500/15 text-violet-300">
-                    {e.icon}
-                  </span>
-                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-300/70">
-                    / Engine · {e.code}
-                  </span>
-                </div>
-                <h3 className="mt-3 text-lg font-bold text-white">{e.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-white/55">
-                  {e.desc}
-                </p>
-                <ul className="mt-3 space-y-1.5">
-                  {e.points.map((p) => (
-                    <li
-                      key={p}
-                      className="flex items-center gap-2 text-xs text-white/70"
-                    >
-                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-violet-400" />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="relative w-32 shrink-0 self-center sm:w-44">
-                <Image
-                  src={e.img}
-                  alt={e.title}
-                  width={0}
-                  height={0}
-                  sizes="(max-width: 768px) 40vw, 200px"
-                  className="h-auto w-full rounded-xl border border-white/10 bg-black/20"
-                />
-                <span className="absolute right-1.5 top-1.5 rounded-md bg-black/55 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-violet-200 backdrop-blur">
-                  ↗ {e.ratio}
+            <div key={e.code}>
+              <div className="flex items-start gap-3">
+                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-violet-500/15 text-violet-200">
+                  {e.icon}
                 </span>
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-300/70">
+                      Engine · {e.code}
+                    </span>
+                    {e.badge && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
+                        <Sparkles size={9} /> Fitur Baru
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="mt-1 text-lg font-bold text-white md:text-xl">
+                    {e.title}
+                  </h3>
+                  <p className="mt-0.5 max-w-2xl text-sm leading-relaxed text-white/55">
+                    {e.desc}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-4 grid grid-cols-3 gap-3">
+                {e.imgs.map((src, i) => (
+                  <div
+                    key={src}
+                    className="relative aspect-[4/5] overflow-hidden rounded-xl border border-white/10 bg-black/20"
+                  >
+                    <Image
+                      src={src}
+                      alt={`${e.title} ${i + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 30vw, 320px"
+                      className="object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           ))}
