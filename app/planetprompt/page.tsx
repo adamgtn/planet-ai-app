@@ -159,11 +159,10 @@ function Hero() {
           </span>
 
           <h1 className="mt-5 text-balance text-4xl font-extrabold leading-tight tracking-tight text-ink md:text-5xl lg:text-6xl">
-            Konten{" "}
+            Satu Toolkit, Semua Jenis{" "}
             <span className="bg-gradient-to-r from-brand to-fuchsia-500 bg-clip-text text-transparent">
-              Profesional
-            </span>{" "}
-            Kini Bisa Dibuat Siapa Saja.
+              Konten Visual
+            </span>
           </h1>
 
           {/* Banner promo — di bawah title, di atas caption */}
@@ -179,8 +178,8 @@ function Hero() {
           </div>
 
           <p className="mt-6 text-base leading-relaxed text-ink/70 md:text-lg">
-            Ubah ide sederhana menjadi desain iklan premium untuk social media,
-            ads, dan branding dalam hitungan detik.
+            Logo, banner, comic, infografis, thumbnail — semua bisa kamu bikin
+            tanpa skill desain.
           </p>
 
           <ul className="mt-5 space-y-2">
