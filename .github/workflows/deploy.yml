@@ -60,4 +60,14 @@ jobs:
             sleep 3
             curl -fsSI http://localhost:3001 || (echo "App tidak respon!" && exit 1)
 
+            echo "→ pre-warm cache gambar (optimasi /_next/image di-trigger SEKARANG, bukan pas pengunjung pertama)"
+            for PAGE in /planetprompt /; do
+              curl -s "http://localhost:3001$PAGE" \
+                | grep -oE '/_next/image\?url=[^" ,]+' \
+                | sed 's/&amp;/\&/g' \
+                | sort -u | head -300 \
+                | xargs -r -P 4 -I{} curl -s -o /dev/null "http://localhost:3001{}"
+            done || true
+            echo "✓ pre-warm cache selesai"
+
             echo "✅ Deploy success"
