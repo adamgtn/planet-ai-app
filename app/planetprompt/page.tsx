@@ -945,17 +945,18 @@ function ExampleOutputSection() {
                   </p>
                 </div>
               </div>
-              <div className="mt-4 grid grid-cols-3 gap-3">
-                {e.imgs.map((src, i) => (
+              <div className="mt-4 grid grid-cols-2 gap-4">
+                {e.imgs.slice(0, 2).map((src, i) => (
                   <div
                     key={src}
-                    className="relative aspect-[4/5] overflow-hidden rounded-xl border border-white/10 bg-black/20"
+                    className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-white/10 bg-black/20"
                   >
                     <Image
                       src={src}
                       alt={`${e.title} ${i + 1}`}
                       fill
-                      sizes="(max-width: 768px) 30vw, 320px"
+                      loading="lazy"
+                      sizes="(max-width: 768px) 45vw, 440px"
                       className="object-cover"
                     />
                   </div>
