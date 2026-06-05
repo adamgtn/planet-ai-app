@@ -941,21 +941,18 @@ function ExampleOutputSection() {
                   {e.desc}
                 </p>
               </div>
-              <div className="mt-4 grid grid-cols-3 gap-3">
+              <div className="mt-4 grid grid-cols-3 items-start gap-3">
                 {e.imgs.slice(0, 3).map((src, i) => (
-                  <div
+                  <Image
                     key={src}
-                    className="relative aspect-[4/5] overflow-hidden rounded-xl border border-white/10 bg-black/20"
-                  >
-                    <Image
-                      src={src}
-                      alt={`${e.title} ${i + 1}`}
-                      fill
-                      loading="lazy"
-                      sizes="(max-width: 768px) 30vw, 300px"
-                      className="object-cover"
-                    />
-                  </div>
+                    src={src}
+                    alt={`${e.title} ${i + 1}`}
+                    width={0}
+                    height={0}
+                    loading="lazy"
+                    sizes="(max-width: 768px) 31vw, 320px"
+                    className="h-auto w-full rounded-xl border border-white/10 bg-black/20"
+                  />
                 ))}
               </div>
             </div>
