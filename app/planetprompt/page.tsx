@@ -162,9 +162,8 @@ function Hero() {
             Desain Ala{" "}
             <span className="bg-gradient-to-r from-brand to-fuchsia-500 bg-clip-text text-transparent">
               Brand Besar
-            </span>{" "}
-            Kini Bisa Anda Buat Sendiri Sekali Klik — dengan Satu Toolkit,
-            Semua Jenis Konten Visual
+            </span>
+            , Sekali Klik
           </h1>
 
           {/* Banner promo — di bawah title, di atas caption */}
@@ -180,8 +179,9 @@ function Hero() {
           </div>
 
           <p className="mt-6 text-base leading-relaxed text-ink/70 md:text-lg">
-            Logo, banner, comic, infografis, thumbnail — semua bisa kamu bikin
-            tanpa skill desain.
+            Kini bisa Anda buat sendiri dengan satu toolkit. Logo, banner,
+            comic, infografis, thumbnail — semua jenis konten visual, tanpa
+            skill desain.
           </p>
 
           <ul className="mt-5 space-y-2">
