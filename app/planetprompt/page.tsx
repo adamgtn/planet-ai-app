@@ -49,9 +49,9 @@ const WA_NUMBER = "6285780685293";
 const COMMUNITY_LINK = "https://chat.whatsapp.com/FRSMZRQk6mABqMJdwkZw0l";
 const VIDEO_DEMO_ID = "dQw4w9WgXcQ";
 
-// Gambar showcase produk real (23 file di /public/lp/planetprompt/showcase/)
+// Gambar showcase produk real (43 file di /public/lp/planetprompt/showcase/)
 const showcaseImages = Array.from(
-  { length: 23 },
+  { length: 43 },
   (_, i) =>
     `/lp/planetprompt/showcase/showcase-${(i + 1).toString().padStart(2, "0")}.webp`
 );
@@ -159,20 +159,20 @@ function Hero() {
           </span>
 
           <h1 className="mt-5 text-balance text-3xl font-extrabold leading-tight tracking-tight text-ink md:text-4xl lg:text-5xl">
-            Desain Ala{" "}
+            Satu Toolkit, Semua Jenis{" "}
             <span className="bg-gradient-to-r from-brand to-fuchsia-500 bg-clip-text text-transparent">
-              Brand Besar
-            </span>
-            , Sekali Klik
+              Konten Visual
+            </span>{" "}
+            1x Klik
           </h1>
 
           {/* Banner promo — di bawah title, di atas caption */}
           <div className="mt-6 w-full max-w-xl">
             <Image
-              src="/lp/planetprompt/hero/banner-promo.png"
-              alt="PlanetPrompt — Banner Promo"
-              width={1254}
-              height={1254}
+              src="/lp/planetprompt/hero/banner-baru.webp"
+              alt="PlanetPrompt — Satu toolkit, semua jenis konten visual"
+              width={1600}
+              height={900}
               sizes="(max-width: 768px) 100vw, 576px"
               className="h-auto w-full rounded-2xl shadow-card"
             />
@@ -574,9 +574,11 @@ function UseCaseSection() {
 // SHOWCASE MARQUEE — 2 baris auto-scroll horizontal L→R, gambar full
 
 function ShowcaseMarqueeSection() {
-  // Split 23 gambar jadi 2 baris (12 + 11), masing-masing slide L→R
-  const row1 = showcaseImages.slice(0, 12);
-  const row2 = showcaseImages.slice(12, 23);
+  // Split 43 gambar jadi 3 baris, arah slide selang-seling
+  const third = Math.ceil(showcaseImages.length / 3);
+  const row1 = showcaseImages.slice(0, third);
+  const row2 = showcaseImages.slice(third, third * 2);
+  const row3 = showcaseImages.slice(third * 2);
 
   return (
     <section className="bg-muted/40 py-10 lg:py-20">
@@ -596,10 +598,11 @@ function ShowcaseMarqueeSection() {
         </div>
       </div>
 
-      <DeferMount minHeight="540px">
+      <DeferMount minHeight="820px">
         <div className="mt-10 space-y-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
           <ShowcaseRow images={row1} reverse />
-          <ShowcaseRow images={row2} reverse />
+          <ShowcaseRow images={row2} reverse={false} />
+          <ShowcaseRow images={row3} reverse />
         </div>
       </DeferMount>
     </section>
@@ -1278,22 +1281,30 @@ function PricingCard({
 
       {coupon && (
         <div
-          className={`mt-4 rounded-xl border border-dashed px-3 py-2.5 text-xs ${
+          className={`mt-4 rounded-xl border border-dashed px-3 py-3 text-xs ${
             isRed
               ? "border-white/40 bg-white/10 text-rose-50"
               : "border-brand/40 bg-brand-50 text-ink"
           }`}
         >
-          🎟️ Kode{" "}
-          <span
-            className={`font-extrabold ${isRed ? "text-white" : "text-brand"}`}
-          >
-            {coupon.code}
+          <span className="mb-2 block text-[11px] font-semibold uppercase tracking-wider opacity-80">
+            🎟️ Pakai kode kupon
           </span>
-          <CopyCode code={coupon.code} isRed={isRed} />{" "}
-          — hemat <span className="font-bold">{coupon.save}</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <span
+              className={`inline-flex items-center rounded-lg border-2 border-dashed px-3 py-1.5 font-mono text-lg font-black leading-none tracking-[0.18em] ${
+                isRed
+                  ? "border-white/60 bg-white/15 text-white"
+                  : "border-brand/50 bg-white text-brand"
+              }`}
+            >
+              {coupon.code}
+            </span>
+            <CopyCode code={coupon.code} isRed={isRed} />
+            <span className="text-sm font-bold">hemat {coupon.save}</span>
+          </div>
           <span
-            className={`mt-0.5 block ${
+            className={`mt-2 block ${
               isRed ? "text-rose-100/80" : "text-ink/55"
             }`}
           >
