@@ -158,11 +158,13 @@ function Hero() {
             <Store size={12} /> Toolkit Konten untuk UMKM
           </span>
 
-          <h1 className="mt-5 text-balance text-4xl font-extrabold leading-tight tracking-tight text-ink md:text-5xl lg:text-6xl">
-            Satu Toolkit, Semua Jenis{" "}
+          <h1 className="mt-5 text-balance text-3xl font-extrabold leading-tight tracking-tight text-ink md:text-4xl lg:text-5xl">
+            Desain Ala{" "}
             <span className="bg-gradient-to-r from-brand to-fuchsia-500 bg-clip-text text-transparent">
-              Konten Visual
-            </span>
+              Brand Besar
+            </span>{" "}
+            Kini Bisa Anda Buat Sendiri Sekali Klik — dengan Satu Toolkit,
+            Semua Jenis Konten Visual
           </h1>
 
           {/* Banner promo — di bawah title, di atas caption */}
