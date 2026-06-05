@@ -73,3 +73,17 @@ jobs:
             echo "✓ pre-warm cache selesai"
 
             echo "✅ Deploy success"
+
+      - name: Purge Cloudflare cache
+        if: success()
+        run: |
+          if [ -n "${{ secrets.CF_ZONE_ID }}" ] && [ -n "${{ secrets.CF_API_TOKEN }}" ]; then
+            echo "→ purge Cloudflare cache (biar gambar yang di-swap langsung update)"
+            curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/purge_cache" \
+              -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+              -H "Content-Type: application/json" \
+              --data '{"purge_everything":true}'
+            echo ""
+          else
+            echo "→ skip purge: CF_ZONE_ID / CF_API_TOKEN belum di-set di GitHub Secrets"
+          fi
