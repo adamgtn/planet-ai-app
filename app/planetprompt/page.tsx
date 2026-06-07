@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { trackLead } from "@/lib/pixels";
-import PlanetPromptHero from "@/components/PlanetPromptHero";
+import Hero from "@/components/Hero";
 import {
   ArrowRight,
   BarChart3,
@@ -145,93 +145,7 @@ function Navbar() {
 // ─────────────────────────────────────────────────────────────────────────────
 // HERO
 
-function Hero() {
-  return (
-    <section className="relative overflow-hidden pb-20 pt-32 lg:pt-40">
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[1100px] -translate-x-1/2 rounded-full bg-brand/10 blur-[100px]" />
-      <div className="pointer-events-none absolute -bottom-20 -right-32 h-80 w-80 rounded-full bg-fuchsia-300/25 blur-[80px]" />
-
-      <div className="relative mx-auto max-w-6xl px-6">
-        {/* Teks: eyebrow + judul + caption + CTA */}
-        <div className="max-w-2xl">
-          <span className="inline-flex items-center gap-2 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand">
-            <Store size={12} /> Toolkit Konten untuk UMKM
-          </span>
-
-          <h1 className="mt-5 text-balance text-3xl font-extrabold leading-tight tracking-tight text-ink md:text-4xl lg:text-5xl">
-            Satu Toolkit, Semua Jenis{" "}
-            <span className="bg-gradient-to-r from-brand to-fuchsia-500 bg-clip-text text-transparent">
-              Konten Visual
-            </span>{" "}
-            1x Klik
-          </h1>
-
-          {/* Banner promo — di bawah title, di atas caption */}
-          <div className="mt-6 w-full max-w-xl">
-            <Image
-              src="/lp/planetprompt/hero/banner-baru.webp"
-              alt="PlanetPrompt — Satu toolkit, semua jenis konten visual"
-              width={1600}
-              height={900}
-              sizes="(max-width: 768px) 100vw, 576px"
-              className="h-auto w-full rounded-2xl shadow-card"
-            />
-          </div>
-
-          <p className="mt-6 text-base leading-relaxed text-ink/70 md:text-lg">
-            Kini bisa Anda buat sendiri dengan satu toolkit. Logo, banner,
-            comic, infografis, thumbnail — semua jenis konten visual, tanpa
-            skill desain.
-          </p>
-
-          <ul className="mt-5 space-y-2">
-            {[
-              "Tidak perlu belajar desain.",
-              "Tidak perlu langganan tool mahal.",
-              "Tidak perlu menunggu designer berhari-hari.",
-            ].map((b, i) => (
-              <li
-                key={i}
-                className="flex items-center gap-2.5 text-sm text-ink/80 md:text-base"
-              >
-                <Check size={18} className="shrink-0 text-emerald-500" />
-                {b}
-              </li>
-            ))}
-          </ul>
-
-          <p className="mt-5 text-base font-semibold text-ink/85 md:text-lg">
-            Cepat, praktis, dan siap bantu jualan Anda tampil lebih profesional.
-          </p>
-
-          <div className="mt-9 flex flex-col items-start gap-3 sm:flex-row sm:items-center">
-            <a
-              href="#pricing"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand px-7 py-3.5 text-base font-bold text-white shadow-2xl shadow-brand/30 transition hover:scale-[1.02] hover:shadow-brand/50"
-            >
-              <Wand2 size={18} /> Mulai Bikin Konten Jualan
-            </a>
-            <a
-              href="#cara-pakai"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-ink/65 hover:text-brand"
-            >
-              Lihat cara pakai <ArrowRight size={14} />
-            </a>
-          </div>
-
-          <p className="mt-5 text-xs text-ink/55">
-            Sekali beli · Bisa dipakai berkali-kali · Cocok untuk pemula
-          </p>
-        </div>
-
-        {/* Animasi studio — di bawah caption */}
-        <div className="mt-10 w-full max-w-4xl lg:mt-12">
-          <PlanetPromptHero />
-        </div>
-      </div>
-    </section>
-  );
-}
+// Hero dipindah ke komponen terpisah: components/Hero.tsx
 
 function PromptCard({
   icon,
