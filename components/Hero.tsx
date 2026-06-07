@@ -1,7 +1,9 @@
-// Hero section LP PlanetPrompt — layout promo (badge → headline → harga →
-// subline → deskripsi → pills → divider → grid 7 engine → CTA → catatan).
-// Background terang + aksen brand (ungu) sesuai tema existing. Headline pakai
-// font display (Anton via next/font, var --font-anton). Body pakai font LP.
+// Hero section LP PlanetPrompt — layout promo, tema GELAP-UNGU.
+// Background gelap (#0d0818) + grid halus + glow violet/fuchsia, senada dengan
+// section gelap lain di LP (UseCase & 7 Engine). Aksen: ungu (brand/violet) +
+// gold/amber untuk harga & badge. Headline pakai font display (Anton via
+// next/font, var --font-anton). Alur: badge → headline → harga → subline →
+// deskripsi → pills → divider → grid 7 engine (tanpa box) → CTA → catatan.
 
 import {
   ArrowRight,
@@ -16,6 +18,7 @@ import {
   Sparkles,
   Users,
   Youtube,
+  Zap,
   type LucideIcon,
 } from "lucide-react";
 
@@ -37,46 +40,61 @@ const PILLS: { icon: LucideIcon; pre?: string; strong: string; rest?: string }[]
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden pb-16 pt-32 lg:pt-40">
-      {/* glow latar (brand, terang) — tema tidak diubah */}
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[1100px] -translate-x-1/2 rounded-full bg-brand/10 blur-[100px]" />
-      <div className="pointer-events-none absolute -bottom-24 right-0 h-72 w-72 rounded-full bg-brand/10 blur-[90px]" />
+    <section className="relative overflow-hidden bg-[#0d0818] pb-16 pt-32 lg:pt-40">
+      {/* grid halus + mask radial biar fade ke tepi */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(139,92,246,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.08) 1px, transparent 1px)",
+          backgroundSize: "44px 44px",
+          maskImage:
+            "radial-gradient(ellipse 75% 60% at 50% 22%, #000 40%, transparent 100%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 75% 60% at 50% 22%, #000 40%, transparent 100%)",
+        }}
+      />
+      {/* glow violet/fuchsia */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-[520px] w-[1100px] -translate-x-1/2 rounded-full bg-violet-600/25 blur-[120px]" />
+      <div className="pointer-events-none absolute -bottom-24 right-0 h-72 w-72 rounded-full bg-fuchsia-600/20 blur-[100px]" />
 
       <div className="relative mx-auto flex max-w-[860px] flex-col items-center px-6 text-center">
-        {/* 1. Badge */}
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-brand px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider text-white shadow-lg shadow-brand/30">
-          <Sparkles size={13} /> Promo Spesial
+        {/* 1. Badge (gold) */}
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300 to-yellow-400 px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider text-[#2a1500] shadow-lg shadow-amber-500/20">
+          <Zap size={13} fill="currentColor" /> Promo Spesial
         </span>
 
         {/* 2. Headline (Anton, uppercase, skew -6deg) */}
         <h1
-          className="mt-6 font-display uppercase leading-[0.95] tracking-wide text-ink"
+          className="mt-6 font-display uppercase leading-[0.95] tracking-wide text-white"
           style={{
             transform: "skewX(-6deg)",
             fontSize: "clamp(2.1rem, 8.5vw, 4.5rem)",
           }}
         >
           Satu Toolkit, Semua Jenis{" "}
-          <span className="text-brand">Konten Visual</span>
+          <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+            Konten Visual
+          </span>
         </h1>
 
-        {/* 3. Blok harga */}
+        {/* 3. Blok harga (gold) */}
         <div className="mt-8 flex items-center justify-center gap-3">
-          <span className="text-lg font-bold uppercase tracking-wide text-ink/70 md:text-xl">
+          <span className="text-lg font-bold uppercase tracking-wide text-white/70 md:text-xl">
             Hanya
           </span>
           <span
-            className="font-display leading-none text-brand"
+            className="font-display leading-none text-amber-300 [text-shadow:0_0_38px_rgba(252,211,77,0.35)]"
             style={{ fontSize: "clamp(3.4rem, 15vw, 7rem)" }}
           >
-            99
+            64
           </span>
           <div className="flex flex-col items-start gap-1.5">
-            <span className="text-lg font-bold uppercase tracking-wide text-ink/70 md:text-xl">
+            <span className="text-lg font-bold uppercase tracking-wide text-white/70 md:text-xl">
               Ribu
             </span>
             <span
-              className="inline-block rounded-md bg-brand px-2 py-0.5 text-[11px] font-extrabold uppercase tracking-wide text-white"
+              className="inline-block rounded-md bg-amber-400 px-2 py-0.5 text-[11px] font-extrabold uppercase tracking-wide text-[#2a1500]"
               style={{ transform: "skewX(-6deg)" }}
             >
               Disc 40%
@@ -85,31 +103,31 @@ export default function Hero() {
         </div>
 
         {/* 4. Subline */}
-        <p className="mt-5 text-base font-bold text-ink md:text-lg">
+        <p className="mt-5 text-base font-bold text-white md:text-lg">
           Sekali bayar · akses seumur hidup · tanpa kredit
         </p>
 
         {/* 5. Deskripsi */}
-        <p className="mt-3 max-w-xl text-sm leading-relaxed text-ink/65 md:text-base">
+        <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/60 md:text-base">
           Bikin logo, banner, comic,{" "}
-          <strong className="font-bold text-ink/85">infografis</strong>, thumbnail,
+          <strong className="font-bold text-white">infografis</strong>, thumbnail,
           analogi, dan poster{" "}
-          <strong className="font-bold text-ink/85">tanpa skill desain</strong>.
+          <strong className="font-bold text-white">tanpa skill desain</strong>.
         </p>
 
-        {/* 6. 3 pills */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+        {/* 6. 3 pills — di HP grid 3 kolom (sejajar), desktop jadi row */}
+        <div className="mt-6 grid w-full max-w-md grid-cols-3 gap-2 sm:flex sm:max-w-none sm:flex-wrap sm:justify-center sm:gap-2.5">
           {PILLS.map((p) => {
             const Icon = p.icon;
             return (
               <span
                 key={p.strong}
-                className="inline-flex items-center gap-2 rounded-full border border-muted bg-white px-3.5 py-2 text-xs font-medium text-ink/75 shadow-sm md:text-sm"
+                className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.06] px-2 py-2.5 text-center text-[11px] font-medium text-white/75 backdrop-blur-sm sm:flex-row sm:gap-2 sm:rounded-full sm:px-3.5 sm:py-2 sm:text-sm"
               >
-                <Icon size={15} className="shrink-0 text-brand" />
+                <Icon size={15} className="shrink-0 text-violet-300" />
                 <span>
                   {p.pre ? p.pre + " " : ""}
-                  <strong className="font-bold text-ink">{p.strong}</strong>
+                  <strong className="font-bold text-white">{p.strong}</strong>
                   {p.rest ? " " + p.rest : ""}
                 </span>
               </span>
@@ -119,26 +137,27 @@ export default function Hero() {
 
         {/* 7. Divider berlabel */}
         <div className="mt-10 flex w-full items-center gap-4">
-          <span className="h-px flex-1 bg-gradient-to-r from-transparent to-muted" />
-          <span className="text-xs font-bold uppercase tracking-[0.25em] text-brand">
+          <span className="h-px flex-1 bg-gradient-to-r from-transparent to-white/15" />
+          <span className="text-xs font-bold uppercase tracking-[0.25em] text-violet-300">
             7 Engine Kreatif
           </span>
-          <span className="h-px flex-1 bg-gradient-to-l from-transparent to-muted" />
+          <span className="h-px flex-1 bg-gradient-to-l from-transparent to-white/15" />
         </div>
 
-        {/* 8. Grid 7 engine (desktop 7 kolom, mobile 3 kolom) */}
-        <div className="mt-6 grid w-full grid-cols-3 gap-3 md:grid-cols-7">
+        {/* 8. Grid 7 engine — tanpa box (icon + label aja, hemat tempat) */}
+        <div className="mt-7 flex w-full flex-wrap justify-center gap-x-4 gap-y-5">
           {ENGINES.map((e) => {
             const Icon = e.icon;
             return (
               <div
                 key={e.label}
-                className="flex flex-col items-center gap-2 rounded-2xl border border-muted bg-white p-3 shadow-sm"
+                className="flex w-16 flex-col items-center gap-2 text-center"
               >
-                <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand-50 text-brand">
-                  <Icon size={18} />
-                </span>
-                <span className="text-[11px] font-semibold leading-tight text-ink/75">
+                <Icon
+                  size={24}
+                  className="text-violet-300 drop-shadow-[0_0_10px_rgba(167,139,250,0.45)]"
+                />
+                <span className="text-[11px] font-semibold leading-tight text-white/70">
                   {e.label}
                 </span>
               </div>
@@ -149,13 +168,13 @@ export default function Hero() {
         {/* 9. CTA full-width */}
         <a
           href="#pricing"
-          className="mt-9 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-brand px-8 py-4 text-base font-extrabold uppercase tracking-wide text-white shadow-xl shadow-brand/30 transition hover:scale-[1.01] hover:bg-brand-600 md:text-lg"
+          className="mt-9 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-violet-500 to-fuchsia-500 px-8 py-4 text-base font-extrabold uppercase tracking-wide text-white shadow-xl shadow-violet-500/30 transition hover:scale-[1.01] hover:brightness-110 md:text-lg"
         >
-          Mulai Sekarang <ArrowRight size={20} />
+          Coba Sekarang <ArrowRight size={20} />
         </a>
 
         {/* 10. Catatan */}
-        <p className="mt-4 inline-flex items-center gap-1.5 text-xs text-ink/55">
+        <p className="mt-4 inline-flex items-center gap-1.5 text-xs text-white/45">
           <Clock size={13} /> Promo terbatas
         </p>
       </div>
