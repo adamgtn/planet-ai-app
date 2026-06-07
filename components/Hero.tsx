@@ -119,7 +119,7 @@ export default function Hero() {
         {/* 5b. Banner creative (contoh hasil) — di bawah caption */}
         <div className="mt-6 w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-violet-900/40 ring-1 ring-white/5">
           <Image
-            src="/lp/planetprompt/hero/banner-baru.webp"
+            src="/lp/planetprompt/hero/banner-hero.webp"
             alt="Contoh hasil konten PlanetPrompt — logo, banner, comic, infografis, thumbnail"
             width={0}
             height={0}
