@@ -125,7 +125,11 @@ function Navbar() {
             priority
             className="h-9 w-9 shrink-0 object-contain"
           />
-          <span className="text-lg font-bold tracking-tight text-ink">
+          <span
+            className={`text-lg font-bold tracking-tight transition-colors ${
+              scrolled ? "text-ink" : "text-white"
+            }`}
+          >
             planet<span className="text-brand">prompt</span>
           </span>
         </div>
@@ -133,7 +137,11 @@ function Navbar() {
           href={COMMUNITY_LINK}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand-50 px-4 py-1.5 text-xs font-semibold text-brand transition hover:bg-brand hover:text-white"
+          className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold transition ${
+            scrolled
+              ? "border-brand/30 bg-brand-50 text-brand hover:bg-brand hover:text-white"
+              : "border-white/25 bg-white/10 text-white backdrop-blur hover:bg-white hover:text-brand"
+          }`}
         >
           <Users size={14} /> Join Member
         </a>
