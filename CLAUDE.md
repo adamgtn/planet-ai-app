@@ -16,6 +16,7 @@ Ringkasan preference & konvensi yang harus selalu Claude ikuti saat kerja di pro
 - Logo planet di `/public/brand/planetsoft-icon.png` (1000×1000). Selalu pakai `object-contain shrink-0` di `<img>` agar tidak ke-stretch.
 - Wordmark: `planet` (ink) + `soft` / `prompt` (brand orange).
 - Color brand: `#FF6B00` (Tailwind `bg-brand`, `text-brand`). White background, dark charcoal text. Hindari dark theme untuk product yang menargetkan UMKM.
+- **Pengecualian — LP PlanetPrompt**: hero (`components/Hero.tsx`) + section UseCase & 7-Engine sengaja pakai tema **gelap-ungu** (`bg-[#0d0818]` + glow violet/fuchsia, aksen ungu + gold/amber). Navbar adaptif (terang di atas hero, gelap pas scroll). Selebihnya LP tetap terang. Jangan balikin hero ke terang tanpa diminta.
 
 ## Workflow Git
 
