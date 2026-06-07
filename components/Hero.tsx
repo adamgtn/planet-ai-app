@@ -5,6 +5,7 @@
 // next/font, var --font-anton). Alur: badge → headline → harga → subline →
 // deskripsi → pills → divider → grid 7 engine (tanpa box) → CTA → catatan.
 
+import Image from "next/image";
 import {
   ArrowRight,
   BarChart3,
@@ -12,11 +13,11 @@ import {
   Clock,
   Layers,
   LayoutGrid,
-  MessageSquare,
   Palette,
+  RefreshCw,
+  Rocket,
   Scan,
   Sparkles,
-  Users,
   Youtube,
   Zap,
   type LucideIcon,
@@ -34,8 +35,8 @@ const ENGINES: { icon: LucideIcon; label: string }[] = [
 
 const PILLS: { icon: LucideIcon; pre?: string; strong: string; rest?: string }[] = [
   { icon: Layers, strong: "Banyak", rest: "format konten" },
-  { icon: MessageSquare, strong: "Prompt", rest: "siap pakai" },
-  { icon: Users, pre: "Cocok untuk", strong: "UMKM & kreator" },
+  { icon: RefreshCw, pre: "Konten", strong: "update setiap hari" },
+  { icon: Rocket, pre: "Penambahan", strong: "tools baru!" },
 ];
 
 export default function Hero() {
@@ -109,11 +110,23 @@ export default function Hero() {
 
         {/* 5. Deskripsi */}
         <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/60 md:text-base">
-          Bikin logo, banner, comic,{" "}
-          <strong className="font-bold text-white">infografis</strong>, thumbnail,
-          analogi, dan poster{" "}
-          <strong className="font-bold text-white">tanpa skill desain</strong>.
+          Bikin <strong className="font-bold text-white">logo</strong>, banner,{" "}
+          <strong className="font-bold text-white">comic</strong>, infografis,{" "}
+          <strong className="font-bold text-white">thumbnail</strong>, analogi,
+          dan poster tanpa skill desain.
         </p>
+
+        {/* 5b. Banner creative (contoh hasil) — di bawah caption */}
+        <div className="mt-6 w-full overflow-hidden rounded-2xl border border-white/10 shadow-2xl shadow-violet-900/40 ring-1 ring-white/5">
+          <Image
+            src="/lp/planetprompt/hero/banner-baru.webp"
+            alt="Contoh hasil konten PlanetPrompt — logo, banner, comic, infografis, thumbnail"
+            width={0}
+            height={0}
+            sizes="(max-width: 768px) 100vw, 860px"
+            className="h-auto w-full"
+          />
+        </div>
 
         {/* 6. 3 pills — di HP grid 3 kolom (sejajar), desktop jadi row */}
         <div className="mt-6 grid w-full max-w-md grid-cols-3 gap-2 sm:flex sm:max-w-none sm:flex-wrap sm:justify-center sm:gap-2.5">
