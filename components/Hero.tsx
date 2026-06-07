@@ -6,6 +6,7 @@
 // deskripsi → pills → divider → grid 7 engine (tanpa box) → CTA → catatan.
 
 import Image from "next/image";
+import PlanetPromptHero from "@/components/PlanetPromptHero";
 import {
   ArrowRight,
   BarChart3,
@@ -176,6 +177,11 @@ export default function Hero() {
               </div>
             );
           })}
+        </div>
+
+        {/* 8b. Animasi "studio" — app generate prompt (komponen PlanetPromptHero). Di atas CTA. */}
+        <div className="mt-12 w-full max-w-xl">
+          <PlanetPromptHero />
         </div>
 
         {/* 9. CTA full-width */}
