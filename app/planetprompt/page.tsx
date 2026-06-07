@@ -1496,7 +1496,7 @@ function StickyMobileCta() {
         href="#pricing"
         className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-5 py-3 text-sm font-bold text-white shadow-lg shadow-brand/30"
       >
-        <ShoppingBag size={18} /> Ambil PlanetPrompt • Rp 99.000
+        <ShoppingBag size={18} /> Ambil Promo 64 Ribu
       </a>
     </div>
   );
