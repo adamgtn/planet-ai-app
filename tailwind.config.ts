@@ -29,6 +29,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["Inter", "Poppins", "system-ui", "sans-serif"],
+        display: ["var(--font-anton)", "Inter", "system-ui", "sans-serif"],
       },
       boxShadow: {
         card: "0 4px 20px -2px rgba(45, 45, 45, 0.08)",
