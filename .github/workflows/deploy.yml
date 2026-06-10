@@ -1,9 +1,11 @@
 name: Deploy to VPS
 
 on:
-  push:
-    branches: [main]
-  workflow_dispatch: {} # boleh jalankan manual dari tab Actions
+  # Deploy MANUAL saja. Jalankan dari tab Actions → "Deploy to VPS" → "Run workflow"
+  # (branch main), atau `gh workflow run "Deploy to VPS"`.
+  # Push/merge ke main TIDAK auto-deploy — biar bisa batch & kontrol timing
+  # (hindari SSH timeout beruntun). CI tetap auto di push/PR (workflow terpisah).
+  workflow_dispatch: {}
 
 concurrency:
   group: deploy-production
