@@ -21,7 +21,7 @@ Ringkasan preference & konvensi yang harus selalu Claude ikuti saat kerja di pro
 ## Workflow Git
 
 - Gunakan `npm run push "msg"` atau `npm run pr "msg"` (script di `scripts/sync.mjs`) — bukan command git manual.
-- Setiap perubahan = branch baru dari `main` + PR. CI/CD auto-deploy via GitHub Actions saat merge ke `main`.
+- Setiap perubahan = branch baru dari `main` + PR. **Deploy MANUAL** (sejak 2026-06-10): merge ke `main` TIDAK auto-deploy. Deploy dijalankan sendiri via tab Actions → "Deploy to VPS" → "Run workflow" (branch `main`), atau `gh workflow run "Deploy to VPS"`. CI tetap auto jalan di push/PR.
 - Branch protection di main: cek dulu apakah PR terakhir sudah merged sebelum push commit baru ke branch yang sama (kalau sudah closed, bikin branch baru dari main).
 
 ## Konvensi Konten LP UMKM
