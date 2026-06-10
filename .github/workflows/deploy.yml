@@ -35,6 +35,7 @@ jobs:
             echo "→ tulis env runtime (.env.production.local) — secret dari GitHub Secrets"
             {
               echo "OO_WEBHOOK_SECRET=${{ secrets.OO_WEBHOOK_SECRET }}"
+              echo "MAYAR_WEBHOOK_SECRET=${{ secrets.MAYAR_WEBHOOK_SECRET }}"
               echo "PB_SERVICE_EMAIL=webhook@planetsoft.id"
               echo "PB_SERVICE_PASSWORD=${{ secrets.PB_SERVICE_PASSWORD }}"
               echo "NEXT_PUBLIC_PB_URL=https://db.planet-ai.tech"
