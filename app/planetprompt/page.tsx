@@ -915,7 +915,7 @@ function PricingSection() {
       pricePromo: "Rp 99.000",
       priceValue: 99000,
       cta: "Ambil Paket Starter",
-      paymentUrl: "https://gamebot.orderonline.id/planetprompt-2",
+      paymentUrl: "https://planetsoft.myr.id/pl/paket-standar-planetprompt",
       coupon: {
         code: "UMKM35",
         save: "Rp 35.000",
@@ -945,7 +945,7 @@ function PricingSection() {
       pricePromo: "Rp 149.000",
       priceValue: 149000,
       cta: "Ambil Paket VIP",
-      paymentUrl: "https://gamebot.orderonline.id/planetprompt-3",
+      paymentUrl: "https://planetsoft.myr.id/pl/paket-vip-planetprompt",
       coupon: {
         code: "UMKM35",
         save: "Rp 35.000",
@@ -974,7 +974,7 @@ function PricingSection() {
       pricePromo: "Rp 799.000",
       priceValue: 799000,
       cta: "Ambil Paket Aplikasi",
-      paymentUrl: "https://gamebot.orderonline.id/planetprompt3",
+      paymentUrl: "https://planetsoft.myr.id/pl/paket-aplikasi-full-stack",
       coupon: {
         code: "UMKM99",
         save: "Rp 200.000",
