@@ -10,6 +10,11 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // Root domain → LP jualan PlanetPrompt (mayoritas traffic dari ads).
+      // Sengaja di config (bukan app/page.tsx) supaya selalu emit header
+      // Location bersih & TIDAK kena full-route cache — redirect statis di
+      // page sempat ke-cache 1 tahun (s-maxage) + tanpa Location.
+      { source: "/", destination: "/planetprompt", permanent: false },
       // Login member dipusatkan ke /app (member app, 1 database PocketBase).
       // /login lama di app ini diarahkan ke sana. 307 (temporary) biar tidak
       // di-cache permanen browser — gampang di-revert kalau perlu.
