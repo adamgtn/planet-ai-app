@@ -3,12 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Braces,
   LayoutDashboard,
   ShieldCheck,
-  Sparkles,
   User,
-  Wand2,
   type LucideIcon,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
@@ -40,29 +37,15 @@ const MAIN_ITEMS: NavItem[] = [
   },
 ];
 
-const TOOLS_ITEMS: NavItem[] = [
-  {
-    href: "/tools/prompt-generator",
-    label: "Prompt Generator",
-    icon: Wand2,
-    match: (p) => p.startsWith("/tools/prompt-generator"),
-  },
-  {
-    href: "/tools/json-builder",
-    label: "JSON Builder",
-    icon: Braces,
-    match: (p) => p.startsWith("/tools/json-builder"),
-  },
-];
+// Catatan: grup "AI Tools" (Prompt Generator + JSON Builder) disembunyikan dulu
+// (2026-06-11). /tools/* di-redirect ke /dashboard via next.config — kode tool
+// masih ada, tinggal kembalikan grup ini kalau mau diaktifkan lagi.
 
 export function Sidebar() {
   const pathname = usePathname() ?? "";
   const { isAdmin } = useAuth();
 
-  const groups: NavGroup[] = [
-    { title: "Menu Utama", items: MAIN_ITEMS },
-    { title: "AI Tools", items: TOOLS_ITEMS },
-  ];
+  const groups: NavGroup[] = [{ title: "Menu Utama", items: MAIN_ITEMS }];
 
   return (
     <aside className="sticky top-16 hidden h-[calc(100vh-4rem)] w-64 shrink-0 border-r border-muted bg-white/60 lg:block">
@@ -104,17 +87,6 @@ export function Sidebar() {
             </ul>
           </div>
         )}
-
-        <div className="mt-auto rounded-2xl border border-brand/15 bg-brand-50/60 p-4">
-          <div className="flex items-center gap-2 text-brand">
-            <Sparkles size={14} />
-            <span className="text-xs font-semibold">Tips</span>
-          </div>
-          <p className="mt-1.5 text-xs text-ink/70">
-            Pakai <span className="font-semibold">AI Tools</span> untuk bikin
-            prompt & JSON tanpa hafal struktur.
-          </p>
-        </div>
       </nav>
     </aside>
   );
