@@ -50,9 +50,9 @@ const WA_NUMBER = "6285780685293";
 const COMMUNITY_LINK = "https://chat.whatsapp.com/FRSMZRQk6mABqMJdwkZw0l";
 const VIDEO_DEMO_ID = "dQw4w9WgXcQ";
 
-// Gambar showcase produk real (48 file di /public/lp/planetprompt/showcase/)
+// Gambar showcase produk real (54 file di /public/lp/planetprompt/showcase/)
 const showcaseImages = Array.from(
-  { length: 48 },
+  { length: 54 },
   (_, i) =>
     `/lp/planetprompt/showcase/showcase-${(i + 1).toString().padStart(2, "0")}.webp`
 );
