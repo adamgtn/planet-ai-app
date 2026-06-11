@@ -31,6 +31,7 @@ import {
   ShoppingBag,
   Sparkles,
   Sparkles as SparklesIcon,
+  Star,
   Store,
   Tag,
   Users,
@@ -49,9 +50,9 @@ const WA_NUMBER = "6285780685293";
 const COMMUNITY_LINK = "https://chat.whatsapp.com/FRSMZRQk6mABqMJdwkZw0l";
 const VIDEO_DEMO_ID = "dQw4w9WgXcQ";
 
-// Gambar showcase produk real (43 file di /public/lp/planetprompt/showcase/)
+// Gambar showcase produk real (48 file di /public/lp/planetprompt/showcase/)
 const showcaseImages = Array.from(
-  { length: 43 },
+  { length: 48 },
   (_, i) =>
     `/lp/planetprompt/showcase/showcase-${(i + 1).toString().padStart(2, "0")}.webp`
 );
@@ -78,6 +79,7 @@ export default function PlanetPromptLanding() {
       <ShowcaseMarqueeSection />
       <ProblemSection />
       <ExampleOutputSection />
+      <NewEnginesSection />
       <SolutionSection />
       <HowItWorksSection />
       <UseCaseSection />
@@ -868,6 +870,91 @@ function ExampleOutputSection() {
               </div>
               <div className="mt-4 grid grid-cols-3 items-start gap-3">
                 {e.imgs.slice(0, 3).map((src, i) => (
+                  <Image
+                    key={src}
+                    src={src}
+                    alt={`${e.title} ${i + 1}`}
+                    width={0}
+                    height={0}
+                    loading="lazy"
+                    sizes="(max-width: 768px) 31vw, 320px"
+                    className="h-auto w-full rounded-xl border border-white/10 bg-black/20"
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NEW ENGINES — 2 engine baru (Image Carousel + Review Product), section
+// terpisah dengan bg gelap yang sama persis dengan ExampleOutputSection.
+
+function NewEnginesSection() {
+  const EP = "/lp/planetprompt/engine";
+
+  const engines = [
+    {
+      code: "M8",
+      icon: <ImageIcon size={16} />,
+      title: "Image Carousel",
+      desc: "Konten carousel multi-slide buat edukasi & soft-selling — tinggal swipe, cocok feed Instagram & TikTok.",
+      imgs: [`${EP}/image-carousel-1.webp`, `${EP}/image-carousel-2.webp`, `${EP}/image-carousel-3.webp`],
+    },
+    {
+      code: "M9",
+      icon: <Star size={16} />,
+      title: "Review Product",
+      desc: "Poster review produk ala kreator — lengkap rating, testimoni & CTA biar calon pembeli makin percaya.",
+      imgs: [`${EP}/review-product-1.webp`, `${EP}/review-product-2.webp`, `${EP}/review-product-3.webp`],
+    },
+  ];
+
+  return (
+    <section className="relative overflow-hidden bg-[#0d0818] pb-16 lg:pb-28">
+      <div className="pointer-events-none absolute -top-24 right-0 h-72 w-[520px] rounded-full bg-fuchsia-600/15 blur-[110px]" />
+      <div className="relative mx-auto max-w-6xl px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="inline-flex items-center gap-2 rounded-full border border-amber-300/30 bg-amber-400/10 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-200">
+            <Sparkles size={13} /> Baru Rilis · 2 Engine Tambahan
+          </p>
+          <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">
+            Engine Baru:{" "}
+            <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+              Carousel & Review Produk
+            </span>
+          </h2>
+          <p className="mt-3 text-white/55">
+            Update terbaru PlanetPrompt — makin banyak format konten jualan yang
+            bisa kamu bikin.
+          </p>
+        </div>
+
+        <div className="mt-12 space-y-10">
+          {engines.map((e) => (
+            <div key={e.code}>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-violet-300/70">
+                    Engine · {e.code}
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-violet-500 to-fuchsia-500 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
+                    <Sparkles size={9} /> Fitur Baru
+                  </span>
+                </div>
+                <h3 className="mt-1 text-lg font-bold text-white md:text-xl">
+                  {e.title}
+                </h3>
+                <p className="mt-0.5 max-w-2xl text-sm leading-relaxed text-white/55">
+                  {e.desc}
+                </p>
+              </div>
+              <div className="mt-4 grid grid-cols-3 items-start gap-3">
+                {e.imgs.map((src, i) => (
                   <Image
                     key={src}
                     src={src}
