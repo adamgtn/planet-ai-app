@@ -15,10 +15,14 @@ const nextConfig = {
       // Location bersih & TIDAK kena full-route cache — redirect statis di
       // page sempat ke-cache 1 tahun (s-maxage) + tanpa Location.
       { source: "/", destination: "/planetprompt", permanent: false },
-      // Login member dipusatkan ke /app (member app, 1 database PocketBase).
-      // /login lama di app ini diarahkan ke sana. 307 (temporary) biar tidak
-      // di-cache permanen browser — gampang di-revert kalau perlu.
-      { source: "/login", destination: "/app", permanent: false },
+      // CATATAN: redirect /login → /app DIHAPUS (2026-06-11) supaya form login
+      // member (app/login/page.tsx) tampil lagi → login → /dashboard. Sebelumnya
+      // redirect ini nge-shadow form login → /dashboard jadi nggak bisa diakses.
+      // /app = AI Studio terpisah (tetap diakses langsung / dari card produk).
+      // AI Tools (Prompt Generator + JSON Builder) disembunyikan dulu — semua
+      // /tools/* diarahkan ke /dashboard. Page code tetap ada (reversible).
+      { source: "/tools", destination: "/dashboard", permanent: false },
+      { source: "/tools/:path*", destination: "/dashboard", permanent: false },
     ];
   },
 };

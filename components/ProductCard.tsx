@@ -33,6 +33,10 @@ export function ProductCard({ product }: { product: Product }) {
   const isExpired = product.status === "expired";
   const isOpen = product.status === "purchased";
   const badge = STATUS_BADGE[product.status];
+  // PlanetPrompt = produk TOOL (bukan kelas video): saat dibuka langsung ke app
+  // member (/app); tombol "Beli" diarahkan ke landing page jualan (/planetprompt).
+  // Produk lain = kelas → /learn seperti biasa.
+  const isTool = product.id === "planetprompt";
 
   return (
     <article
@@ -141,16 +145,27 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="mt-auto flex flex-col gap-2 pt-2">
           {isOpen && (
             <Link
-              href={`/learn/${product.id}`}
+              href={isTool ? "/app" : `/learn/${product.id}`}
               className="btn-primary w-full justify-between"
             >
-              Mulai Belajar <ArrowRight size={16} />
+              {isTool ? "Buka PlanetPrompt" : "Mulai Belajar"}{" "}
+              <ArrowRight size={16} />
             </Link>
           )}
 
           {isLocked && (
             <>
-              {product.landingUrl ? (
+              {isTool ? (
+                <Link
+                  href="/planetprompt"
+                  className="btn-primary w-full justify-between"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <ShoppingBag size={16} /> Beli Sekarang
+                  </span>
+                  <ArrowRight size={14} />
+                </Link>
+              ) : product.landingUrl ? (
                 <a
                   href={product.landingUrl}
                   target="_blank"
