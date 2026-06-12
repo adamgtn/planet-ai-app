@@ -59,7 +59,7 @@ type PBUserRecord = {
   id: string;
   email: string;
   name: string;
-  role: "super_admin" | "admin" | "member";
+  role: "super_admin" | "admin" | "member" | "vip";
   status: UserStatus;
   tier?: UserTier;
   last_login_at?: string;
@@ -186,14 +186,14 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       setProducts(productList);
 
       // Users hanya bisa diambil oleh admin (sesuai rules PocketBase).
-      // Filter role = "member" agar admin/super_admin tidak muncul di
-      // halaman Member (cegah salah edit yang demote role).
+      // Filter role member ATAU vip agar admin/super_admin tidak muncul di
+      // halaman Member — tapi member VIP (role="vip") tetap tampil.
       if (isAdmin) {
         const [pbUsers, allPermissions] = await Promise.all([
           pb
             .collection("users")
             .getFullList<PBUserRecord>({
-              filter: 'role = "member"',
+              filter: 'role = "member" || role = "vip"',
               sort: "-id",
               requestKey: null,
             }),

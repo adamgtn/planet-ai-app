@@ -88,7 +88,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       user,
       loading,
       isAuthenticated: !!user,
-      isMember: role === "member",
+      // VIP dianggap member juga (cuma role beda buat gate fitur VIP di /app)
+      isMember: role === "member" || role === "vip",
       isAdmin: role === "admin" || role === "super_admin",
       isSuperAdmin: role === "super_admin",
       login,
