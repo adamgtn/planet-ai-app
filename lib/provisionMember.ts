@@ -32,6 +32,12 @@ const TIER_RANK: Record<MemberTier, number> = {
   aplikasi: 3,
 };
 
+/** Paket → role yang dipakai app /app (AI Studio) untuk gate fitur VIP.
+ *  VIP & Aplikasi sama-sama dapat akses VIP (role "vip"); Starter = "member". */
+function tierToRole(tier?: MemberTier): "member" | "vip" {
+  return tier === "vip" || tier === "aplikasi" ? "vip" : "member";
+}
+
 export type ProvisionResult = {
   ok: true;
   created: boolean;
@@ -66,28 +72,46 @@ export async function provisionMember(input: {
     .collection("users")
     .authWithPassword(process.env.PB_SERVICE_EMAIL || "", process.env.PB_SERVICE_PASSWORD || "");
 
-  // idempotent: kalau email sudah terdaftar, jangan bikin dobel — tapi cek upgrade tier
+  // idempotent: kalau email sudah terdaftar, jangan bikin dobel — tapi cek
+  // upgrade tier + role (member → vip). Role admin/super_admin TIDAK diubah.
   const existing = await pb
     .collection("users")
-    .getFirstListItem<{ id: string; tier?: MemberTier }>(
+    .getFirstListItem<{ id: string; tier?: MemberTier; role?: string }>(
       pb.filter("email = {:email}", { email })
     )
     .catch(() => null);
   if (existing) {
     const oldTier = existing.tier;
+    const oldRole = existing.role;
     const newTier = input.tier;
-    // upgrade hanya kalau tier baru lebih tinggi (atau tier lama kosong)
+    const updates: Record<string, unknown> = {};
+
+    // tier: naik kalau lebih tinggi (atau lama kosong); tidak pernah turun
     if (newTier && (!oldTier || TIER_RANK[newTier] > TIER_RANK[oldTier])) {
-      await pb.collection("users").update(existing.id, { tier: newTier });
+      updates.tier = newTier;
+    }
+    // role: member → vip. JANGAN demote vip→member, JANGAN sentuh admin/super_admin
+    if (
+      oldRole !== "admin" &&
+      oldRole !== "super_admin" &&
+      oldRole !== "vip" &&
+      tierToRole(newTier) === "vip"
+    ) {
+      updates.role = "vip";
+    }
+
+    if (Object.keys(updates).length > 0) {
+      await pb.collection("users").update(existing.id, updates);
+      const parts: string[] = [];
+      if (updates.tier) parts.push(`tier ${oldTier ?? "—"} → ${updates.tier}`);
+      if (updates.role) parts.push("role → vip");
       return {
         ok: true,
         created: false,
         emailed: false,
         email,
-        tier: newTier,
-        note: oldTier
-          ? `akun sudah ada — tier di-upgrade ${oldTier} → ${newTier}`
-          : `akun sudah ada — tier di-set ke ${newTier}`,
+        tier: (updates.tier as MemberTier) ?? oldTier,
+        note: `akun sudah ada — di-upgrade (${parts.join(", ")})`,
       };
     }
     return {
@@ -105,7 +129,7 @@ export async function provisionMember(input: {
     email,
     name: input.name?.trim() || email.split("@")[0],
     phone: input.phone?.trim() || "",
-    role: "member",
+    role: tierToRole(input.tier),
     status: "active",
     ...(input.tier ? { tier: input.tier } : {}),
     password,

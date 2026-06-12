@@ -79,13 +79,21 @@ const COLLECTIONS = [
         name: "role",
         type: "select",
         required: true,
-        values: ["super_admin", "admin", "member"],
+        // "vip" = pembeli VIP/Aplikasi → buka fitur VIP di app /app (AI Studio).
+        values: ["super_admin", "admin", "member", "vip"],
         maxSelect: 1,
       },
       {
         name: "status",
         type: "select",
         values: ["active", "suspended", "expired"],
+        maxSelect: 1,
+      },
+      // tier = paket yang dibeli (catatan, beda dari role). Lihat pb:add-tier.
+      {
+        name: "tier",
+        type: "select",
+        values: ["starter", "vip", "aplikasi"],
         maxSelect: 1,
       },
       { name: "phone", type: "text", max: 20 },

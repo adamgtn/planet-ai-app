@@ -33,7 +33,9 @@ export type PBUser = {
   emailVisibility?: boolean;
   verified?: boolean;
   name: string;
-  role: "super_admin" | "admin" | "member";
+  // "vip" = pembeli VIP/Aplikasi (akses fitur VIP di app /app). Tetap dianggap
+  // member biasa untuk gating di app ini (isMember). Lihat lib/auth.tsx.
+  role: "super_admin" | "admin" | "member" | "vip";
   status: "active" | "suspended" | "expired";
   phone?: string;
   avatar?: string;

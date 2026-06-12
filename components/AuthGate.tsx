@@ -59,8 +59,8 @@ export function AuthGate({
   if (adminOnly && !isAdmin) return null;
   if (superOnly && !isSuperAdmin) return null;
 
-  // Cek status akun member tidak suspended/expired
-  if (user && user.role === "member" && user.status !== "active") {
+  // Cek status akun member (termasuk VIP) tidak suspended/expired
+  if (user && (user.role === "member" || user.role === "vip") && user.status !== "active") {
     return (
       <div className="grid min-h-screen place-items-center bg-muted/40 px-6">
         <div className="card-base max-w-md p-8 text-center">
