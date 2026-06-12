@@ -5,6 +5,7 @@ import {
   AlertCircle,
   CheckCircle2,
   Copy,
+  Crown,
   Info,
   Mail,
   Phone,
@@ -30,6 +31,7 @@ export default function KirimAksesPage() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [tier, setTier] = useState("starter");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [copied, setCopied] = useState(false);
@@ -47,7 +49,7 @@ export default function KirimAksesPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ email, name, phone }),
+        body: JSON.stringify({ email, name, phone, tier }),
       });
       const data = (await res.json()) as Result;
       setResult(data);
@@ -55,6 +57,7 @@ export default function KirimAksesPage() {
         setEmail("");
         setName("");
         setPhone("");
+        setTier("starter");
       }
     } catch {
       setResult({ ok: false, error: "Gagal menghubungi server. Coba lagi." });
@@ -137,6 +140,31 @@ export default function KirimAksesPage() {
             </div>
           </div>
 
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-ink">
+              Paket yang dibeli
+            </label>
+            <div className="relative">
+              <Crown
+                size={16}
+                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink/40"
+              />
+              <select
+                value={tier}
+                onChange={(e) => setTier(e.target.value)}
+                className="input-base pl-9"
+              >
+                <option value="starter">Paket UMKM Starter</option>
+                <option value="vip">Paket VIP Member</option>
+                <option value="aplikasi">Paket Aplikasi (Resell)</option>
+              </select>
+            </div>
+            <p className="mt-1.5 text-xs text-ink/55">
+              Kalau email sudah punya akun, paket hanya akan naik (tidak pernah
+              turun otomatis).
+            </p>
+          </div>
+
           <button
             type="submit"
             disabled={loading}
@@ -189,8 +217,9 @@ export default function KirimAksesPage() {
                 <Info size={16} /> {result.email} sudah punya akun.
               </p>
               <p className="mt-1 text-sky-700/90">
-                Tidak dibuat ulang (biar tidak dobel). Kalau lupa password,
-                pakai reset di dashboard PocketBase.
+                {result.note && result.note !== "akun sudah ada"
+                  ? result.note + "."
+                  : "Tidak dibuat ulang (biar tidak dobel). Kalau lupa password, pakai reset di dashboard PocketBase."}
               </p>
             </div>
           )}
@@ -208,8 +237,8 @@ export default function KirimAksesPage() {
         <aside className="card-base h-fit p-6 text-sm text-ink/70">
           <h2 className="text-base font-bold text-ink">Cara pakai</h2>
           <ol className="mt-3 list-decimal space-y-2 pl-4">
-            <li>Cek pembeli sudah benar-benar bayar di orderonline.</li>
-            <li>Masukkan email (dan nama) pembeli, klik tombol.</li>
+            <li>Cek pembeli sudah benar-benar bayar di Mayar.</li>
+            <li>Masukkan email (dan nama) pembeli, pilih paketnya, klik tombol.</li>
             <li>
               Akun member otomatis dibuat & email login dikirim ke pembeli lewat
               Brevo.

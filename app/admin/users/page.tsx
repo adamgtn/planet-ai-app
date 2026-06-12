@@ -12,7 +12,7 @@ import {
   UserPlus,
 } from "lucide-react";
 import { AdminShell } from "@/components/admin/AdminShell";
-import { type UserStatus } from "@/lib/adminData";
+import { type UserStatus, type UserTier } from "@/lib/adminData";
 import { useDataStore } from "@/lib/dataStore";
 
 type Filter = "all" | UserStatus;
@@ -27,6 +27,18 @@ const STATUS_LABEL: Record<UserStatus, string> = {
   active: "Aktif",
   suspended: "Suspended",
   expired: "Kedaluwarsa",
+};
+
+const TIER_PILL: Record<UserTier, string> = {
+  starter: "bg-muted text-ink/70",
+  vip: "bg-amber-100 text-amber-700",
+  aplikasi: "bg-rose-100 text-rose-700",
+};
+
+const TIER_LABEL: Record<UserTier, string> = {
+  starter: "Starter",
+  vip: "VIP",
+  aplikasi: "Aplikasi",
 };
 
 export default function AdminUsersPage() {
@@ -96,11 +108,12 @@ export default function AdminUsersPage() {
         </div>
 
         <div className="mt-5 overflow-x-auto">
-          <table className="w-full min-w-[720px] border-separate border-spacing-y-2">
+          <table className="w-full min-w-[820px] border-separate border-spacing-y-2">
             <thead>
               <tr className="text-left text-[11px] font-semibold uppercase tracking-wider text-ink/45">
                 <th className="px-4">Member</th>
                 <th className="px-4">Status</th>
+                <th className="px-4">Paket</th>
                 <th className="px-4">Akses Produk</th>
                 <th className="px-4">Bergabung</th>
                 <th className="px-4">Login Terakhir</th>
@@ -130,6 +143,18 @@ export default function AdminUsersPage() {
                     >
                       ● {STATUS_LABEL[u.status]}
                     </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    {u.tier ? (
+                      <span
+                        className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-bold ${TIER_PILL[u.tier]}`}
+                      >
+                        {u.tier === "vip" ? "👑 " : ""}
+                        {TIER_LABEL[u.tier]}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-ink/35">—</span>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     <span className="inline-flex items-center gap-1.5 rounded-lg bg-muted px-2.5 py-1 text-xs font-medium text-ink/70">

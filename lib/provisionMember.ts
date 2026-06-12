@@ -23,11 +23,22 @@ export function genPassword(len = 10): string {
   return out;
 }
 
+/** Paket yang dibeli member. Urutan rank: starter < vip < aplikasi. */
+export type MemberTier = "starter" | "vip" | "aplikasi";
+
+const TIER_RANK: Record<MemberTier, number> = {
+  starter: 1,
+  vip: 2,
+  aplikasi: 3,
+};
+
 export type ProvisionResult = {
   ok: true;
   created: boolean;
   emailed: boolean;
   email: string;
+  /** Tier akun setelah provisioning (kalau diketahui). */
+  tier?: MemberTier;
   /** Password plain — HANYA terisi saat akun baru dibuat. Jangan diteruskan
    *  ke caller eksternal (webhook); aman untuk admin yang terautentikasi. */
   password?: string;
@@ -36,13 +47,17 @@ export type ProvisionResult = {
 
 /**
  * Bikin akun member + kirim email kredensial. Idempotent: kalau email sudah
- * ada, tidak bikin dobel & tidak kirim email lagi.
+ * ada, tidak bikin dobel & tidak kirim email lagi — TAPI tier tetap di-upgrade
+ * kalau pembelian baru lebih tinggi (mis. member Starter beli VIP). Tier tidak
+ * pernah diturunkan otomatis.
  * Throw kalau auth service gagal / create gagal — caller harus catch.
  */
 export async function provisionMember(input: {
   email: string;
   name?: string;
   phone?: string;
+  /** Paket yang dibeli (dari webhook Mayar / form admin). Kosong = tidak diubah. */
+  tier?: MemberTier;
 }): Promise<ProvisionResult> {
   const email = input.email.trim().toLowerCase();
 
@@ -51,13 +66,38 @@ export async function provisionMember(input: {
     .collection("users")
     .authWithPassword(process.env.PB_SERVICE_EMAIL || "", process.env.PB_SERVICE_PASSWORD || "");
 
-  // idempotent: skip kalau email sudah terdaftar
+  // idempotent: kalau email sudah terdaftar, jangan bikin dobel — tapi cek upgrade tier
   const existing = await pb
     .collection("users")
-    .getFirstListItem(pb.filter("email = {:email}", { email }))
+    .getFirstListItem<{ id: string; tier?: MemberTier }>(
+      pb.filter("email = {:email}", { email })
+    )
     .catch(() => null);
   if (existing) {
-    return { ok: true, created: false, emailed: false, email, note: "akun sudah ada" };
+    const oldTier = existing.tier;
+    const newTier = input.tier;
+    // upgrade hanya kalau tier baru lebih tinggi (atau tier lama kosong)
+    if (newTier && (!oldTier || TIER_RANK[newTier] > TIER_RANK[oldTier])) {
+      await pb.collection("users").update(existing.id, { tier: newTier });
+      return {
+        ok: true,
+        created: false,
+        emailed: false,
+        email,
+        tier: newTier,
+        note: oldTier
+          ? `akun sudah ada — tier di-upgrade ${oldTier} → ${newTier}`
+          : `akun sudah ada — tier di-set ke ${newTier}`,
+      };
+    }
+    return {
+      ok: true,
+      created: false,
+      emailed: false,
+      email,
+      tier: oldTier,
+      note: "akun sudah ada",
+    };
   }
 
   const password = genPassword();
@@ -67,6 +107,7 @@ export async function provisionMember(input: {
     phone: input.phone?.trim() || "",
     role: "member",
     status: "active",
+    ...(input.tier ? { tier: input.tier } : {}),
     password,
     passwordConfirm: password,
     emailVisibility: true,
@@ -84,5 +125,5 @@ export async function provisionMember(input: {
     console.warn("[provisionMember] SMTP belum dikonfigurasi — akun dibuat tanpa email:", email);
   }
 
-  return { ok: true, created: true, emailed, email, password };
+  return { ok: true, created: true, emailed, email, tier: input.tier, password };
 }

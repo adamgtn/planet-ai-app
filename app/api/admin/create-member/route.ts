@@ -10,7 +10,9 @@
  */
 
 import PocketBase from "pocketbase";
-import { provisionMember } from "@/lib/provisionMember";
+import { provisionMember, type MemberTier } from "@/lib/provisionMember";
+
+const VALID_TIERS: MemberTier[] = ["starter", "vip", "aplikasi"];
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -40,7 +42,7 @@ export async function POST(req: Request) {
   }
 
   // 3) baca input
-  let body: { email?: string; name?: string; phone?: string };
+  let body: { email?: string; name?: string; phone?: string; tier?: string };
   try {
     body = (await req.json()) as typeof body;
   } catch {
@@ -50,10 +52,14 @@ export async function POST(req: Request) {
   if (!email || !email.includes("@")) {
     return Response.json({ ok: false, error: "Email tidak valid." }, { status: 422 });
   }
+  // tier opsional — whitelist; nilai tak dikenal diabaikan (bukan error)
+  const tier = VALID_TIERS.includes(body.tier as MemberTier)
+    ? (body.tier as MemberTier)
+    : undefined;
 
   // 4) buat akun + kirim email (logika bersama dengan webhook)
   try {
-    const result = await provisionMember({ email, name: body.name, phone: body.phone });
+    const result = await provisionMember({ email, name: body.name, phone: body.phone, tier });
     return Response.json(result);
   } catch (e) {
     console.error("[admin/create-member] error:", (e as Error).message);
