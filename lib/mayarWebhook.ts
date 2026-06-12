@@ -7,7 +7,7 @@
  * processMayarPayload: gate event → extract customer → provisionMember (idempotent).
  * Logika create akun SAMA dengan webhook orderonline & form admin (lib/provisionMember).
  */
-import { provisionMember } from "@/lib/provisionMember";
+import { provisionMember, type MemberTier } from "@/lib/provisionMember";
 
 export async function parseJsonBody(req: Request): Promise<Record<string, unknown>> {
   try {
@@ -44,6 +44,30 @@ const GRANT_EVENTS = new Set([
   "membership.changeTierMemberRegistered",
 ]);
 
+/**
+ * Tentukan paket (tier) dari info produk di payload Mayar.
+ * Prioritas: keyword di nama produk → fallback nominal transaksi.
+ * Kalau dua-duanya nggak ketahuan → starter (tier terendah, aman — nggak
+ * pernah ngasih VIP gratis), dengan log warning supaya bisa dirapikan.
+ */
+export function resolveTier(productName: string, amount: number): MemberTier {
+  const n = productName.toLowerCase();
+  if (/\bvip\b/.test(n)) return "vip";
+  if (/aplikasi|full[ -]?stack|resell/.test(n)) return "aplikasi";
+  if (/standar|starter/.test(n)) return "starter";
+
+  // fallback: tebak dari nominal (harga promo/normal: starter ≤99k,
+  // vip 149–299k, aplikasi 799k+). Batas dibikin longgar.
+  if (amount >= 500_000) return "aplikasi";
+  if (amount >= 120_000) return "vip";
+  if (amount > 0) return "starter";
+
+  console.warn(
+    `[mayar-webhook] tier tidak dikenali (product="${productName}", amount=${amount}) — default starter`
+  );
+  return "starter";
+}
+
 export async function processMayarPayload(
   payload: Record<string, unknown>
 ): Promise<{ status: number; body: unknown }> {
@@ -78,8 +102,19 @@ export async function processMayarPayload(
     ["customerMobile", "mobile", "customer_phone", "phone", "hp", "whatsapp"]
   );
 
+  // tentukan paket dari produk yang dibeli (payload Mayar: data.productName/
+  // productId/amount). productId ikut di-log supaya mapping bisa di-harden
+  // pakai id persis kalau diperlukan nanti.
+  const productName = pick([data, payload], ["productName", "product_name"]);
+  const productId = pick([data, payload], ["productId", "product_id"]);
+  const amount = Number(pick([data, payload], ["amount", "total", "nominal"])) || 0;
+  const tier = resolveTier(productName, amount);
+  console.log(
+    `[mayar-webhook] tier=${tier} (product="${productName}" id="${productId}" amount=${amount})`
+  );
+
   try {
-    const { password, ...result } = await provisionMember({ email, name, phone });
+    const { password, ...result } = await provisionMember({ email, name, phone, tier });
     void password;
     return { status: 200, body: result };
   } catch (e) {

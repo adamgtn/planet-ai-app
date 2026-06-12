@@ -14,6 +14,7 @@
     "pb:setup-landing-links": "node scripts/pocketbase-setup-landing-links.mjs",
     "pb:fix-product-image": "node scripts/pocketbase-fix-product-image.mjs",
     "pb:create-service-admin": "node scripts/pocketbase-create-service-admin.mjs",
+    "pb:add-tier": "node scripts/pocketbase-add-tier.mjs",
     "optimize:showcase": "node scripts/optimize-showcase.mjs",
     "push": "node scripts/sync.mjs push",
     "pr": "node scripts/sync.mjs pr"

@@ -83,11 +83,15 @@ export const adminAccounts: AdminAccount[] = [
 
 export type UserStatus = "active" | "suspended" | "expired";
 
+/** Paket yang dibeli member (kosong = belum diketahui / akun lama). */
+export type UserTier = "starter" | "vip" | "aplikasi";
+
 export type AdminUser = {
   id: string;
   name: string;
   email: string;
   status: UserStatus;
+  tier?: UserTier;
   joinedAt: string;
   lastLoginAt: string;
   permissions: string[]; // product IDs

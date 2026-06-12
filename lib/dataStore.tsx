@@ -18,7 +18,7 @@ import {
   useState,
 } from "react";
 import type { Lesson, Module, Product, Resource } from "./mockData";
-import type { AdminUser, UserStatus } from "./adminData";
+import type { AdminUser, UserStatus, UserTier } from "./adminData";
 import { getPB } from "./pocketbase";
 import { useAuth } from "./auth";
 
@@ -61,6 +61,7 @@ type PBUserRecord = {
   name: string;
   role: "super_admin" | "admin" | "member";
   status: UserStatus;
+  tier?: UserTier;
   last_login_at?: string;
   created: string;
 };
@@ -103,6 +104,7 @@ function pbToUser(rec: PBUserRecord, permissions: string[] = []): AdminUser {
     name: rec.name,
     email: rec.email,
     status: rec.status ?? "active",
+    tier: rec.tier || undefined,
     permissions,
     joinedAt: rec.created?.slice(0, 10) ?? "—",
     lastLoginAt: rec.last_login_at?.replace("T", " ").slice(0, 16) ?? "—",
