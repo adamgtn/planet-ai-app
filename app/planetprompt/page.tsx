@@ -985,6 +985,7 @@ function PricingSection() {
     icon: React.ReactNode;
     priceNormal: string;
     pricePromo: string;
+    priceFinal: string;
     priceValue: number;
     cta: string;
     paymentUrl: string;
@@ -1000,7 +1001,8 @@ function PricingSection() {
       icon: <Store size={14} />,
       priceNormal: "Rp 199.000",
       pricePromo: "Rp 99.000",
-      priceValue: 99000,
+      priceFinal: "Rp 64.000",
+      priceValue: 64000,
       cta: "Ambil Paket Starter",
       paymentUrl: "https://planetsoft.myr.id/pl/paket-standar-planetprompt",
       coupon: {
@@ -1030,7 +1032,8 @@ function PricingSection() {
       icon: <Crown size={14} />,
       priceNormal: "Rp 299.000",
       pricePromo: "Rp 149.000",
-      priceValue: 149000,
+      priceFinal: "Rp 114.000",
+      priceValue: 114000,
       cta: "Ambil Paket VIP",
       paymentUrl: "https://planetsoft.myr.id/pl/paket-vip-planetprompt",
       coupon: {
@@ -1059,7 +1062,8 @@ function PricingSection() {
       icon: <Crown size={14} />,
       priceNormal: "Rp 1.799.000",
       pricePromo: "Rp 799.000",
-      priceValue: 799000,
+      priceFinal: "Rp 599.000",
+      priceValue: 599000,
       cta: "Ambil Paket Aplikasi",
       paymentUrl: "https://planetsoft.myr.id/pl/paket-aplikasi-full-stack",
       coupon: {
@@ -1185,6 +1189,7 @@ function PricingCard({
   icon,
   priceNormal,
   pricePromo,
+  priceFinal,
   priceValue,
   cta,
   paymentUrl,
@@ -1199,6 +1204,7 @@ function PricingCard({
   icon: React.ReactNode;
   priceNormal: string;
   pricePromo: string;
+  priceFinal: string;
   priceValue: number;
   cta: string;
   paymentUrl: string;
@@ -1265,19 +1271,29 @@ function PricingCard({
       </p>
 
       <div className="mt-6">
-        <p
-          className={`text-sm line-through ${
-            isRed ? "text-rose-200/70" : "text-ink/45"
-          }`}
-        >
-          {priceNormal}
-        </p>
+        {/* Dua harga coret: normal -> promo, baru harga final (gede) */}
+        <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+          <span
+            className={`text-sm line-through ${
+              isRed ? "text-rose-200/60" : "text-ink/40"
+            }`}
+          >
+            {priceNormal}
+          </span>
+          <span
+            className={`text-base font-semibold line-through ${
+              isRed ? "text-rose-200/80" : "text-ink/55"
+            }`}
+          >
+            {pricePromo}
+          </span>
+        </div>
         <p
           className={`text-4xl font-extrabold md:text-5xl ${
             isRed ? "text-white" : "text-ink"
           }`}
         >
-          {pricePromo}
+          {priceFinal}
         </p>
         <p
           className={`mt-1 text-xs ${
@@ -1297,7 +1313,7 @@ function PricingCard({
           }`}
         >
           <span className="mb-2 block text-[11px] font-semibold uppercase tracking-wider opacity-80">
-            🎟️ Pakai kode kupon
+            🎟️ Harga final pakai kode
           </span>
           <div className="flex flex-wrap items-center gap-2">
             <span
