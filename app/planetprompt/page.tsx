@@ -76,7 +76,7 @@ export default function PlanetPromptLanding() {
     <div className="theme-purple min-h-screen bg-white text-ink">
       <Navbar />
       <Hero />
-      <ShowcaseMarqueeSection />
+      <ShowcaseSection />
       <ProblemSection />
       <ExampleOutputSection />
       <NewEnginesSection />
@@ -495,10 +495,10 @@ function UseCaseSection() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SHOWCASE MARQUEE — 2 baris auto-scroll horizontal L→R, gambar full
+// SHOWCASE — 3 baris galeri, swipe manual horizontal (tanpa auto-scroll)
 
-function ShowcaseMarqueeSection() {
-  // Split 43 gambar jadi 3 baris, arah slide selang-seling
+function ShowcaseSection() {
+  // Split jadi 3 baris galeri (swipe manual, tanpa auto-scroll)
   const third = Math.ceil(showcaseImages.length / 3);
   const row1 = showcaseImages.slice(0, third);
   const row2 = showcaseImages.slice(third, third * 2);
@@ -519,36 +519,29 @@ function ShowcaseMarqueeSection() {
             Semua di-generate dengan AI — tanpa skill desain, tanpa
             Photoshop.
           </p>
+          <p className="mt-2 text-sm font-medium text-ink/45">
+            Geser untuk lihat lebih banyak →
+          </p>
         </div>
       </div>
 
       <DeferMount minHeight="820px">
-        <div className="mt-10 space-y-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-          <ShowcaseRow images={row1} reverse />
-          <ShowcaseRow images={row2} reverse={false} />
-          <ShowcaseRow images={row3} reverse />
+        <div className="mt-10 space-y-4 [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
+          <ShowcaseRow images={row1} />
+          <ShowcaseRow images={row2} />
+          <ShowcaseRow images={row3} />
         </div>
       </DeferMount>
     </section>
   );
 }
 
-function ShowcaseRow({
-  images,
-  reverse,
-}: {
-  images: string[];
-  reverse: boolean;
-}) {
-  // reverse=true → animate-marquee-reverse → konten slide dari kiri ke kanan
+function ShowcaseRow({ images }: { images: string[] }) {
+  // Swipe manual horizontal — tanpa animasi, snap antar gambar.
   return (
-    <div className="overflow-hidden">
-      <div
-        className={`flex w-max gap-4 ${
-          reverse ? "animate-marquee-reverse" : "animate-marquee"
-        }`}
-      >
-        {[...images, ...images].map((src, i) => (
+    <div className="snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-px-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex w-max gap-4 px-6">
+        {images.map((src, i) => (
           <Image
             key={i}
             src={src}
@@ -556,7 +549,7 @@ function ShowcaseRow({
             width={400}
             height={400}
             sizes="(max-width: 768px) 240px, 288px"
-            className="h-60 w-auto shrink-0 rounded-2xl bg-muted/40 object-contain shadow-card md:h-72"
+            className="h-60 w-auto shrink-0 snap-start rounded-2xl bg-muted/40 object-contain shadow-card md:h-72"
           />
         ))}
       </div>
@@ -985,6 +978,7 @@ function PricingSection() {
     icon: React.ReactNode;
     priceNormal: string;
     pricePromo: string;
+    priceFinal: string;
     priceValue: number;
     cta: string;
     paymentUrl: string;
@@ -1000,7 +994,8 @@ function PricingSection() {
       icon: <Store size={14} />,
       priceNormal: "Rp 199.000",
       pricePromo: "Rp 99.000",
-      priceValue: 99000,
+      priceFinal: "Rp 64.000",
+      priceValue: 64000,
       cta: "Ambil Paket Starter",
       paymentUrl: "https://planetsoft.myr.id/pl/paket-standar-planetprompt",
       coupon: {
@@ -1030,7 +1025,8 @@ function PricingSection() {
       icon: <Crown size={14} />,
       priceNormal: "Rp 299.000",
       pricePromo: "Rp 149.000",
-      priceValue: 149000,
+      priceFinal: "Rp 114.000",
+      priceValue: 114000,
       cta: "Ambil Paket VIP",
       paymentUrl: "https://planetsoft.myr.id/pl/paket-vip-planetprompt",
       coupon: {
@@ -1059,7 +1055,8 @@ function PricingSection() {
       icon: <Crown size={14} />,
       priceNormal: "Rp 1.799.000",
       pricePromo: "Rp 799.000",
-      priceValue: 799000,
+      priceFinal: "Rp 599.000",
+      priceValue: 599000,
       cta: "Ambil Paket Aplikasi",
       paymentUrl: "https://planetsoft.myr.id/pl/paket-aplikasi-full-stack",
       coupon: {
@@ -1185,6 +1182,7 @@ function PricingCard({
   icon,
   priceNormal,
   pricePromo,
+  priceFinal,
   priceValue,
   cta,
   paymentUrl,
@@ -1199,6 +1197,7 @@ function PricingCard({
   icon: React.ReactNode;
   priceNormal: string;
   pricePromo: string;
+  priceFinal: string;
   priceValue: number;
   cta: string;
   paymentUrl: string;
@@ -1265,19 +1264,29 @@ function PricingCard({
       </p>
 
       <div className="mt-6">
-        <p
-          className={`text-sm line-through ${
-            isRed ? "text-rose-200/70" : "text-ink/45"
-          }`}
-        >
-          {priceNormal}
-        </p>
+        {/* Dua harga coret: normal -> promo, baru harga final (gede) */}
+        <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
+          <span
+            className={`text-sm line-through ${
+              isRed ? "text-rose-200/60" : "text-ink/40"
+            }`}
+          >
+            {priceNormal}
+          </span>
+          <span
+            className={`text-base font-semibold line-through ${
+              isRed ? "text-rose-200/80" : "text-ink/55"
+            }`}
+          >
+            {pricePromo}
+          </span>
+        </div>
         <p
           className={`text-4xl font-extrabold md:text-5xl ${
             isRed ? "text-white" : "text-ink"
           }`}
         >
-          {pricePromo}
+          {priceFinal}
         </p>
         <p
           className={`mt-1 text-xs ${
@@ -1297,7 +1306,7 @@ function PricingCard({
           }`}
         >
           <span className="mb-2 block text-[11px] font-semibold uppercase tracking-wider opacity-80">
-            🎟️ Pakai kode kupon
+            🎟️ Harga final pakai kode
           </span>
           <div className="flex flex-wrap items-center gap-2">
             <span
