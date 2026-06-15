@@ -135,18 +135,6 @@ function Navbar() {
             planet<span className="text-brand">prompt</span>
           </span>
         </div>
-        <a
-          href={COMMUNITY_LINK}
-          target="_blank"
-          rel="noreferrer"
-          className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-semibold transition ${
-            scrolled
-              ? "border-brand/30 bg-brand-50 text-brand hover:bg-brand hover:text-white"
-              : "border-white/25 bg-white/10 text-white backdrop-blur hover:bg-white hover:text-brand"
-          }`}
-        >
-          <Users size={14} /> Join Member
-        </a>
       </div>
     </header>
   );
@@ -1369,16 +1357,16 @@ function PricingCard({
         <ShoppingBag size={16} /> {cta}
       </a>
 
-      <a
-        href={`https://wa.me/${WA_NUMBER}?text=${whatsappText}`}
-        target="_blank"
-        rel="noreferrer"
-        className={`mt-3 flex w-full items-center justify-center gap-1.5 text-xs font-semibold underline-offset-4 transition hover:underline ${
-          isRed ? "text-rose-100" : "text-ink/55 hover:text-brand"
-        }`}
-      >
-        💬 Tanya admin dulu via WhatsApp
-      </a>
+      {isRed && (
+        <a
+          href={`https://wa.me/${WA_NUMBER}?text=${whatsappText}`}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-3 flex w-full items-center justify-center gap-1.5 text-xs font-semibold text-rose-100 underline-offset-4 transition hover:underline"
+        >
+          💬 Tanya admin dulu via WhatsApp
+        </a>
+      )}
     </div>
   );
 }
