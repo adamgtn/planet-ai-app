@@ -76,7 +76,7 @@ export default function PlanetPromptLanding() {
     <div className="theme-purple min-h-screen bg-white text-ink">
       <Navbar />
       <Hero />
-      <ShowcaseMarqueeSection />
+      <ShowcaseSection />
       <ProblemSection />
       <ExampleOutputSection />
       <NewEnginesSection />
@@ -495,10 +495,10 @@ function UseCaseSection() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SHOWCASE MARQUEE — 2 baris auto-scroll horizontal L→R, gambar full
+// SHOWCASE — 3 baris galeri, swipe manual horizontal (tanpa auto-scroll)
 
-function ShowcaseMarqueeSection() {
-  // Split 43 gambar jadi 3 baris, arah slide selang-seling
+function ShowcaseSection() {
+  // Split jadi 3 baris galeri (swipe manual, tanpa auto-scroll)
   const third = Math.ceil(showcaseImages.length / 3);
   const row1 = showcaseImages.slice(0, third);
   const row2 = showcaseImages.slice(third, third * 2);
@@ -519,36 +519,29 @@ function ShowcaseMarqueeSection() {
             Semua di-generate dengan AI — tanpa skill desain, tanpa
             Photoshop.
           </p>
+          <p className="mt-2 text-sm font-medium text-ink/45">
+            Geser untuk lihat lebih banyak →
+          </p>
         </div>
       </div>
 
       <DeferMount minHeight="820px">
-        <div className="mt-10 space-y-4 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-          <ShowcaseRow images={row1} reverse />
-          <ShowcaseRow images={row2} reverse={false} />
-          <ShowcaseRow images={row3} reverse />
+        <div className="mt-10 space-y-4 [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)]">
+          <ShowcaseRow images={row1} />
+          <ShowcaseRow images={row2} />
+          <ShowcaseRow images={row3} />
         </div>
       </DeferMount>
     </section>
   );
 }
 
-function ShowcaseRow({
-  images,
-  reverse,
-}: {
-  images: string[];
-  reverse: boolean;
-}) {
-  // reverse=true → animate-marquee-reverse → konten slide dari kiri ke kanan
+function ShowcaseRow({ images }: { images: string[] }) {
+  // Swipe manual horizontal — tanpa animasi, snap antar gambar.
   return (
-    <div className="overflow-hidden">
-      <div
-        className={`flex w-max gap-4 ${
-          reverse ? "animate-marquee-reverse" : "animate-marquee"
-        }`}
-      >
-        {[...images, ...images].map((src, i) => (
+    <div className="snap-x snap-mandatory overflow-x-auto overflow-y-hidden scroll-px-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex w-max gap-4 px-6">
+        {images.map((src, i) => (
           <Image
             key={i}
             src={src}
@@ -556,7 +549,7 @@ function ShowcaseRow({
             width={400}
             height={400}
             sizes="(max-width: 768px) 240px, 288px"
-            className="h-60 w-auto shrink-0 rounded-2xl bg-muted/40 object-contain shadow-card md:h-72"
+            className="h-60 w-auto shrink-0 snap-start rounded-2xl bg-muted/40 object-contain shadow-card md:h-72"
           />
         ))}
       </div>
