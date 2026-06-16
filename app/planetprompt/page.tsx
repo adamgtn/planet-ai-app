@@ -363,6 +363,32 @@ function HowItWorksSection() {
             </div>
           ))}
         </div>
+
+        {/* Callout AI Auto-fill — cukup 2-4 kata / 1 foto, AI yang mikir sisanya */}
+        <div className="mx-auto mt-8 max-w-3xl rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-fuchsia-50 p-6 md:p-7">
+          <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:text-left">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 text-white shadow-lg shadow-violet-500/30">
+              <Wand2 size={22} />
+            </span>
+            <div>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-violet-100 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-violet-700">
+                <Sparkles size={12} /> AI Auto-fill
+              </span>
+              <h3 className="mt-2 text-xl font-extrabold text-ink md:text-2xl">
+                Bingung mau bikin apa?{" "}
+                <span className="text-violet-600">Biar AI yang mikir.</span>
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink/70 md:text-base">
+                Kamu cukup ketik{" "}
+                <strong className="font-bold text-ink">2–4 kata</strong>{" "}
+                (contoh: <em>&ldquo;nasi goreng spesial&rdquo;</em>) atau{" "}
+                <strong className="font-bold text-ink">upload 1 foto produk</strong>.
+                Sisanya — caption, banner, sampai deskripsi — AI yang susun
+                otomatis.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
