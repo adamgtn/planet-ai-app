@@ -9,6 +9,7 @@ import {
   BarChart3,
   BookOpen,
   Check,
+  CalendarDays,
   CheckCircle2,
   ChevronDown,
   Coffee,
@@ -52,7 +53,7 @@ const VIDEO_DEMO_ID = "dQw4w9WgXcQ";
 
 // Gambar showcase produk real (54 file di /public/lp/planetprompt/showcase/)
 const showcaseImages = Array.from(
-  { length: 54 },
+  { length: 63 },
   (_, i) =>
     `/lp/planetprompt/showcase/showcase-${(i + 1).toString().padStart(2, "0")}.webp`
 );
@@ -919,6 +920,27 @@ function NewEnginesSection() {
       desc: "Poster review produk ala kreator — lengkap rating, testimoni & CTA biar calon pembeli makin percaya.",
       imgs: [`${EP}/review-product-1.webp`, `${EP}/review-product-2.webp`, `${EP}/review-product-3.webp`],
     },
+    {
+      code: "M10",
+      icon: <LayoutGrid size={16} />,
+      title: "9 Feeds Generator",
+      desc: "Bikin 9 desain feed Instagram sekaligus yang nyambung jadi satu tema — feed toko langsung rapi & estetik tanpa pusing nyusun.",
+      imgs: [`${EP}/feeds-generator-1.webp`, `${EP}/feeds-generator-2.webp`, `${EP}/feeds-generator-3.webp`],
+    },
+    {
+      code: "M11",
+      icon: <CalendarDays size={16} />,
+      title: "Kalender Moment",
+      desc: "Ide konten promosi ngikutin momen — Lebaran, gajian, tanggal kembar, hari besar — biar kamu nggak pernah telat bikin promo.",
+      imgs: [`${EP}/kalender-moment-1.webp`, `${EP}/kalender-moment-2.webp`, `${EP}/kalender-moment-3.webp`],
+    },
+    {
+      code: "M12",
+      icon: <BookOpen size={16} />,
+      title: "Cerita Anak",
+      desc: "Cerita anak bergambar siap pakai — cocok buat konten edukasi, jualan produk anak, atau brand parenting yang lebih menarik.",
+      imgs: [`${EP}/cerita-anak-1.webp`, `${EP}/cerita-anak-2.webp`, `${EP}/cerita-anak-3.webp`],
+    },
   ];
 
   return (
@@ -927,12 +949,12 @@ function NewEnginesSection() {
       <div className="relative mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <p className="inline-flex items-center gap-2 rounded-full border border-amber-300/30 bg-amber-400/10 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-amber-200">
-            <Sparkles size={13} /> Baru Rilis · 2 Engine Tambahan
+            <Sparkles size={13} /> Baru Rilis · 5 Engine Tambahan
           </p>
           <h2 className="mt-4 text-3xl font-bold text-white md:text-4xl">
             Engine Baru:{" "}
             <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
-              Carousel & Review Produk
+              Makin Lengkap
             </span>
           </h2>
           <p className="mt-3 text-white/55">
