@@ -77,6 +77,7 @@ export default function PlanetPromptLanding() {
     <div className="theme-purple min-h-screen bg-white text-ink">
       <Navbar />
       <Hero />
+      <LearnBanner />
       <ShowcaseSection />
       <ProblemSection />
       <ExampleOutputSection />
@@ -504,6 +505,27 @@ function UseCaseSection() {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LEARN BANNER — reassurance pemula sebelum showcase (tema terang, aksen brand)
+
+function LearnBanner() {
+  return (
+    <section className="bg-gradient-to-b from-white to-muted/40 py-12 lg:py-16">
+      <div className="mx-auto max-w-2xl px-6 text-center">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-brand">
+          <GraduationCap size={14} /> Khusus pemula
+        </span>
+        <p className="mt-4 text-base font-semibold text-ink/55 md:text-lg">
+          Gak ngerti &amp; baru di AI?
+        </p>
+        <h2 className="mt-1 text-3xl font-extrabold leading-tight text-brand md:text-5xl">
+          Kita Ajarin Sampai Bisa!
+        </h2>
       </div>
     </section>
   );
